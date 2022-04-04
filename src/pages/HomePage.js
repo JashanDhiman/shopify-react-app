@@ -4,13 +4,17 @@ import Navbar from "../components/Navbar";
 import { ShopContext } from "../contexts/ShopContext";
 
 const HomePage = () => {
-  const { productsList, fetchAll } = useContext(ShopContext);
-  const addToCart = (product) => {
-    console.log(product);
-  };
+  const {
+    productsList,
+    addItemToCheckout,
+    //removeItemToCheckout,
+    //checkout,
+    fetchAll,
+  } = useContext(ShopContext);
   useEffect(() => {
     fetchAll();
-  }, []);
+  }, [fetchAll]);
+  if (!productsList) return <p>loading</p>;
   return (
     <div>
       <Navbar />
@@ -42,8 +46,11 @@ const HomePage = () => {
               </div>
               <div className="card-details-div">
                 <p>₹ {product.variants[0].price}</p>
-                {/*<p>{product}</p>*/}
-                <button onClick={() => addToCart(product)}>ADD</button>
+                <button
+                  onClick={() => addItemToCheckout(product.variants[0].id, 1)}
+                >
+                  ADD
+                </button>
               </div>
             </div>
           );
