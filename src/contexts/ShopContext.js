@@ -12,9 +12,9 @@ const ShopProvider = ({ children }) => {
   const [checkout, setCheckout] = useState("");
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
 
   useEffect(() => {
-    //addItemToCheckout();
     if (localStorage.checkoutId) {
       fetchCheckout(localStorage.checkoutId);
     } else {
@@ -24,24 +24,26 @@ const ShopProvider = ({ children }) => {
   const cartOpen = (val) => {
     setIsCartOpen(val);
   };
-  async function createCheckout() {
+  const createCheckout = async () => {
     const checkOut = await client.checkout.create();
     localStorage.setItem("checkoutId", checkOut.id);
-    await setCheckout({ checkOut });
-  }
+    await setCheckout(checkOut);
+  };
 
-  async function fetchCheckout(checkoutId) {
+  const fetchCheckout = async (checkoutId) => {
     await client.checkout.fetch(checkoutId).then((checkOut) => {
-      setCheckout({ checkOut });
+      setCheckout(checkOut);
     });
-  }
+  };
 
-  async function fetchAll() {
+  const fetchAll = async () => {
     await client.product.fetchAll().then((products) => {
       setProductsList(products);
     });
-  }
+  };
   const addItemToCheckout = async (variantId, quantity) => {
+    setIsAdding(variantId);
+    setIsLoading(true);
     const lineItemsToAdd = [
       {
         variantId,
@@ -51,28 +53,32 @@ const ShopProvider = ({ children }) => {
     await client.checkout
       .addLineItems(localStorage.checkoutId, lineItemsToAdd)
       .then((checkOut) => {
-        setCheckout({ checkOut });
+        setCheckout(checkOut);
+        setIsLoading(false);
+        setIsAdding(false);
       });
   };
-  const updateItemToCheckout = async (variantId, quantity) => {
+  const updateItemToCheckout = async (id, quantity) => {
     const lineItemsToUpdate = [
       {
-        id: variantId,
+        id: id,
         quantity: parseInt(quantity, 10),
       },
     ];
     await client.checkout
       .updateLineItems(localStorage.checkoutId, lineItemsToUpdate)
       .then((checkOut) => {
-        setCheckout({ checkOut });
+        setCheckout(checkOut);
       });
   };
-  const removeItemToCheckout = async (variantId) => {
-    const lineItemIdsToRemove = [variantId];
+  const removeItemToCheckout = async (id) => {
+    setIsLoading(true);
+    const lineItemIdsToRemove = [id];
     await client.checkout
       .removeLineItems(localStorage.checkoutId, lineItemIdsToRemove)
       .then((checkOut) => {
-        setCheckout({ checkOut });
+        setCheckout(checkOut);
+        setIsLoading(false);
       });
   };
 
@@ -82,6 +88,8 @@ const ShopProvider = ({ children }) => {
         isCartOpen,
         productsList,
         checkout,
+        isLoading,
+        isAdding,
         cartOpen,
         fetchAll,
         addItemToCheckout,

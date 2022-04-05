@@ -65,7 +65,7 @@ a {
   display: grid;
   grid-gap: 2rem;
 }
-.veg-cards .product-card button {
+button {
   float: none;
   font-size: 15px;
   text-transform: uppercase;

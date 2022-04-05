@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 import { ImCross } from "react-icons/im";
+import Loading from "./Loading";
 
 const Cart = () => {
   const {
@@ -9,10 +10,18 @@ const Cart = () => {
     checkout,
     removeItemToCheckout,
     updateItemToCheckout,
+    isLoading,
   } = useContext(ShopContext);
-  if (checkout.checkOut) {
+
+  if (checkout) {
     return (
-      <div className="cart" style={{ width: isCartOpen ? "20vw" : "0vw" }}>
+      <div
+        className="cart"
+        style={{
+          width: isCartOpen ? "20vw" : "0vw",
+          transition: "all 0.3s ease-in-out",
+        }}
+      >
         <div
           style={{
             display: "flex",
@@ -28,43 +37,49 @@ const Cart = () => {
           </div>
         </div>
         <div style={{ overflow: "auto", height: "90vh" }}>
-          {checkout.checkOut.lineItems.length < 1 ? (
+          {checkout.lineItems.length < 1 ? (
             <p>Cart is Empty</p>
           ) : (
-            checkout.checkOut.lineItems.map((product, index) => {
-              return (
-                <div key={index} className="product-card">
-                  <div className="card-image-div">
-                    <img
-                      style={{ height: "140px" }}
-                      src={product.variant.image.src}
-                      alt="img"
-                    />
-                    <p>{product.title}</p>
-                  </div>
-                  <div className="card-details-div">
-                    <p>₹ {product.variant.price}</p>
-                    <p>
-                      Qty :
-                      <input
-                        type="number"
-                        min="0"
-                        max="10"
-                        defaultValue={product.quantity}
-                        onChange={(e) =>
-                          updateItemToCheckout(product.id, e.target.value)
-                        }
+            <>
+              {checkout.lineItems.map((product, index) => {
+                return (
+                  <div key={index} className="product-card">
+                    <div className="card-image-div">
+                      <img
+                        style={{ height: "140px" }}
+                        src={product.variant.image.src}
+                        alt="img"
                       />
-                    </p>
-                    <button onClick={() => removeItemToCheckout(product.id)}>
-                      REMOVE
-                    </button>
+                      <p>{product.title}</p>
+                    </div>
+                    <div className="card-details-div">
+                      <p>₹ {product.variant.price}</p>
+                      <p>
+                        Qty :
+                        <input
+                          type="number"
+                          min="0"
+                          max="10"
+                          value={product.quantity}
+                          onChange={(e) =>
+                            updateItemToCheckout(product.id, e.target.value)
+                          }
+                        />
+                      </p>
+                      <button onClick={() => removeItemToCheckout(product.id)}>
+                        REMOVE
+                      </button>
+                    </div>
                   </div>
-                </div>
-              );
-            })
+                );
+              })}
+              <a href={checkout.webUrl}>
+                <button>CHECK-OUT</button>
+              </a>
+            </>
           )}
         </div>
+        {isLoading && <Loading />}
       </div>
     );
   } else {

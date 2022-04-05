@@ -4,13 +4,8 @@ import Navbar from "../components/Navbar";
 import { ShopContext } from "../contexts/ShopContext";
 
 const HomePage = () => {
-  const {
-    productsList,
-    addItemToCheckout,
-    //removeItemToCheckout,
-    //checkout,
-    fetchAll,
-  } = useContext(ShopContext);
+  const { productsList, addItemToCheckout, isAdding, fetchAll } =
+    useContext(ShopContext);
   useEffect(() => {
     fetchAll();
   }, [fetchAll]);
@@ -46,11 +41,15 @@ const HomePage = () => {
               </div>
               <div className="card-details-div">
                 <p>₹ {product.variants[0].price}</p>
-                <button
-                  onClick={() => addItemToCheckout(product.variants[0].id, 1)}
-                >
-                  ADD
-                </button>
+                {isAdding === product.variants[0].id ? (
+                  <button>ADDING</button>
+                ) : (
+                  <button
+                    onClick={() => addItemToCheckout(product.variants[0].id, 1)}
+                  >
+                    ADD
+                  </button>
+                )}
               </div>
             </div>
           );
