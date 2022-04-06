@@ -1,4 +1,5 @@
-import React, { useContext, useEffect } from "react";
+import React, { memo, useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Cart from "../components/Cart";
 import Navbar from "../components/Navbar";
 import { ShopContext } from "../contexts/ShopContext";
@@ -8,7 +9,7 @@ const HomePage = () => {
     useContext(ShopContext);
   useEffect(() => {
     fetchAll();
-  }, [fetchAll]);
+  }, []);
   if (!productsList) return <p>loading</p>;
   return (
     <div>
@@ -32,12 +33,14 @@ const HomePage = () => {
           return (
             <div key={index} className="product-card">
               <div className="card-image-div">
-                <img
-                  style={{ height: "140px" }}
-                  src={product.images[0].src}
-                  alt="img"
-                />
-                <p>{product.title}</p>
+                <Link to={`/productpage/${product.title}`} state={product.id}>
+                  <img
+                    style={{ height: "140px" }}
+                    src={product.images[0].src}
+                    alt="img"
+                  />
+                  <p>{product.title}</p>
+                </Link>
               </div>
               <div className="card-details-div">
                 <p>₹ {product.variants[0].price}</p>
@@ -59,4 +62,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default memo(HomePage);

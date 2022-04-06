@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 import { ImCross } from "react-icons/im";
+import { AiFillDelete } from "react-icons/ai";
 import Loading from "./Loading";
 
 const Cart = () => {
@@ -23,6 +24,7 @@ const Cart = () => {
         }}
       >
         <div
+          className="cart-header"
           style={{
             display: "flex",
             justifyContent: "space-between",
@@ -36,46 +38,58 @@ const Cart = () => {
             <ImCross />
           </div>
         </div>
-        <div style={{ overflow: "auto", height: "90vh" }}>
+        <div>
           {checkout.lineItems.length < 1 ? (
             <p>Cart is Empty</p>
           ) : (
             <>
-              {checkout.lineItems.map((product, index) => {
-                return (
-                  <div key={index} className="product-card">
-                    <div className="card-image-div">
-                      <img
-                        style={{ height: "140px" }}
-                        src={product.variant.image.src}
-                        alt="img"
-                      />
-                      <p>{product.title}</p>
-                    </div>
-                    <div className="card-details-div">
-                      <p>₹ {product.variant.price}</p>
-                      <p>
-                        Qty :
-                        <input
-                          type="number"
-                          min="0"
-                          max="10"
-                          value={product.quantity}
-                          onChange={(e) =>
-                            updateItemToCheckout(product.id, e.target.value)
-                          }
+              <div
+                style={{ overflow: "auto", height: "80vh", padding: "1rem" }}
+              >
+                {checkout.lineItems.map((product, index) => {
+                  return (
+                    <div key={index} className="product-card">
+                      <div className="card-image-div">
+                        <img
+                          style={{ height: "100px" }}
+                          src={product.variant.image.src}
+                          alt="img"
                         />
-                      </p>
-                      <button onClick={() => removeItemToCheckout(product.id)}>
-                        REMOVE
-                      </button>
+                      </div>
+                      <div className="card-details-div">
+                        <p>{product.title}</p>
+                        <p>₹ {product.variant.price * product.quantity}</p>
+                        <p>
+                          Qty :
+                          <input
+                            type="number"
+                            min="0"
+                            max="20"
+                            value={product.quantity}
+                            onChange={(e) =>
+                              updateItemToCheckout(product.id, e.target.value)
+                            }
+                          />
+                        </p>
+                        <i
+                          style={{ cursor: "pointer" }}
+                          onClick={() => removeItemToCheckout(product.id)}
+                        >
+                          <AiFillDelete />
+                        </i>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-              <a href={checkout.webUrl}>
-                <button>CHECK-OUT</button>
-              </a>
+                  );
+                })}
+              </div>
+              <div className="checkout-div">
+                <div>
+                  <p>Sub-Total - {checkout.lineItemsSubtotalPrice.amount}</p>
+                </div>
+                <a href={checkout.webUrl}>
+                  <button>CHECK-OUT</button>
+                </a>
+              </div>
             </>
           )}
         </div>

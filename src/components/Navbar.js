@@ -4,7 +4,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { BsFillBucketFill } from "react-icons/bs";
 import { ShopContext } from "../contexts/ShopContext";
 const Navbar = () => {
-  const { cartOpen } = useContext(ShopContext);
+  const { cartOpen, checkout } = useContext(ShopContext);
   return (
     <div className="nav-bar-main">
       <div className="nav-bar-inner">
@@ -23,13 +23,29 @@ const Navbar = () => {
       </div>
       <div className="nav-bar-inner">
         <ul>
-          <li>
+          <li style={{ cursor: "pointer" }}>
             <i>
               <AiOutlineSearch />
             </i>
           </li>
-          <li onClick={() => cartOpen(true)}>
+          <li onClick={() => cartOpen(true)} style={{ cursor: "pointer" }}>
             <BsFillBucketFill />
+            {checkout && (
+              <span
+                style={{
+                  position: "absolute",
+                  top: "30%",
+                  fontSize: "1rem",
+                  border: "1px solid #fff",
+                  width: "1.3rem",
+                  height: "1.3rem",
+                  borderRadius: "50%",
+                  textAlign: "center",
+                }}
+              >
+                {checkout.lineItems.length}
+              </span>
+            )}
           </li>
         </ul>
       </div>

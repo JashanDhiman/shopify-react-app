@@ -13,6 +13,7 @@ const ShopProvider = ({ children }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
+  const [isProductId, setIsProductId] = useState(false);
 
   useEffect(() => {
     if (localStorage.checkoutId) {
@@ -39,6 +40,11 @@ const ShopProvider = ({ children }) => {
   const fetchAll = async () => {
     await client.product.fetchAll().then((products) => {
       setProductsList(products);
+    });
+  };
+  const fetchById = async (id) => {
+    await client.product.fetch(id).then((product) => {
+      setIsProductId(product);
     });
   };
   const addItemToCheckout = async (variantId, quantity) => {
@@ -90,6 +96,8 @@ const ShopProvider = ({ children }) => {
         checkout,
         isLoading,
         isAdding,
+        isProductId,
+        fetchById,
         cartOpen,
         fetchAll,
         addItemToCheckout,
