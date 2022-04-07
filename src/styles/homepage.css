@@ -39,7 +39,7 @@ a {
   position: fixed;
   top: 0%;
   right: 0%;
-  height: 100%;
+  min-height: 100vh;
   background-color: #fff;
   border-left: 2px solid black;
   color: #205b4b;
