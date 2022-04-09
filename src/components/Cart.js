@@ -19,7 +19,7 @@ const Cart = () => {
       <div
         className="cart"
         style={{
-          width: isCartOpen ? "20vw" : "0vw",
+          display: isCartOpen ? "block" : "none",
           transition: "all 0.3s ease-in-out",
         }}
       >

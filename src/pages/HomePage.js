@@ -29,27 +29,25 @@ const HomePage = () => {
         </p>
       </div>
       <div className="veg-cards">
-        {productsList.map((product, index) => {
+        {productsList.map(({ title, id, images, variants }, index) => {
           return (
             <div key={index} className="product-card">
               <div className="card-image-div">
-                <Link to={`/productpage/${product.title}`} state={product.id}>
+                <Link to={`/productpage/${title}`} state={id}>
                   <img
                     style={{ height: "140px" }}
-                    src={product.images[0].src}
+                    src={images[0].src}
                     alt="img"
                   />
-                  <p>{product.title}</p>
+                  <p>{title}</p>
                 </Link>
               </div>
               <div className="card-details-div">
-                <p>₹ {product.variants[0].price}</p>
-                {isAdding === product.variants[0].id ? (
+                <p>₹ {variants[0].price}</p>
+                {isAdding === variants[0].id ? (
                   <button>ADDING</button>
                 ) : (
-                  <button
-                    onClick={() => addItemToCheckout(product.variants[0].id, 1)}
-                  >
+                  <button onClick={() => addItemToCheckout(variants[0].id, 1)}>
                     ADD
                   </button>
                 )}
