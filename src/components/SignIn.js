@@ -1,49 +1,44 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React from "react";
 
 const SignIn = () => {
-  const makeAPICall = async () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { email, password } = e.target;
     const data = {
-      customer: {
-        first_name: "jas8",
-        last_name: "dhiman",
-        email: "jas8.lastnmeson@example.com",
-        phone: "+19142565019",
-        verified_email: true,
-        addresses: [
-          {
-            address1: "123 Oak St",
-            city: "Ottawa",
-            province: "ON",
-            phone: "555-1212",
-            zip: "123 ABC",
-            last_name: "Lastnameson",
-            first_name: "Mother",
-            country: "CA",
-          },
-        ],
-      },
+      email: email.value,
+      password: password.value,
     };
     var config = {
-      method: "post",
-      url: "http://localhost:8080/create-customer",
+      method: "get",
+      url: "http://localhost:8080/sign-in",
       data,
     };
-
-    await axios(config)
+    //https://jashan-dev-3.myshopify.com/account/activate/5726614323285/dbc64ed98720d5406bab664d3b09cdc6-1650619866    efbbe54ff58b70fb9f6a519ab45a68d5-1650621396
+    axios(config)
       .then(function (response) {
-        console.log(response.data);
+        //console.log(response.data);
       })
       .catch(function (error) {
-        console.log(error.response);
+        //console.log(error.response.data.message);
       });
   };
-  useEffect(() => {
-    makeAPICall();
-  }, []);
-  console.log("crate");
-  //----------------------------------------------------------------------------------
-  return <div>SignIn</div>;
+  return (
+    <>
+      <div>SignIn</div>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" required />
+        </div>
+        <div>
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" required />
+        </div>
+        <input type="submit" />
+      </form>
+    </>
+  );
 };
 
 export default SignIn;
