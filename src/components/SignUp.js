@@ -6,14 +6,17 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { fname, lname, email, password } = e.target;
-    const data = {
-      customer: {
-        first_name: fname.value,
-        last_name: lname.value,
-        email: email.value,
-        verified_email: true,
+    const data = [
+      {
+        customer: {
+          first_name: fname.value,
+          last_name: lname.value,
+          email: email.value,
+          verified_email: true,
+        },
       },
-    };
+      password.value,
+    ];
     var config = {
       method: "post",
       url: "http://localhost:8080/sign-up",
@@ -25,7 +28,7 @@ const SignUp = () => {
         console.log(response.data);
       })
       .catch(function (error) {
-        console.log(error.response.data.message);
+        console.log(error.response);
       });
   };
   return (

@@ -3,15 +3,19 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
+var FormData = require("form-data");
 
 app.use(cors());
-// Configuring body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-var customerId, account_activation_url;
+var customerId;
+var getAccountActivationUrl = (thePath) =>
+  thePath.substring(thePath.lastIndexOf("/") + 1);
+
 // routes
 
 app.post("/sign-up", (req, res) => {
+  let password = req.body[1];
   if (req.body) {
     var config = {
       method: "post",
@@ -20,12 +24,14 @@ app.post("/sign-up", (req, res) => {
         "X-Shopify-Access-Token": "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",
         "Content-Type": "application/json",
       },
-      data: req.body,
+      data: req.body[0],
     };
+    //-----------------------------------------------------------------------------------------------
+
     axios(config)
       .then((response) => {
         customerId = response.data.customer.id;
-        console.log(response.data.customer.id);
+        //console.log(response.data.customer.id);
         var config1 = {
           method: "post",
           url: `https://jashan-dev-3.myshopify.com/admin/api/2022-04/customers/${customerId}/account_activation_url.json`,
@@ -34,17 +40,43 @@ app.post("/sign-up", (req, res) => {
             "Content-Type": "application/json",
           },
         };
+        //-----------------------------------------------------------------------------------------------
+
         axios(config1).then((response) => {
           console.log(response.data.account_activation_url);
-          //accountActivateUrl = response
-          res.send("Successfully Signed-Up");
+          const account_activation_urlToken = getAccountActivationUrl(
+            response.data.account_activation_url
+          );
+          //console.log(account_activation_urlToken);
+
+          //-----------------------------------------------------------------------------------------------
+          let formBody = new FormData();
+          formBody.append("form_type", "activate_customer_password");
+          formBody.append("utf8", "✓");
+          formBody.append("customer[password]", password);
+          formBody.append("customer[password_confirmation]", password);
+          formBody.append("token", account_activation_urlToken);
+          formBody.append("id", customerId);
+          var config = {
+            method: "post",
+            url: `https://jashan-dev-3.myshopify.com/admin/api/2022-04/customers/${customerId}/activate_account.json`,
+            data: formBody,
+          };
+          axios(config)
+            .then((response) => {
+              //console.log(response.data);
+              res.send("Successfully Signed-Up");
+            })
+            .catch((error) => {
+              //console.log(error);
+            });
         });
       })
       .catch((error) => {
         res.status(400).send({
           message: error.response.data.errors,
         });
-        console.log(error.response.data.errors);
+        //console.log(error.response.data.errors);
       });
   }
 });
