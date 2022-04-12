@@ -14,6 +14,23 @@ var getAccountActivationUrl = (thePath) =>
 
 // routes
 
+app.post("/products", async (req, res) => {
+  console.log(req.body);
+  const response = await axios(
+    "https://jashan-dev-3.myshopify.com/admin/apps/5a3c93b0e9bc8d5abf63531fcd829b5d/?host=amFzaGFuLWRldi0zLm15c2hvcGlmeS5jb20vYWRtaW4&shop=jashan-dev-3.myshopify.com",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Shopify-Access-Token": "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",
+      },
+      body: req.body,
+    }
+  );
+  console.log(response);
+  res.send(response.json());
+});
+
 app.post("/sign-up", (req, res) => {
   let password = req.body[1];
   if (req.body) {
@@ -184,7 +201,7 @@ app.post("/sign-up", (req, res) => {
 
 // listening
 
-app.listen(8080, (err) => {
+app.listen(4000, (err) => {
   if (err) console.log(err);
   console.log(`server is running at 8080`);
 });

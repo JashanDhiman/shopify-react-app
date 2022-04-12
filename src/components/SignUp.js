@@ -1,36 +1,36 @@
 import React from "react";
 
-import axios from "axios";
+import { storeFront } from "../utils";
 
 const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { fname, lname, email, password } = e.target;
-    const data = [
-      {
-        customer: {
-          first_name: fname.value,
-          last_name: lname.value,
-          email: email.value,
-          verified_email: true,
-        },
-      },
-      password.value,
-    ];
-    var config = {
-      method: "post",
-      url: "http://localhost:8080/sign-up",
-      data,
-    };
-
-    await axios(config)
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.log(error.response);
-      });
   };
+  const gql = String.raw;
+  const productsQuery = gql`
+    query Products {
+      products(first: 10) {
+        edges {
+          node {
+            title
+          }
+        }
+      }
+    }
+  `;
+  const getStaticProps = async () => {
+    const { data } = await storeFront(productsQuery);
+    //var config = {
+    //  method: "post",
+    //  url: "http://localhost:4000/products",
+    //  data: productsQuery,
+    //};
+    //const { data } = await axios(config);
+    console.log(data);
+    //return data;
+  };
+  getStaticProps();
   return (
     <>
       <div>Sign-Up</div>
