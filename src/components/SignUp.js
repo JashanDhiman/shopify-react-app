@@ -19,18 +19,12 @@ const SignUp = () => {
       }
     }
   `;
-  const getStaticProps = async () => {
-    const { data } = await storeFront(productsQuery);
-    //var config = {
-    //  method: "post",
-    //  url: "http://localhost:4000/products",
-    //  data: productsQuery,
-    //};
-    //const { data } = await axios(config);
-    console.log(data);
-    //return data;
-  };
-  getStaticProps();
+  //const getStaticProps = async () => {
+  //  const { data } = await storeFront(productsQuery);
+  //  //console.log(data);
+  //  return data;
+  //};
+  //getStaticProps();
   return (
     <>
       <div>Sign-Up</div>
