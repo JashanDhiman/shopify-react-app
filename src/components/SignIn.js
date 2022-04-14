@@ -5,7 +5,6 @@ const SignIn = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { email, password } = e.target;
-    const gql = String.raw;
     const userVariables = {
       email: email.value,
       password: password.value,
@@ -17,9 +16,13 @@ const SignIn = () => {
         url: "http://localhost:4000/signin",
         data: userVariables,
       };
-      const data = await axios(config).then(function (response) {
-        console.log(response);
-      });
+      const data = await axios(config)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
     makeQuery();
   };

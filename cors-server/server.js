@@ -7,11 +7,165 @@ const cors = require("cors");
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-var customerId;
-var getAccountActivationUrl = (thePath) =>
-  thePath.substring(thePath.lastIndexOf("/") + 1);
-
 // routes
+
+app.post("/signup", (req, res) => {
+  let customer_Id, activationToken;
+  let password = req.body.password;
+  const extractToken = (thePath) => {
+    activationToken = thePath.substring(thePath.lastIndexOf("/") + 1);
+  };
+  var data = JSON.stringify({
+    query: `mutation customerCreate($input: CustomerInput!) {
+      customerCreate(input: $input) {
+        userErrors {
+          field
+          message
+        }
+        customer {
+          id
+          email
+          firstName
+          lastName
+        }
+      }
+    }`,
+    variables: {
+      input: {
+        email: req.body.email,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+      },
+    },
+  });
+
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/admin/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Access-Token": "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",
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+
+  axios(config)
+    .then(function (response) {
+      //console.log(response.data.data.customerCreate);
+      if (response.data.data.customerCreate.userErrors.length > 0) {
+        res.status(400).send("Email has already been taken");
+      } else {
+        customer_Id = response.data.data.customerCreate.customer.id;
+        //console.log(customer_Id);
+        var data = JSON.stringify({
+          query: `mutation customerGenerateAccountActivationUrl($customerId: ID!) {
+          customerGenerateAccountActivationUrl(customerId: $customerId) {
+            accountActivationUrl
+            userErrors {
+              field
+              message
+            }  }  }`,
+          variables: {
+            customerId: customer_Id,
+          },
+        });
+
+        var config = {
+          method: "post",
+          url: "https://jashan-dev-3.myshopify.com/admin/api/2022-04/graphql.json",
+          headers: {
+            "X-Shopify-Access-Token": "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",
+            "Content-Type": "application/json",
+          },
+          data: data,
+        };
+        axios(config)
+          .then((response) => {
+            //console.log(
+            //  response.data.data.customerGenerateAccountActivationUrl
+            //    .accountActivationUrl
+            //);
+            extractToken(
+              response.data.data.customerGenerateAccountActivationUrl
+                .accountActivationUrl
+            );
+
+            if (
+              response.data.data.customerGenerateAccountActivationUrl.userErrors
+                .length > 0
+            ) {
+              res
+                .status(400)
+                .send(
+                  response.data.data.customerGenerateAccountActivationUrl
+                    .userErrors
+                );
+            } else {
+              var data = JSON.stringify({
+                query: `mutation customerActivate($id: ID!, $input: CustomerActivateInput!) {
+                  customerActivate(id: $id, input: $input) {
+                    customer {
+                    email
+                    }
+                    customerAccessToken {
+                      accessToken
+                    }
+                    customerUserErrors {
+                      message
+                    }  }  }
+                `,
+                variables: {
+                  id: customer_Id,
+                  input: {
+                    activationToken: activationToken,
+                    password: password,
+                  },
+                },
+              });
+
+              var config = {
+                method: "post",
+                url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
+                headers: {
+                  "X-Shopify-Storefront-Access-Token":
+                    "d179890dc5a100e660bd74bd255488b6",
+                  "Content-Type": "application/json",
+                },
+                data: data,
+              };
+              axios(config)
+                .then((response) => {
+                  //console.log(response.data.data);
+                  if (
+                    response.data.data.customerActivate.customerUserErrors
+                      .length > 0
+                  ) {
+                    res
+                      .status(400)
+                      .send(
+                        response.data.data.customerActivate.customerUserErrors
+                      );
+                  } else {
+                    res.send(
+                      response.data.data.customerActivate.customerAccessToken
+                        .accessToken
+                    );
+                  }
+                })
+                .catch((error) => {
+                  //console.log(error);
+                });
+            }
+          })
+          .catch((error) => {
+            //console.log(error);
+          });
+      }
+    })
+    .catch(function (error) {
+      //console.log(error);
+    });
+});
 
 app.post("/signin", (req, res) => {
   var data = JSON.stringify({
@@ -48,7 +202,9 @@ app.post("/signin", (req, res) => {
       if (
         response.data.data.customerAccessTokenCreate.customerUserErrors.length
       ) {
-        res.send("username and password is not valid");
+        res.status(400).send({
+          message: "username and password is not valid",
+        });
       } else {
         res.send(
           response.data.data.customerAccessTokenCreate.customerAccessToken
