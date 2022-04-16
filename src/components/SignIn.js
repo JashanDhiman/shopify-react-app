@@ -1,7 +1,11 @@
 import axios from "axios";
-import React from "react";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { ShopContext } from "../contexts/ShopContext";
 
 const SignIn = () => {
+  let navigate = useNavigate();
+  const { setAccessToken, accessToken } = useContext(ShopContext);
   const handleSubmit = (e) => {
     e.preventDefault();
     const { email, password } = e.target;
@@ -16,9 +20,10 @@ const SignIn = () => {
         url: "http://localhost:4000/signin",
         data: userVariables,
       };
-      const data = await axios(config)
+      await axios(config)
         .then((response) => {
-          console.log(response);
+          setAccessToken(response.data);
+          navigate("/homepage");
         })
         .catch((error) => {
           console.log(error);

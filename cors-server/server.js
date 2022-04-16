@@ -166,7 +166,6 @@ app.post("/signup", (req, res) => {
       //console.log(error);
     });
 });
-
 app.post("/signin", (req, res) => {
   var data = JSON.stringify({
     query: `mutation customerAccessTokenCreate(
@@ -209,6 +208,48 @@ app.post("/signin", (req, res) => {
         res.send(
           response.data.data.customerAccessTokenCreate.customerAccessToken
         );
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
+app.post("/signout", (req, res) => {
+  var data = JSON.stringify({
+    query: `mutation customerAccessTokenDelete($customerAccessToken: String!) {
+      customerAccessTokenDelete(customerAccessToken: $customerAccessToken) {
+        deletedAccessToken
+        deletedCustomerAccessTokenId
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `,
+    variables: {
+      customerAccessToken: req.body.accessToken,
+    },
+  });
+
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Storefront-Access-Token": "d179890dc5a100e660bd74bd255488b6",
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+
+  axios(config)
+    .then(function (response) {
+      if (response.data.data.customerAccessTokenDelete) {
+        res.send("Successfully Signed-out");
+      } else {
+        res.status(400).send({
+          message: "something wrong happend or user already signed-out",
+        });
       }
     })
     .catch(function (error) {

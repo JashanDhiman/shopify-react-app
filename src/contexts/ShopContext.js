@@ -1,4 +1,6 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Client from "shopify-buy";
 
 const ShopContext = React.createContext();
@@ -8,12 +10,14 @@ const client = Client.buildClient({
 });
 
 const ShopProvider = ({ children }) => {
+  let navigate = useNavigate();
   const [productsList, setProductsList] = useState([]);
   const [checkout, setCheckout] = useState("");
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [isProductId, setIsProductId] = useState(false);
+  const [accessToken, setAccessToken] = useState(false);
 
   useEffect(() => {
     if (localStorage.checkoutId) {
@@ -88,6 +92,23 @@ const ShopProvider = ({ children }) => {
       });
   };
 
+  const handleSignout = async () => {
+    var config = {
+      method: "post",
+      url: "http://localhost:4000/signout",
+      data: accessToken,
+    };
+    await axios(config)
+      .then((response) => {
+        console.log(response.data);
+        setAccessToken(false);
+        navigate("/signin");
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+      });
+  };
+
   return (
     <ShopContext.Provider
       value={{
@@ -97,12 +118,15 @@ const ShopProvider = ({ children }) => {
         isLoading,
         isAdding,
         isProductId,
+        accessToken,
         fetchById,
         cartOpen,
         fetchAll,
         addItemToCheckout,
         removeItemToCheckout,
         updateItemToCheckout,
+        setAccessToken,
+        handleSignout,
       }}
     >
       {children}

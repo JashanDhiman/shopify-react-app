@@ -10,6 +10,6 @@ export async function storeFront(query, variables) {
       body: JSON.stringify({ query, variables }),
     }
   );
-  console.log(response);
+  console.log(response, "jashan");
   return response.json();
 }

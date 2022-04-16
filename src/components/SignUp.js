@@ -1,7 +1,9 @@
 import React from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  let navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { fname, lname, email, password } = e.target;
@@ -18,12 +20,13 @@ const SignUp = () => {
         url: "http://localhost:4000/signup",
         data: userVariables,
       };
-      const data = await axios(config)
+      await axios(config)
         .then((response) => {
-          console.log(response);
+          //console.log(response.data);
+          navigate("/signin");
         })
         .catch((error) => {
-          console.log(error.response);
+          console.log(error.response.data);
         });
     };
     makeQuery();
