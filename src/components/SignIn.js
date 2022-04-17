@@ -23,10 +23,10 @@ const SignIn = () => {
       await axios(config)
         .then((response) => {
           setAccessToken(response.data);
-          navigate("/homepage");
+          navigate(`/${response.data.accessToken}/homepage`);
         })
         .catch((error) => {
-          console.log(error);
+          console.log(error.response.data.message);
         });
     };
     makeQuery();

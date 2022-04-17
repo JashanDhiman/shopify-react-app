@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
+require("dotenv").config();
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -43,7 +44,7 @@ app.post("/signup", (req, res) => {
     method: "post",
     url: "https://jashan-dev-3.myshopify.com/admin/api/2022-04/graphql.json",
     headers: {
-      "X-Shopify-Access-Token": "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",
+      "X-Shopify-Access-Token": process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
       "Content-Type": "application/json",
     },
     data: data,
@@ -74,7 +75,8 @@ app.post("/signup", (req, res) => {
           method: "post",
           url: "https://jashan-dev-3.myshopify.com/admin/api/2022-04/graphql.json",
           headers: {
-            "X-Shopify-Access-Token": "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",
+            "X-Shopify-Access-Token":
+              process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
             "Content-Type": "application/json",
           },
           data: data,
@@ -128,7 +130,7 @@ app.post("/signup", (req, res) => {
                 url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
                 headers: {
                   "X-Shopify-Storefront-Access-Token":
-                    "d179890dc5a100e660bd74bd255488b6",
+                    process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
                   "Content-Type": "application/json",
                 },
                 data: data,
@@ -190,7 +192,8 @@ app.post("/signin", (req, res) => {
     method: "post",
     url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
     headers: {
-      "X-Shopify-Storefront-Access-Token": "d179890dc5a100e660bd74bd255488b6",
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
       "Content-Type": "application/json",
     },
     data: data,
@@ -236,7 +239,8 @@ app.post("/signout", (req, res) => {
     method: "post",
     url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
     headers: {
-      "X-Shopify-Storefront-Access-Token": "d179890dc5a100e660bd74bd255488b6",
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
       "Content-Type": "application/json",
     },
     data: data,
@@ -264,7 +268,7 @@ app.post("/signout", (req, res) => {
 //      method: "post",
 //      url: "https://jashan-dev-3.myshopify.com/admin/api/2022-04/customers.json",
 //      headers: {
-//        "X-Shopify-Access-Token": "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",
+//        "X-Shopify-Access-Token": process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
 //        "Content-Type": "application/json",
 //      },
 //      data: req.body[0],
@@ -279,7 +283,7 @@ app.post("/signout", (req, res) => {
 //          method: "post",
 //          url: `https://jashan-dev-3.myshopify.com/admin/api/2022-04/customers/${customerId}/account_activation_url.json`,
 //          headers: {
-//            "X-Shopify-Access-Token": "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",
+//            "X-Shopify-Access-Token": process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
 //            "Content-Type": "application/json",
 //          },
 //        };
@@ -329,7 +333,7 @@ app.post("/signout", (req, res) => {
 //    method: "post",
 //    url: `https://jashan-dev-3.myshopify.com/admin/api/2022-04/customers/${customerId}/account_activation_url.json`,
 //    headers: {
-//      "X-Shopify-Access-Token": "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",
+//      "X-Shopify-Access-Token": process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
 //      "Content-Type": "application/json",
 //    },
 //  };
@@ -359,7 +363,7 @@ app.post("/signout", (req, res) => {
 //      method: "post",
 //      url: `https://jashan-dev-3.myshopify.com/account/activate`,
 //      headers: {
-//        "X-Shopify-Access-Token": "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",
+//        "X-Shopify-Access-Token": process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
 //        "Content-Type": "application/json",
 //      },
 //      data: formBody,
@@ -386,7 +390,7 @@ app.post("/signout", (req, res) => {
 //      method: "get",
 //      url: `https://jashan-dev-3.myshopify.com/account/login`,
 //      headers: {
-//        "X-Shopify-Access-Token": "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",
+//        "X-Shopify-Access-Token": process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
 //      },
 //      data: req.body,
 //    };
@@ -409,7 +413,7 @@ app.post("/signout", (req, res) => {
 //    method: "post",
 //    url: "https://jashan-dev-3.myshopify.com/admin/api/2022-04/customers.json",
 //    headers: {
-//      "X-Shopify-Access-Token": "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",
+//      "X-Shopify-Access-Token": process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
 //      "Content-Type": "application/json",
 //    },
 //    data: customer,
