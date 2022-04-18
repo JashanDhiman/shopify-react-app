@@ -7,20 +7,24 @@ import { ShopContext } from "./contexts/ShopContext";
 import HomePage from "./pages/HomePage";
 import LandingPage from "./pages/LandingPage";
 import ProductPage from "./pages/ProductPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
   const { accessToken } = useContext(ShopContext);
   return (
     <ErrorBoundary>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<RegisterPage />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route
           path={`/${accessToken.accessToken}/homepage`}
           element={<HomePage />}
         />
-        <Route path="/productpage/*" element={<ProductPage />} />
+        <Route
+          path={`/${accessToken.accessToken}/productpage/*`}
+          element={<ProductPage />}
+        />
         <Route path="*" element={<h1>Page Not Found</h1>} />
       </Routes>
     </ErrorBoundary>

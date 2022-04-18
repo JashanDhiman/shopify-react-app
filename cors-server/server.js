@@ -111,6 +111,7 @@ app.post("/signup", (req, res) => {
                     }
                     customerAccessToken {
                       accessToken
+                      expiresAt
                     }
                     customerUserErrors {
                       message
@@ -150,7 +151,6 @@ app.post("/signup", (req, res) => {
                   } else {
                     res.send(
                       response.data.data.customerActivate.customerAccessToken
-                        .accessToken
                     );
                   }
                 })
