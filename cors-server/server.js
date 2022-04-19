@@ -260,7 +260,90 @@ app.post("/signout", (req, res) => {
       console.log(error);
     });
 });
+app.get("/products", (req, res) => {
+  var data = JSON.stringify({
+    query: ` {
+      products(first: 10) {
+        edges {
+          node {
+            id
+            title
+            featuredImage{
+              url
+            }
+            priceRangeV2{
+              maxVariantPrice{
+                amount
+              }
+            }
+          }
+        }
+      }
+    }
+      
+  `,
+  });
 
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/admin/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Access-Token": process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+
+  axios(config)
+    .then(function (response) {
+      res.send(response.data.data.products.edges);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
+app.get("/product", (req, res) => {
+  var data = JSON.stringify({
+    query: ` {
+      products(first: 10) {
+        edges {
+          node {
+            id
+            title
+            featuredImage{
+              url
+            }
+            priceRangeV2{
+              maxVariantPrice{
+                amount
+              }
+            }
+          }
+        }
+      }
+    }
+      
+  `,
+  });
+
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/admin/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Access-Token": process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+
+  axios(config)
+    .then(function (response) {
+      res.send(response.data.data.products.edges);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
 //app.post("/sign-up", (req, res) => {
 //  let password = req.body[1];
 //  if (req.body) {

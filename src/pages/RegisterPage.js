@@ -25,7 +25,8 @@ const RegisterPage = () => {
       await axios(config)
         .then((response) => {
           setAccessToken(response.data);
-          navigate(`/${response.data.accessToken}/homepage`);
+          navigate(`/homepage`);
+          //navigate(`/${response.data.accessToken}/homepage`);
         })
         .catch((error) => {
           console.log(error.response.data.message);
@@ -56,7 +57,8 @@ const RegisterPage = () => {
             .then((response) => {
               //console.log(response.data);
               setAccessToken(response.data);
-              navigate(`/${response.data.accessToken}/homepage`);
+              navigate(`/homepage`);
+              //navigate(`/${response.data.accessToken}/homepage`);
             })
             .catch((error) => {
               console.log(error.response.data);

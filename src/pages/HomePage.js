@@ -7,12 +7,12 @@ import { ShopContext } from "../contexts/ShopContext";
 const HomePage = () => {
   const { productsList, addItemToCheckout, isAdding, fetchAll } =
     useContext(ShopContext);
-  useEffect(() => {
-    fetchAll();
-  }, []);
+  //useEffect(() => {
+  //  fetchAll();
+  //}, []);
   if (!productsList) return <p>loading</p>;
   return (
-    <div>
+    <div style={{ position: "absolute", height: "100%", overflow: "auto" }}>
       <Navbar />
       <Cart />
       <div className="products-head">
@@ -29,27 +29,26 @@ const HomePage = () => {
         </p>
       </div>
       <div className="veg-cards">
-        {productsList.map(({ title, id, images, variants }, index) => {
+        {productsList.map((node, index) => {
+          const title = node.node.title;
+          const id = node.node.id;
+          const image = node.node.featuredImage.url;
+          const price = node.node.priceRangeV2.maxVariantPrice.amount;
           return (
             <div key={index} className="product-card">
               <div className="card-image-div">
-                <Link to={`/productpage/${title}`} state={id}>
-                  <img
-                    style={{ height: "140px" }}
-                    src={images[0].src}
-                    alt="img"
-                  />
+                <Link to={`/productpage/${id}`} state={id}>
+                  <img style={{ height: "140px" }} src={image} alt="img" />
                   <p>{title}</p>
+                  {/*<p>{id}</p>*/}
                 </Link>
               </div>
               <div className="card-details-div">
-                <p>₹ {variants[0].price}</p>
-                {isAdding === variants[0].id ? (
+                <p>₹ {price}</p>
+                {isAdding === id ? (
                   <button>ADDING</button>
                 ) : (
-                  <button onClick={() => addItemToCheckout(variants[0].id, 1)}>
-                    ADD
-                  </button>
+                  <button onClick={() => addItemToCheckout(id, 1)}>ADD</button>
                 )}
               </div>
             </div>

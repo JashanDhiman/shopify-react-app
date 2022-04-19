@@ -20,6 +20,7 @@ const ShopProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(false);
 
   useEffect(() => {
+    fetchAll();
     if (localStorage.checkoutId) {
       fetchCheckout(localStorage.checkoutId);
     } else {
@@ -41,11 +42,20 @@ const ShopProvider = ({ children }) => {
     });
   };
 
-  const fetchAll = async () => {
-    await client.product.fetchAll().then((products) => {
-      setProductsList(products);
+  const fetchAll = () => {
+    var config = {
+      method: "get",
+      url: "http://localhost:4000/products",
+    };
+    axios(config).then((response) => {
+      setProductsList(response.data);
     });
   };
+  //const fetchAll = async () => {
+  //  await client.product.fetchAll().then((products) => {
+  //    setProductsList(products);
+  //  });
+  //};
   const fetchById = async (id) => {
     await client.product.fetch(id).then((product) => {
       setIsProductId(product);
