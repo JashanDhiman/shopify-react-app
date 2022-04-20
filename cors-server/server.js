@@ -302,27 +302,23 @@ app.get("/products", (req, res) => {
       console.log(error);
     });
 });
-app.get("/product", (req, res) => {
+app.post("/product", (req, res) => {
   var data = JSON.stringify({
     query: ` {
-      products(first: 10) {
-        edges {
-          node {
-            id
-            title
-            featuredImage{
-              url
-            }
-            priceRangeV2{
-              maxVariantPrice{
-                amount
-              }
-            }
+    	product(id: "gid://shopify/Product/${req.body.id}") {
+      	title
+      	description
+      	id
+    		priceRangeV2{
+          maxVariantPrice{
+            amount
           }
         }
-      }
+    		featuredImage{
+          url
+        }
+  	  }
     }
-      
   `,
   });
 
@@ -338,7 +334,7 @@ app.get("/product", (req, res) => {
 
   axios(config)
     .then(function (response) {
-      res.send(response.data.data.products.edges);
+      res.send(response.data.data.product);
     })
     .catch(function (error) {
       console.log(error);

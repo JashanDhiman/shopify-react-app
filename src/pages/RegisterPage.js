@@ -7,6 +7,11 @@ import "./registerPage/registerPage.css";
 const RegisterPage = () => {
   let navigate = useNavigate();
   const { setAccessToken } = useContext(ShopContext);
+  let container;
+  setTimeout(() => {
+    container = document.getElementById("container");
+    container.classList.add("sign-in");
+  }, 50);
   //--------------------------------sign in function------------------------------------
   const handleSignin = (e) => {
     e.preventDefault();
@@ -30,6 +35,7 @@ const RegisterPage = () => {
         })
         .catch((error) => {
           console.log(error.response.data.message);
+          alert(error.response.data.message);
         });
     };
     makeQuery();
@@ -76,7 +82,6 @@ const RegisterPage = () => {
   };
   //--------------------------------sign up function ends------------------------------------
 
-  let container = document.getElementById("container");
   const handleToggle = () => {
     container.classList.toggle("sign-in");
     container.classList.toggle("sign-up");
@@ -93,11 +98,7 @@ const RegisterPage = () => {
       document.getElementById("passErr").innerHTML = "";
     }
   };
-  if (container) {
-    setTimeout(() => {
-      container.classList.add("sign-in");
-    }, 200);
-  }
+
   return (
     <div id="container" className={`container`}>
       <div className="row">

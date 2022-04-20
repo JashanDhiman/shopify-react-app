@@ -7,9 +7,9 @@ import { ShopContext } from "../contexts/ShopContext";
 const HomePage = () => {
   const { productsList, addItemToCheckout, isAdding, fetchAll } =
     useContext(ShopContext);
-  //useEffect(() => {
-  //  fetchAll();
-  //}, []);
+  useEffect(() => {
+    fetchAll();
+  }, []);
   if (!productsList) return <p>loading</p>;
   return (
     <div style={{ position: "absolute", height: "100%", overflow: "auto" }}>
@@ -37,7 +37,9 @@ const HomePage = () => {
           return (
             <div key={index} className="product-card">
               <div className="card-image-div">
-                <Link to={`/productpage/${id}`} state={id}>
+                <Link
+                  to={`/productpage/${id.substring(id.lastIndexOf("/") + 1)}`}
+                >
                   <img style={{ height: "140px" }} src={image} alt="img" />
                   <p>{title}</p>
                   {/*<p>{id}</p>*/}

@@ -3,35 +3,38 @@ import { useLocation } from "react-router-dom";
 import { ShopContext } from "../contexts/ShopContext";
 
 const ProductPage = () => {
-  const { isProductId, fetchById, isAdding, addItemToCheckout } =
+  const { isProductById, fetchById, isAdding, addItemToCheckout } =
     useContext(ShopContext);
-  const state = useLocation().state;
+
+  const thePath = useLocation().pathname;
   useEffect(() => {
-    fetchById(state);
+    let productId = thePath.substring(thePath.lastIndexOf("/") + 1);
+    fetchById(productId);
   }, []);
-  if (isProductId) {
+  //console.log(isAdding);
+  if (isProductById) {
     return (
       <div className="product-card">
         <div className="card-image-div">
           <img
             style={{ height: "140px" }}
-            src={isProductId.images[0].src}
+            src={isProductById.featuredImage.url}
             alt="img"
           />
-          <p>{isProductId.title}</p>
-          <p>{isProductId.description}</p>
+          <p>{isProductById.title}</p>
+          <p>{isProductById.description}</p>
         </div>
         <div className="card-details-div">
-          <p>₹ {isProductId.variants[0].price}</p>
-          {isAdding === isProductId.variants[0].id ? (
+          <p>₹ {isProductById.priceRangeV2.maxVariantPrice.amount}</p>
+          {/*{isAdding === isProductById.id ? (
             <button>ADDING</button>
           ) : (
             <button
-              onClick={() => addItemToCheckout(isProductId.variants[0].id, 1)}
+              onClick={() => addItemToCheckout(isProductById.variants[0].id, 1)}
             >
               ADD
             </button>
-          )}
+          )}*/}
         </div>
       </div>
     );
