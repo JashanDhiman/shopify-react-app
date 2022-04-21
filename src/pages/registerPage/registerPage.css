@@ -252,7 +252,6 @@ body {
   right: 0;
   height: 100vh;
   width: 50vw;
-  /*transform: translate(35%, 0);*/
   transform: translate(35%, 0);
   background-image: linear-gradient(
     -45deg,
@@ -266,7 +265,7 @@ body {
   border-top-left-radius: max(50vw, 50vh);
 }
 
-/*.container.sign-in::before {
+.container.sign-in::before {
   transform: translate(0, 0);
   right: 50%;
 }
@@ -274,14 +273,14 @@ body {
 .container.sign-up::before {
   transform: translate(100%, 0);
   right: 50%;
-}*/
-.container.sign-in::before {
+}
+/*.container.sign-in::before {
   transform: rotate3d(1, 1, 1, 45deg);
   right: 50%;
 }
 .container.sign-up::before {
   transform: rotate3d(1, 1, 1, 45deg);
-}
+}*/
 
 /* RESPONSIVE */
 
