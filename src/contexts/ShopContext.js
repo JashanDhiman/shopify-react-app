@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 //import Client from "shopify-buy";
 
@@ -12,10 +12,10 @@ const ShopContext = React.createContext();
 const ShopProvider = ({ children }) => {
   let navigate = useNavigate();
   const [productsList, setProductsList] = useState([]);
-  const [checkout, setCheckout] = useState("");
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isAdding, setIsAdding] = useState(false);
+  //const [checkout, setCheckout] = useState("");
+  //const [isCartOpen, setIsCartOpen] = useState(false);
+  //const [isLoading, setIsLoading] = useState(false);
+  //const [isAdding, setIsAdding] = useState(false);
   const [isProductById, setIsProductById] = useState(false);
   const [accessToken, setAccessToken] = useState(false);
 
@@ -131,11 +131,11 @@ const ShopProvider = ({ children }) => {
   return (
     <ShopContext.Provider
       value={{
-        isCartOpen,
+        //isCartOpen,
         productsList,
-        checkout,
-        isLoading,
-        isAdding,
+        //checkout,
+        //isLoading,
+        //isAdding,
         isProductById,
         accessToken,
         fetchById,

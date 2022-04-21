@@ -3,14 +3,13 @@ import { useLocation } from "react-router-dom";
 import { ShopContext } from "../contexts/ShopContext";
 
 const ProductPage = () => {
-  const { isProductById, fetchById, isAdding, addItemToCheckout } =
-    useContext(ShopContext);
+  const { isProductById, fetchById } = useContext(ShopContext);
 
   const thePath = useLocation().pathname;
   useEffect(() => {
     let productId = thePath.substring(thePath.lastIndexOf("/") + 1);
     fetchById(productId);
-  }, []);
+  }, [fetchById, thePath]);
   //console.log(isAdding);
   if (isProductById) {
     return (

@@ -5,7 +5,7 @@ import { ShopContext } from "../contexts/ShopContext";
 
 const SignIn = () => {
   let navigate = useNavigate();
-  const { setAccessToken, accessToken } = useContext(ShopContext);
+  const { setAccessToken } = useContext(ShopContext);
   const handleSubmit = (e) => {
     e.preventDefault();
     const { email, password } = e.target;

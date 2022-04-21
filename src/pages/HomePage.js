@@ -9,7 +9,7 @@ const HomePage = () => {
     useContext(ShopContext);
   useEffect(() => {
     fetchAll();
-  }, []);
+  }, [fetchAll]);
   if (!productsList) return <p>loading</p>;
   return (
     <div style={{ position: "absolute", height: "100%", overflow: "auto" }}>
