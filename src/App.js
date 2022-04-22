@@ -1,8 +1,6 @@
 //import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ErrorBoundary } from "./components/ErrorBoundary";
-import SignIn from "./components/SignIn";
-import SignUp from "./components/SignUp";
 //import { ShopContext } from "./contexts/ShopContext";
 import HomePage from "./pages/HomePage";
 //import LandingPage from "./pages/LandingPage";
@@ -15,8 +13,6 @@ function App() {
     <ErrorBoundary>
       <Routes>
         <Route path="/" element={<RegisterPage />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
         <Route path="/homepage" element={<HomePage />} />
         {/*<Route
           path={`/${accessToken.accessToken}/homepage`}

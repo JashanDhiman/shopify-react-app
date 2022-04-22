@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 //import Client from "shopify-buy";
 
@@ -18,14 +18,19 @@ const ShopProvider = ({ children }) => {
   //const [isAdding, setIsAdding] = useState(false);
   const [isProductById, setIsProductById] = useState(false);
   const [accessToken, setAccessToken] = useState(false);
-
-  //useEffect(() => {
-  //  if (localStorage.checkoutId) {
-  //    fetchCheckout(localStorage.checkoutId);
-  //  } else {
-  //    createCheckout();
-  //  }
-  //}, []);
+  const domain = process.env.REACT_APP_DEPLOY_DOMAIN;
+  useEffect(() => {
+    if (localStorage.ATG_AccessToken) {
+      //console.log(localStorage.ATG_AccessToken);
+      //console.log(accessToken);
+      tokenRenew(JSON.parse(localStorage.ATG_AccessToken));
+      //navigate(`/homepage`);
+      //fetchCheckout(localStorage.checkoutId);
+    } else {
+      //createCheckout();
+      console.log("access token not exist");
+    }
+  }, []);
   //const cartOpen = (val) => {
   //  setIsCartOpen(val);
   //};
@@ -41,10 +46,86 @@ const ShopProvider = ({ children }) => {
   //  });
   //};
 
+  //-----------------------------User Control Functions starts-----------------------
+
+  const signIn = async (userVariables) => {
+    var config = {
+      method: "post",
+      url: `${domain}:4000/signin`,
+      data: userVariables,
+    };
+    await axios(config)
+      .then((response) => {
+        setAccessToken(response.data);
+        //console.log(response.data);
+        navigate(`/homepage`);
+        //navigate(`/${response.data.accessToken}/homepage`);
+        localStorage.setItem("ATG_AccessToken", JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        //console.log(error.response.data.message);
+        alert(error);
+      });
+  };
+  const signUp = async (userVariables) => {
+    var config = {
+      method: "post",
+      url: `${domain}:4000/signup`,
+      data: userVariables,
+    };
+    await axios(config)
+      .then((response) => {
+        console.log(response.data);
+        setAccessToken(response.data);
+        navigate(`/homepage`);
+        localStorage.setItem("ATG_AccessToken", JSON.stringify(response.data));
+        //navigate(`/${response.data.accessToken}/homepage`);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
+  const tokenRenew = async (token) => {
+    var config = {
+      method: "post",
+      url: `${domain}:4000/tokenrenew`,
+      data: token,
+    };
+    await axios(config)
+      .then((response) => {
+        setAccessToken(response.data);
+        localStorage.setItem("ATG_AccessToken", JSON.stringify(response.data));
+        navigate("/homepage");
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+      });
+  };
+  const handleSignout = async () => {
+    var config = {
+      method: "post",
+      url: `${domain}:4000/signout`,
+      data: accessToken,
+    };
+    await axios(config)
+      .then((response) => {
+        console.log(response.data);
+        setAccessToken(false);
+        navigate("/");
+        localStorage.removeItem("ATG_AccessToken");
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+      });
+  };
+  //-----------------------------User Control Functions ends-----------------------
+  //---------------------------------------------------------------------------------------------------------
+  //-----------------------------Data Functions (CRUD operations) starts-----------------------
+
   const fetchAll = () => {
     var config = {
       method: "get",
-      url: "http://localhost:4000/products",
+      url: `${domain}:4000/products`,
     };
     axios(config).then((response) => {
       setProductsList(response.data);
@@ -53,13 +134,16 @@ const ShopProvider = ({ children }) => {
   const fetchById = (id) => {
     var config = {
       method: "post",
-      url: "http://localhost:4000/product",
+      url: `${domain}:4000/product`,
       data: { id },
     };
     axios(config).then((response) => {
       setIsProductById(response.data);
     });
   };
+
+  //-----------------------------Data Functions (CRUD operations) ends-----------------------
+
   //const fetchAll = async () => {
   //  await client.product.fetchAll().then((products) => {
   //    setProductsList(products);
@@ -111,23 +195,6 @@ const ShopProvider = ({ children }) => {
   //    });
   //};
 
-  const handleSignout = async () => {
-    var config = {
-      method: "post",
-      url: "http://localhost:4000/signout",
-      data: accessToken,
-    };
-    await axios(config)
-      .then((response) => {
-        console.log(response.data);
-        setAccessToken(false);
-        navigate("/");
-      })
-      .catch((error) => {
-        console.log(error.response.data.message);
-      });
-  };
-
   return (
     <ShopContext.Provider
       value={{
@@ -144,6 +211,8 @@ const ShopProvider = ({ children }) => {
         //addItemToCheckout,
         //removeItemToCheckout,
         //updateItemToCheckout,
+        signIn,
+        signUp,
         setAccessToken,
         handleSignout,
       }}

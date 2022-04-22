@@ -21,16 +21,12 @@ app.post("/signup", (req, res) => {
       customerCreate(input: $input) {
         userErrors {
           field
-          message
-        }
+          message}
         customer {
           id
           email
           firstName
-          lastName
-        }
-      }
-    }`,
+          lastName}}}`,
     variables: {
       input: {
         email: req.body.email,
@@ -64,8 +60,7 @@ app.post("/signup", (req, res) => {
             accountActivationUrl
             userErrors {
               field
-              message
-            }  }  }`,
+              message}  }  }`,
           variables: {
             customerId: customer_Id,
           },
@@ -107,16 +102,12 @@ app.post("/signup", (req, res) => {
                 query: `mutation customerActivate($id: ID!, $input: CustomerActivateInput!) {
                   customerActivate(id: $id, input: $input) {
                     customer {
-                    email
-                    }
+                    email}
                     customerAccessToken {
                       accessToken
-                      expiresAt
-                    }
+                      expiresAt}
                     customerUserErrors {
-                      message
-                    }  }  }
-                `,
+                      message}  }  }`,
                 variables: {
                   id: customer_Id,
                   input: {
@@ -172,17 +163,12 @@ app.post("/signin", (req, res) => {
   var data = JSON.stringify({
     query: `mutation customerAccessTokenCreate(
           $input: CustomerAccessTokenCreateInput!
-        ) {
-          customerAccessTokenCreate(input: $input) {
+        ) {customerAccessTokenCreate(input: $input) {
             customerAccessToken {
               accessToken
-              expiresAt
-            }
+              expiresAt}
             customerUserErrors {
-              message
-            }
-          }
-        }`,
+              message}}}`,
     variables: {
       input: { email: req.body.email, password: req.body.password },
     },
@@ -217,6 +203,48 @@ app.post("/signin", (req, res) => {
       console.log(error);
     });
 });
+app.post("/tokenrenew", (req, res) => {
+  var data = JSON.stringify({
+    query: `mutation customerAccessTokenRenew($customerAccessToken: String!) {
+      customerAccessTokenRenew(customerAccessToken: $customerAccessToken) {
+        customerAccessToken {
+          accessToken
+          expiresAt}
+        userErrors {
+          field
+          message}}}`,
+    variables: {
+      customerAccessToken: req.body.accessToken,
+    },
+  });
+
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+
+  axios(config)
+    .then(function (response) {
+      if (response.data.data.customerAccessTokenRenew.userErrors.length > 0) {
+        res
+          .status(400)
+          .send(response.data.data.customerAccessTokenRenew.userErrors);
+      } else {
+        res.send(
+          response.data.data.customerAccessTokenRenew.customerAccessToken
+        );
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
 app.post("/signout", (req, res) => {
   var data = JSON.stringify({
     query: `mutation customerAccessTokenDelete($customerAccessToken: String!) {
@@ -225,11 +253,7 @@ app.post("/signout", (req, res) => {
         deletedCustomerAccessTokenId
         userErrors {
           field
-          message
-        }
-      }
-    }
-  `,
+          message}}}`,
     variables: {
       customerAccessToken: req.body.accessToken,
     },
@@ -269,21 +293,11 @@ app.get("/products", (req, res) => {
             id
             title
             featuredImage{
-              url
-            }
+              url}
             priceRangeV2{
               maxVariantPrice{
-                amount
-              }
-            }
-          }
-        }
-      }
-    }
-      
-  `,
+                amount}}}}}}`,
   });
-
   var config = {
     method: "post",
     url: "https://jashan-dev-3.myshopify.com/admin/api/2022-04/graphql.json",
@@ -293,7 +307,6 @@ app.get("/products", (req, res) => {
     },
     data: data,
   };
-
   axios(config)
     .then(function (response) {
       res.send(response.data.data.products.edges);
@@ -311,17 +324,10 @@ app.post("/product", (req, res) => {
       	id
     		priceRangeV2{
           maxVariantPrice{
-            amount
-          }
-        }
+            amount}}
     		featuredImage{
-          url
-        }
-  	  }
-    }
-  `,
+          url}}}`,
   });
-
   var config = {
     method: "post",
     url: "https://jashan-dev-3.myshopify.com/admin/api/2022-04/graphql.json",
@@ -331,7 +337,6 @@ app.post("/product", (req, res) => {
     },
     data: data,
   };
-
   axios(config)
     .then(function (response) {
       res.send(response.data.data.product);
@@ -512,5 +517,5 @@ app.post("/product", (req, res) => {
 
 app.listen(4000, (err) => {
   if (err) console.log(err);
-  console.log(`server is running at 8080`);
+  console.log(`server is running at 4000`);
 });
