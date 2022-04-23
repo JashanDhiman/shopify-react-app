@@ -14,30 +14,30 @@ const Cart = () => {
     isLoading,
   } = useContext(ShopContext);
 
-  if (checkout) {
-    return (
+  return (
+    <div
+      className="cart"
+      style={{
+        display: isCartOpen ? "block" : "none",
+        transition: "all 0.3s ease-in-out",
+      }}
+    >
       <div
-        className="cart"
+        className="cart-header"
         style={{
-          display: isCartOpen ? "block" : "none",
-          transition: "all 0.3s ease-in-out",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "1rem",
+          height: "10vh",
         }}
       >
-        <div
-          className="cart-header"
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "1rem",
-            height: "10vh",
-          }}
-        >
-          <h1>CART</h1>
-          <div onClick={() => cartOpen(false)}>
-            <ImCross />
-          </div>
+        <h1>CART</h1>
+        <div onClick={() => cartOpen(false)}>
+          <ImCross />
         </div>
+      </div>
+      {checkout ? (
         <div>
           {checkout.lineItems.length < 1 ? (
             <p>Cart is Empty</p>
@@ -93,11 +93,21 @@ const Cart = () => {
             </>
           )}
         </div>
-        {isLoading && <Loading />}
-      </div>
-    );
-  } else {
-    return null;
-  }
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            height: "70vh",
+            textAlign: "center",
+          }}
+        >
+          <h2>Put Something Inside Me.. Baby!</h2>
+        </div>
+      )}
+      {isLoading && <Loading />}
+    </div>
+  );
+  //}
 };
 export default Cart;

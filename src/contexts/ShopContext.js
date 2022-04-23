@@ -12,8 +12,8 @@ const ShopContext = React.createContext();
 const ShopProvider = ({ children }) => {
   let navigate = useNavigate();
   const [productsList, setProductsList] = useState([]);
-  //const [checkout, setCheckout] = useState("");
-  //const [isCartOpen, setIsCartOpen] = useState(false);
+  const [checkoutId, setCheckoutId] = useState("");
+  const [isCartOpen, setIsCartOpen] = useState(false);
   //const [isLoading, setIsLoading] = useState(false);
   //const [isAdding, setIsAdding] = useState(false);
   const [isProductById, setIsProductById] = useState(false);
@@ -27,18 +27,37 @@ const ShopProvider = ({ children }) => {
       //navigate(`/homepage`);
       //fetchCheckout(localStorage.checkoutId);
     } else {
-      //createCheckout();
+      createCheckout();
       console.log("access token not exist");
     }
   }, []);
-  //const cartOpen = (val) => {
-  //  setIsCartOpen(val);
-  //};
+  const cartOpen = (val) => {
+    setIsCartOpen(val);
+  };
   //const createCheckout = async () => {
   //  const checkOut = await client.checkout.create();
   //  localStorage.setItem("checkoutId", checkOut.id);
   //  await setCheckout(checkOut);
   //};
+  const createCheckout = async () => {
+    //const checkOut = await client.checkout.create();
+    //localStorage.setItem("checkoutId", checkOut.id);
+    //await setCheckout(checkOut);
+    var config = {
+      method: "post",
+      url: `${domain}:4000/checkout`,
+    };
+    await axios(config)
+      .then((response) => {
+        setCheckoutId(response.data);
+        console.log(response.data);
+        localStorage.setItem("checkoutId", response.data);
+      })
+      .catch((error) => {
+        console.log(error.response);
+        //alert(error);
+      });
+  };
 
   //const fetchCheckout = async (checkoutId) => {
   //  await client.checkout.fetch(checkoutId).then((checkOut) => {
@@ -101,7 +120,7 @@ const ShopProvider = ({ children }) => {
         console.log(error.response.data.message);
       });
   };
-  const handleSignout = async () => {
+  const signOut = async () => {
     var config = {
       method: "post",
       url: `${domain}:4000/signout`,
@@ -143,7 +162,7 @@ const ShopProvider = ({ children }) => {
   };
 
   //-----------------------------Data Functions (CRUD operations) ends-----------------------
-
+  //-----------------------------------completed functions---------------------------
   //const fetchAll = async () => {
   //  await client.product.fetchAll().then((products) => {
   //    setProductsList(products);
@@ -154,6 +173,45 @@ const ShopProvider = ({ children }) => {
   //    setIsProductById(product);
   //  });
   //};
+  //----------------------------------------not completed functions-------------------
+  const addItemToCheckout = async (variantId, quantity) => {
+    //setIsAdding(variantId);
+    //setIsLoading(true);
+    //const lineItemsToAdd = [
+    //  {
+    //    variantId,
+    //    quantity: parseInt(quantity, 10),
+    //  },
+    //];
+    //await client.checkout
+    //  .addLineItems(localStorage.checkoutId, lineItemsToAdd)
+    //  .then((checkOut) => {
+    //    setCheckout(checkOut);
+    //    setIsLoading(false);
+    //    setIsAdding(false);
+    //  });
+    const data = {
+      checkoutId,
+      variantId,
+      quantity,
+    };
+    var config = {
+      method: "post",
+      url: `${domain}:4000/additemtocheckout`,
+      data: data,
+    };
+    console.log(data);
+    await axios(config)
+      .then((response) => {
+        //setCheckoutId(response.data.id);
+        console.log(response.data);
+        //localStorage.setItem("checkoutId", response.data);
+      })
+      .catch((error) => {
+        console.log(error.response);
+        //alert(error);
+      });
+  };
   //const addItemToCheckout = async (variantId, quantity) => {
   //  setIsAdding(variantId);
   //  setIsLoading(true);
@@ -198,7 +256,7 @@ const ShopProvider = ({ children }) => {
   return (
     <ShopContext.Provider
       value={{
-        //isCartOpen,
+        isCartOpen,
         productsList,
         //checkout,
         //isLoading,
@@ -206,15 +264,15 @@ const ShopProvider = ({ children }) => {
         isProductById,
         accessToken,
         fetchById,
-        //cartOpen,
+        cartOpen,
         fetchAll,
-        //addItemToCheckout,
+        addItemToCheckout,
         //removeItemToCheckout,
         //updateItemToCheckout,
         signIn,
         signUp,
         setAccessToken,
-        handleSignout,
+        signOut,
       }}
     >
       {children}

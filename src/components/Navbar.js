@@ -4,7 +4,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { BsFillBucketFill } from "react-icons/bs";
 import { ShopContext } from "../contexts/ShopContext";
 const Navbar = () => {
-  const { cartOpen, checkout, handleSignout } = useContext(ShopContext);
+  const { cartOpen, checkout, signOut } = useContext(ShopContext);
   return (
     <div className="nav-bar-main">
       <div className="nav-bar-inner">
@@ -19,7 +19,7 @@ const Navbar = () => {
           <li>kits & gifts</li>
           <li>Garden suplies</li>
           <li>Discover</li>
-          <li onClick={handleSignout}>Sign-Out</li>
+          <li onClick={signOut}>Sign-Out</li>
         </ul>
       </div>
       <div className="nav-bar-inner">

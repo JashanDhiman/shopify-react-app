@@ -31,9 +31,9 @@ const HomePage = () => {
       <div className="veg-cards">
         {productsList.map((node, index) => {
           const title = node.node.title;
-          const id = node.node.id;
+          const id = node.node.variants.edges[0].node.id;
           const image = node.node.featuredImage.url;
-          const price = node.node.priceRangeV2.maxVariantPrice.amount;
+          const price = node.node.variants.edges[0].node.priceV2.amount;
           return (
             <div key={index} className="product-card">
               <div className="card-image-div">
@@ -42,7 +42,7 @@ const HomePage = () => {
                 >
                   <img style={{ height: "140px" }} src={image} alt="img" />
                   <p>{title}</p>
-                  {/*<p>{id}</p>*/}
+                  <p>{id.substring(id.lastIndexOf("/") + 1)}</p>
                 </Link>
               </div>
               <div className="card-details-div">
