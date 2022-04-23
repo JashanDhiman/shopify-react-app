@@ -292,17 +292,22 @@ app.get("/products", (req, res) => {
           node {
             id
             title
-            featuredImage{
+            featuredImage {
               url}
-            priceRangeV2{
-              maxVariantPrice{
-                amount}}}}}}`,
+            variants(first: 1) {
+              edges {
+                node {
+                  id
+                  priceV2 {
+                    amount
+                  }}}}}}}}`,
   });
   var config = {
     method: "post",
-    url: "https://jashan-dev-3.myshopify.com/admin/api/2022-04/graphql.json",
+    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
     headers: {
-      "X-Shopify-Access-Token": process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
       "Content-Type": "application/json",
     },
     data: data,
@@ -340,6 +345,90 @@ app.post("/product", (req, res) => {
   axios(config)
     .then(function (response) {
       res.send(response.data.data.product);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
+app.post("/checkout", (req, res) => {
+  var data = JSON.stringify({
+    query: `mutation checkoutCreate($input: CheckoutCreateInput!) {
+      checkoutCreate(input: $input) {
+        checkout {
+          id}
+        checkoutUserErrors {
+          message
+          field        }   }}    `,
+    variables: { input: {} },
+  });
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+  axios(config)
+    .then(function (response) {
+      if (response.data.data.checkoutCreate.checkoutUserErrors.length > 0) {
+        res.status(400).send(response.data.data.checkoutCreate.userErrors);
+      } else {
+        res.send(response.data.data.checkoutCreate.checkout.id);
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
+app.post("/additemtocheckout", (req, res) => {
+  var data = JSON.stringify({
+    query: `mutation checkoutLineItemsAdd($checkoutId: ID!, $lineItems: [CheckoutLineItemInput!]!) {
+      checkoutLineItemsAdd(checkoutId: $checkoutId, lineItems: $lineItems) {
+        checkout {
+          lineItemsSubtotalPrice {
+            amount}
+          lineItems(first:100) {
+            edges {
+              node {
+                id
+                title
+                quantity
+              }}}}
+        checkoutUserErrors {
+          message
+          field}}}  `,
+    variables: {
+      checkoutId: req.body.checkoutId,
+      lineItems: {
+        quantity: req.body.quantity,
+        variantId: req.body.variantId,
+      },
+    },
+  });
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+  axios(config)
+    .then(function (response) {
+      if (
+        response.data.data.checkoutLineItemsAdd.checkoutUserErrors.length > 0
+      ) {
+        res
+          .status(400)
+          .send(response.data.data.checkoutLineItemsAdd.userErrors);
+      } else {
+        res.send(response.data.data.checkoutLineItemsAdd.checkout);
+      }
     })
     .catch(function (error) {
       console.log(error);
