@@ -12,53 +12,52 @@ const ShopContext = React.createContext();
 const ShopProvider = ({ children }) => {
   let navigate = useNavigate();
   const [productsList, setProductsList] = useState([]);
-  const [checkoutId, setCheckoutId] = useState("");
+  //const [checkoutId, setCheckoutId] = useState("");
+  //const [checkout, setCheckout] = useState("");
+  const [cart, setCart] = useState("");
+  const [cartId, setCartId] = useState("");
   const [isCartOpen, setIsCartOpen] = useState(false);
-  //const [isLoading, setIsLoading] = useState(false);
-  //const [isAdding, setIsAdding] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
   const [isProductById, setIsProductById] = useState(false);
   const [accessToken, setAccessToken] = useState(false);
   const domain = process.env.REACT_APP_DEPLOY_DOMAIN;
   useEffect(() => {
     if (localStorage.ATG_AccessToken) {
-      //console.log(localStorage.ATG_AccessToken);
-      //console.log(accessToken);
       tokenRenew(JSON.parse(localStorage.ATG_AccessToken));
       //navigate(`/homepage`);
       //fetchCheckout(localStorage.checkoutId);
+    }
+    if (localStorage.ATG_CartId) {
+      setCartId(localStorage.getItem("ATG_CartId"));
     } else {
-      createCheckout();
-      console.log("access token not exist");
+      createCart();
     }
   }, []);
   const cartOpen = (val) => {
     setIsCartOpen(val);
+  };
+
+  const createCart = async () => {
+    var config = {
+      method: "post",
+      url: `${domain}:4000/cart`,
+      data: accessToken,
+    };
+    await axios(config)
+      .then((response) => {
+        setCartId(response.data.id);
+        localStorage.setItem("ATG_CartId", JSON.stringify(response.data.id));
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
   };
   //const createCheckout = async () => {
   //  const checkOut = await client.checkout.create();
   //  localStorage.setItem("checkoutId", checkOut.id);
   //  await setCheckout(checkOut);
   //};
-  const createCheckout = async () => {
-    //const checkOut = await client.checkout.create();
-    //localStorage.setItem("checkoutId", checkOut.id);
-    //await setCheckout(checkOut);
-    var config = {
-      method: "post",
-      url: `${domain}:4000/checkout`,
-    };
-    await axios(config)
-      .then((response) => {
-        setCheckoutId(response.data);
-        console.log(response.data);
-        localStorage.setItem("checkoutId", response.data);
-      })
-      .catch((error) => {
-        console.log(error.response);
-        //alert(error);
-      });
-  };
-
   //const fetchCheckout = async (checkoutId) => {
   //  await client.checkout.fetch(checkoutId).then((checkOut) => {
   //    setCheckout(checkOut);
@@ -174,15 +173,9 @@ const ShopProvider = ({ children }) => {
   //  });
   //};
   //----------------------------------------not completed functions-------------------
-  const addItemToCheckout = async (variantId, quantity) => {
-    //setIsAdding(variantId);
-    //setIsLoading(true);
-    //const lineItemsToAdd = [
-    //  {
-    //    variantId,
-    //    quantity: parseInt(quantity, 10),
-    //  },
-    //];
+  const addItemToCart = async (variantId, quantity) => {
+    setIsAdding(variantId);
+    setIsLoading(true);
     //await client.checkout
     //  .addLineItems(localStorage.checkoutId, lineItemsToAdd)
     //  .then((checkOut) => {
@@ -191,20 +184,21 @@ const ShopProvider = ({ children }) => {
     //    setIsAdding(false);
     //  });
     const data = {
-      checkoutId,
+      cartId,
       variantId,
-      quantity,
+      quantity: parseInt(quantity, 10),
     };
     var config = {
       method: "post",
-      url: `${domain}:4000/additemtocheckout`,
+      url: `${domain}:4000/addtocart`,
       data: data,
     };
-    console.log(data);
     await axios(config)
       .then((response) => {
         //setCheckoutId(response.data.id);
-        console.log(response.data);
+        setCart(response.data);
+        setIsLoading(false);
+        setIsAdding(false);
         //localStorage.setItem("checkoutId", response.data);
       })
       .catch((error) => {
@@ -212,6 +206,39 @@ const ShopProvider = ({ children }) => {
         //alert(error);
       });
   };
+  //const addItemToCheckout = async (variantId, quantity) => {
+  //  setIsAdding(variantId);
+  //  setIsLoading(true);
+  //  //await client.checkout
+  //  //  .addLineItems(localStorage.checkoutId, lineItemsToAdd)
+  //  //  .then((checkOut) => {
+  //  //    setCheckout(checkOut);
+  //  //    setIsLoading(false);
+  //  //    setIsAdding(false);
+  //  //  });
+  //  const data = {
+  //    checkoutId,
+  //    variantId,
+  //    quantity: parseInt(quantity, 10),
+  //  };
+  //  var config = {
+  //    method: "post",
+  //    url: `${domain}:4000/additemtocheckout`,
+  //    data: data,
+  //  };
+  //  await axios(config)
+  //    .then((response) => {
+  //      //setCheckoutId(response.data.id);
+  //      setCheckout(response.data);
+  //      setIsLoading(false);
+  //      setIsAdding(false);
+  //      //localStorage.setItem("checkoutId", response.data);
+  //    })
+  //    .catch((error) => {
+  //      console.log(error.response);
+  //      //alert(error);
+  //    });
+  //};
   //const addItemToCheckout = async (variantId, quantity) => {
   //  setIsAdding(variantId);
   //  setIsLoading(true);
@@ -259,14 +286,16 @@ const ShopProvider = ({ children }) => {
         isCartOpen,
         productsList,
         //checkout,
-        //isLoading,
-        //isAdding,
+        cart,
+        isLoading,
+        isAdding,
         isProductById,
         accessToken,
         fetchById,
         cartOpen,
         fetchAll,
-        addItemToCheckout,
+        addItemToCart,
+        //addItemToCheckout,
         //removeItemToCheckout,
         //updateItemToCheckout,
         signIn,

@@ -44,7 +44,7 @@ const Navbar = () => {
                   textAlign: "center",
                 }}
               >
-                {checkout.lineItems.length}
+                {checkout.lineItems.edges.length}
               </span>
             )}
           </li>

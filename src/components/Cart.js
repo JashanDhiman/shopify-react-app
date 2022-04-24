@@ -8,9 +8,9 @@ const Cart = () => {
   const {
     isCartOpen,
     cartOpen,
-    checkout,
-    removeItemToCheckout,
-    updateItemToCheckout,
+    cart,
+    removeItemToCart,
+    updateItemToCart,
     isLoading,
   } = useContext(ShopContext);
 
@@ -37,43 +37,48 @@ const Cart = () => {
           <ImCross />
         </div>
       </div>
-      {checkout ? (
+      {cart ? (
         <div>
-          {checkout.lineItems.length < 1 ? (
+          {cart.lineItems.edges.length < 1 ? (
             <p>Cart is Empty</p>
           ) : (
             <>
               <div
                 style={{ overflow: "auto", height: "80vh", padding: "1rem" }}
               >
-                {checkout.lineItems.map((product, index) => {
+                {cart.lineItems.edges.map((node, index) => {
+                  const id = node.node.id;
+                  const title = node.node.title;
+                  const quantity = node.node.quantity;
+                  const image = node.node.variant.image.url;
+                  const price = node.node.variant.priceV2.amount;
                   return (
                     <div key={index} className="product-card">
                       <div className="card-image-div">
                         <img
                           style={{ height: "100px" }}
-                          src={product.variant.image.src}
+                          src={image}
                           alt="img"
                         />
                       </div>
                       <div className="card-details-div">
-                        <p>{product.title}</p>
-                        <p>₹ {product.variant.price * product.quantity}</p>
+                        <p>{title}</p>
+                        <p>₹ {price * quantity}</p>
                         <p>
                           Qty :
                           <input
                             type="number"
                             min="0"
                             max="20"
-                            value={product.quantity}
+                            value={quantity}
                             onChange={(e) =>
-                              updateItemToCheckout(product.id, e.target.value)
+                              updateItemToCart(id, e.target.value)
                             }
                           />
                         </p>
                         <i
                           style={{ cursor: "pointer" }}
-                          onClick={() => removeItemToCheckout(product.id)}
+                          onClick={() => removeItemToCart(id)}
                         >
                           <AiFillDelete />
                         </i>
@@ -84,9 +89,9 @@ const Cart = () => {
               </div>
               <div className="checkout-div">
                 <div>
-                  <p>Sub-Total - {checkout.lineItemsSubtotalPrice.amount}</p>
+                  <p>Sub-Total - {cart.lineItemsSubtotalPrice.amount}</p>
                 </div>
-                <a href={checkout.webUrl}>
+                <a href={cart.webUrl}>
                   <button>CHECK-OUT</button>
                 </a>
               </div>

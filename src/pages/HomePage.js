@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 import { ShopContext } from "../contexts/ShopContext";
 
 const HomePage = () => {
-  const { productsList, addItemToCheckout, isAdding, fetchAll } =
+  const { productsList, addItemToCart, isAdding, fetchAll } =
     useContext(ShopContext);
   useEffect(() => {
     fetchAll();
@@ -50,7 +50,7 @@ const HomePage = () => {
                 {isAdding === id ? (
                   <button>ADDING</button>
                 ) : (
-                  <button onClick={() => addItemToCheckout(id, 1)}>ADD</button>
+                  <button onClick={() => addItemToCart(id, 1)}>ADD</button>
                 )}
               </div>
             </div>
