@@ -13,7 +13,7 @@ const Cart = () => {
     updateItemToCart,
     isLoading,
   } = useContext(ShopContext);
-
+  console.log("hlo");
   return (
     <div
       className="cart"
@@ -39,19 +39,21 @@ const Cart = () => {
       </div>
       {cart ? (
         <div>
-          {cart.lineItems.edges.length < 1 ? (
+          {cart.lines.edges.length < 1 ? (
             <p>Cart is Empty</p>
           ) : (
             <>
               <div
                 style={{ overflow: "auto", height: "80vh", padding: "1rem" }}
               >
-                {cart.lineItems.edges.map((node, index) => {
-                  const id = node.node.id;
-                  const title = node.node.title;
+                {cart.lines.edges.map((node, index) => {
+                  const id = node.node.merchandise.id;
+                  const title = node.node.merchandise.product.title;
                   const quantity = node.node.quantity;
-                  const image = node.node.variant.image.url;
-                  const price = node.node.variant.priceV2.amount;
+                  const image = node.node.merchandise.image.url;
+                  const price = node.node.merchandise.priceV2.amount;
+                  const totalPrice =
+                    node.node.estimatedCost.subtotalAmount.amount;
                   return (
                     <div key={index} className="product-card">
                       <div className="card-image-div">
@@ -63,7 +65,7 @@ const Cart = () => {
                       </div>
                       <div className="card-details-div">
                         <p>{title}</p>
-                        <p>₹ {price * quantity}</p>
+                        <p>₹ {price}</p>
                         <p>
                           Qty :
                           <input
@@ -76,6 +78,7 @@ const Cart = () => {
                             }
                           />
                         </p>
+                        <p>₹ {totalPrice}</p>
                         <i
                           style={{ cursor: "pointer" }}
                           onClick={() => removeItemToCart(id)}
@@ -89,7 +92,7 @@ const Cart = () => {
               </div>
               <div className="checkout-div">
                 <div>
-                  <p>Sub-Total - {cart.lineItemsSubtotalPrice.amount}</p>
+                  <p>Sub-Total - {cart.estimatedCost.totalAmount.amount}</p>
                 </div>
                 <a href={cart.webUrl}>
                   <button>CHECK-OUT</button>
@@ -113,6 +116,5 @@ const Cart = () => {
       {isLoading && <Loading />}
     </div>
   );
-  //}
 };
 export default Cart;

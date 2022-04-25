@@ -1,4 +1,4 @@
-import React, { memo, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Cart from "../components/Cart";
 import Navbar from "../components/Navbar";
@@ -9,7 +9,7 @@ const HomePage = () => {
     useContext(ShopContext);
   useEffect(() => {
     fetchAll();
-  }, [fetchAll]);
+  }, []);
   if (!productsList) return <p>loading</p>;
   return (
     <div style={{ position: "absolute", height: "100%", overflow: "auto" }}>
@@ -61,4 +61,4 @@ const HomePage = () => {
   );
 };
 
-export default memo(HomePage);
+export default HomePage;

@@ -439,7 +439,7 @@ app.post("/additemtocheckout", (req, res) => {
       console.log(error);
     });
 });
-app.post("/cart", (req, res) => {
+app.post("/createcart", (req, res) => {
   var data = JSON.stringify({
     query: `mutation cartCreate($input: CartInput) {
       cartCreate(input: $input) {
@@ -481,33 +481,103 @@ app.post("/cart", (req, res) => {
       console.log(error);
     });
 });
+app.post("/fetchcart", (req, res) => {
+  var data = JSON.stringify({
+    query: `{cart(id:"${req.body.id}") {
+          estimatedCost{
+            totalAmount{
+              amount}}
+          id
+          lines(first:5) {
+            edges {
+              node {
+                id
+                estimatedCost{
+                  subtotalAmount{
+                    amount}}
+                quantity
+                merchandise {
+                  ... on ProductVariant {
+                    id
+                    product {
+                      title
+                    }
+                    priceV2 {
+                      amount
+                    }
+                    image {
+                      url
+                    }}}}}}}}`,
+  });
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+  axios(config)
+    .then(function (response) {
+      res.send(response.data.data.cart);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
 app.post("/addtocart", (req, res) => {
   var data = JSON.stringify({
     query: `mutation cartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
       cartLinesAdd(cartId: $cartId, lines: $lines) {
         cart {
-          webUrl
-          lineItemsSubtotalPrice {
-            amount}
-          lineItems(first:100) {
+          estimatedCost{
+            totalAmount{
+              amount
+            }
+          }
+          id
+          lines(first:5) {
             edges {
               node {
                 id
-                title
+                estimatedCost{
+                  subtotalAmount{
+                    amount
+                  }
+                }
                 quantity
-                variant{
-                  image{
-                    url}
-                  priceV2{
-                    amount}}}}}}
-        checkoutUserErrors {
+                merchandise {
+                  ... on ProductVariant {
+                    id
+                    product {
+                      title
+                    }
+                    priceV2 {
+                      amount
+                    }
+                    image {
+                      url
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        userErrors {
+          field
           message
-          field}}}  `,
+        }
+      }
+    }
+    `,
     variables: {
-      checkoutId: req.body.checkoutId,
-      lineItems: {
+      cartId: req.body.cartId,
+      lines: {
         quantity: req.body.quantity,
-        variantId: req.body.variantId,
+        merchandiseId: req.body.variantId,
       },
     },
   });
@@ -523,12 +593,11 @@ app.post("/addtocart", (req, res) => {
   };
   axios(config)
     .then(function (response) {
-      console.log(response.data.data);
-      //if (response.data.data.cartLinesAdd.checkoutUserErrors.length > 0) {
-      //  res.status(400).send(response.data.data.cartLinesAdd.userErrors);
-      //} else {
-      //  res.send(response.data.data.cartLinesAdd.cart);
-      //}
+      if (response.data.data.cartLinesAdd.userErrors.length > 0) {
+        res.status(400).send(response.data.data.cartLinesAdd.userErrors);
+      } else {
+        res.send(response.data.data.cartLinesAdd.cart);
+      }
     })
     .catch(function (error) {
       console.log(error);

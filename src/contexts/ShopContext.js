@@ -1,13 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-//import Client from "shopify-buy";
 
 const ShopContext = React.createContext();
-//const client = Client.buildClient({
-//  domain: "allthatgrows-in.myshopify.com",
-//  storefrontAccessToken: "0c13740ce701b2616bf9f719bb2ec23e",
-//});
 
 const ShopProvider = ({ children }) => {
   let navigate = useNavigate();
@@ -29,30 +24,16 @@ const ShopProvider = ({ children }) => {
       //fetchCheckout(localStorage.checkoutId);
     }
     if (localStorage.ATG_CartId) {
-      setCartId(localStorage.getItem("ATG_CartId"));
+      fetchCart();
     } else {
       createCart();
     }
+    return false;
   }, []);
   const cartOpen = (val) => {
     setIsCartOpen(val);
   };
 
-  const createCart = async () => {
-    var config = {
-      method: "post",
-      url: `${domain}:4000/cart`,
-      data: accessToken,
-    };
-    await axios(config)
-      .then((response) => {
-        setCartId(response.data.id);
-        localStorage.setItem("ATG_CartId", JSON.stringify(response.data.id));
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
-  };
   //const createCheckout = async () => {
   //  const checkOut = await client.checkout.create();
   //  localStorage.setItem("checkoutId", checkOut.id);
@@ -65,7 +46,6 @@ const ShopProvider = ({ children }) => {
   //};
 
   //-----------------------------User Control Functions starts-----------------------
-
   const signIn = async (userVariables) => {
     var config = {
       method: "post",
@@ -136,10 +116,7 @@ const ShopProvider = ({ children }) => {
         console.log(error.response.data.message);
       });
   };
-  //-----------------------------User Control Functions ends-----------------------
-  //---------------------------------------------------------------------------------------------------------
-  //-----------------------------Data Functions (CRUD operations) starts-----------------------
-
+  //-----------------------------Proctucts fetch Functions-----------------------
   const fetchAll = () => {
     var config = {
       method: "get",
@@ -159,23 +136,77 @@ const ShopProvider = ({ children }) => {
       setIsProductById(response.data);
     });
   };
-
-  //-----------------------------Data Functions (CRUD operations) ends-----------------------
-  //-----------------------------------completed functions---------------------------
-  //const fetchAll = async () => {
-  //  await client.product.fetchAll().then((products) => {
-  //    setProductsList(products);
-  //  });
-  //};
-  //const fetchById = async (id) => {
-  //  await client.product.fetch(id).then((product) => {
-  //    setIsProductById(product);
-  //  });
-  //};
-  //----------------------------------------not completed functions-------------------
+  //----------------------------------------Cart functions-------------------
+  const createCart = async () => {
+    var config = {
+      method: "post",
+      url: `${domain}:4000/cart`,
+      data: accessToken,
+    };
+    await axios(config)
+      .then((response) => {
+        setCartId(response.data.id);
+        localStorage.setItem("ATG_CartId", JSON.stringify(response.data.id));
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
+  const fetchCart = async () => {
+    var config = {
+      method: "post",
+      url: `${domain}:4000/fetchcart`,
+      data: { id: JSON.parse(localStorage.getItem("ATG_CartId")) },
+    };
+    await axios(config)
+      .then((response) => {
+        setCartId(response.data.id);
+        setCart(response.data);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
   const addItemToCart = async (variantId, quantity) => {
     setIsAdding(variantId);
     setIsLoading(true);
+    //query {
+    //  cart(
+    //    id: "gid://shopify/Cart/b8a8d6042bf923ef390667188af28c7d"
+    //  ) {
+    //    id
+    //    createdAt
+    //    updatedAt
+    //    lines(first: 10) {
+    //      edges {
+    //        node {
+    //          id
+    //          quantity
+    //          merchandise {
+    //            ... on ProductVariant {
+    //              id
+    //              product{
+    //                title
+    //              }
+    //              priceV2{
+    //                amount
+    //              }
+    //              image{
+    //                url
+    //              }
+    //            }
+    //          }
+    //        }
+    //      }
+    //    }
+    //    estimatedCost {
+    //      subtotalAmount {
+    //        amount
+    //      }
+    //    }
+    //  }
+    //}
+
     //await client.checkout
     //  .addLineItems(localStorage.checkoutId, lineItemsToAdd)
     //  .then((checkOut) => {
@@ -184,7 +215,7 @@ const ShopProvider = ({ children }) => {
     //    setIsAdding(false);
     //  });
     const data = {
-      cartId,
+      cartId: JSON.parse(cartId),
       variantId,
       quantity: parseInt(quantity, 10),
     };
