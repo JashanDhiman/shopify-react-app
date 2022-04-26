@@ -28,7 +28,6 @@ const ShopProvider = ({ children }) => {
     } else {
       createCart();
     }
-    return false;
   }, []);
   const cartOpen = (val) => {
     setIsCartOpen(val);
@@ -170,52 +169,8 @@ const ShopProvider = ({ children }) => {
   const addItemToCart = async (variantId, quantity) => {
     setIsAdding(variantId);
     setIsLoading(true);
-    //query {
-    //  cart(
-    //    id: "gid://shopify/Cart/b8a8d6042bf923ef390667188af28c7d"
-    //  ) {
-    //    id
-    //    createdAt
-    //    updatedAt
-    //    lines(first: 10) {
-    //      edges {
-    //        node {
-    //          id
-    //          quantity
-    //          merchandise {
-    //            ... on ProductVariant {
-    //              id
-    //              product{
-    //                title
-    //              }
-    //              priceV2{
-    //                amount
-    //              }
-    //              image{
-    //                url
-    //              }
-    //            }
-    //          }
-    //        }
-    //      }
-    //    }
-    //    estimatedCost {
-    //      subtotalAmount {
-    //        amount
-    //      }
-    //    }
-    //  }
-    //}
-
-    //await client.checkout
-    //  .addLineItems(localStorage.checkoutId, lineItemsToAdd)
-    //  .then((checkOut) => {
-    //    setCheckout(checkOut);
-    //    setIsLoading(false);
-    //    setIsAdding(false);
-    //  });
     const data = {
-      cartId: JSON.parse(cartId),
+      cartId,
       variantId,
       quantity: parseInt(quantity, 10),
     };
@@ -226,17 +181,35 @@ const ShopProvider = ({ children }) => {
     };
     await axios(config)
       .then((response) => {
-        //setCheckoutId(response.data.id);
         setCart(response.data);
         setIsLoading(false);
         setIsAdding(false);
-        //localStorage.setItem("checkoutId", response.data);
       })
       .catch((error) => {
         console.log(error.response);
-        //alert(error);
       });
   };
+  const removeItemFromCart = async (merchandiseId) => {
+    setIsLoading(true);
+    const data = {
+      cartId,
+      merchandiseId,
+    };
+    var config = {
+      method: "post",
+      url: `${domain}:4000/removefromcart`,
+      data: data,
+    };
+    await axios(config)
+      .then((response) => {
+        setCart(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
+
   //const addItemToCheckout = async (variantId, quantity) => {
   //  setIsAdding(variantId);
   //  setIsLoading(true);
@@ -268,23 +241,6 @@ const ShopProvider = ({ children }) => {
   //    .catch((error) => {
   //      console.log(error.response);
   //      //alert(error);
-  //    });
-  //};
-  //const addItemToCheckout = async (variantId, quantity) => {
-  //  setIsAdding(variantId);
-  //  setIsLoading(true);
-  //  const lineItemsToAdd = [
-  //    {
-  //      variantId,
-  //      quantity: parseInt(quantity, 10),
-  //    },
-  //  ];
-  //  await client.checkout
-  //    .addLineItems(localStorage.checkoutId, lineItemsToAdd)
-  //    .then((checkOut) => {
-  //      setCheckout(checkOut);
-  //      setIsLoading(false);
-  //      setIsAdding(false);
   //    });
   //};
   //const updateItemToCheckout = async (id, quantity) => {
@@ -326,6 +282,7 @@ const ShopProvider = ({ children }) => {
         cartOpen,
         fetchAll,
         addItemToCart,
+        removeItemFromCart,
         //addItemToCheckout,
         //removeItemToCheckout,
         //updateItemToCheckout,

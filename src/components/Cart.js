@@ -9,11 +9,10 @@ const Cart = () => {
     isCartOpen,
     cartOpen,
     cart,
-    removeItemToCart,
+    removeItemFromCart,
     updateItemToCart,
     isLoading,
   } = useContext(ShopContext);
-  console.log("hlo");
   return (
     <div
       className="cart"
@@ -48,6 +47,7 @@ const Cart = () => {
               >
                 {cart.lines.edges.map((node, index) => {
                   const id = node.node.merchandise.id;
+                  const merchandiseId = node.node.id;
                   const title = node.node.merchandise.product.title;
                   const quantity = node.node.quantity;
                   const image = node.node.merchandise.image.url;
@@ -81,7 +81,7 @@ const Cart = () => {
                         <p>₹ {totalPrice}</p>
                         <i
                           style={{ cursor: "pointer" }}
-                          onClick={() => removeItemToCart(id)}
+                          onClick={() => removeItemFromCart(merchandiseId)}
                         >
                           <AiFillDelete />
                         </i>

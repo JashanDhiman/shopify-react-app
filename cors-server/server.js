@@ -534,9 +534,7 @@ app.post("/addtocart", (req, res) => {
         cart {
           estimatedCost{
             totalAmount{
-              amount
-            }
-          }
+              amount}}
           id
           lines(first:5) {
             edges {
@@ -544,35 +542,20 @@ app.post("/addtocart", (req, res) => {
                 id
                 estimatedCost{
                   subtotalAmount{
-                    amount
-                  }
-                }
+                    amount}}
                 quantity
                 merchandise {
                   ... on ProductVariant {
                     id
                     product {
-                      title
-                    }
+                      title}
                     priceV2 {
-                      amount
-                    }
+                      amount}
                     image {
-                      url
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                      url}}}}}}}
         userErrors {
           field
-          message
-        }
-      }
-    }
-    `,
+          message}}}`,
     variables: {
       cartId: req.body.cartId,
       lines: {
@@ -597,6 +580,61 @@ app.post("/addtocart", (req, res) => {
         res.status(400).send(response.data.data.cartLinesAdd.userErrors);
       } else {
         res.send(response.data.data.cartLinesAdd.cart);
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
+app.post("/removefromcart", (req, res) => {
+  var data = JSON.stringify({
+    query: `mutation cartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
+      cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
+        userErrors{
+          message}
+        cart {
+          estimatedCost {
+            totalAmount {
+              amount}}
+          id
+          lines(first: 5) {
+            edges {
+              node {
+                id
+                estimatedCost {
+                  subtotalAmount {
+                    amount}}
+                quantity
+                merchandise {
+                  ... on ProductVariant {
+                    id
+                    product {
+                      title}
+                    priceV2 {
+                      amount}
+                    image {
+                      url}}}}}}}}}`,
+    variables: {
+      cartId: req.body.cartId,
+      lineIds: [req.body.merchandiseId],
+    },
+  });
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+  axios(config)
+    .then(function (response) {
+      if (response.data.data.cartLinesRemove.userErrors.length > 0) {
+        res.status(400).send(response.data.data.cartLinesRemove.userErrors);
+      } else {
+        res.send(response.data.data.cartLinesRemove.cart);
       }
     })
     .catch(function (error) {
