@@ -3,8 +3,9 @@ import logo from "../images/leafLogo.webp";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsFillBucketFill } from "react-icons/bs";
 import { ShopContext } from "../contexts/ShopContext";
+import { Link } from "react-router-dom";
 const Navbar = () => {
-  const { cartOpen, cart, signOut } = useContext(ShopContext);
+  const { cartOpen, cart, signOut, accessToken } = useContext(ShopContext);
   return (
     <div className="nav-bar-main">
       <div className="nav-bar-inner">
@@ -19,7 +20,15 @@ const Navbar = () => {
           <li>kits & gifts</li>
           <li>Garden suplies</li>
           <li>Discover</li>
-          <li onClick={signOut}>Sign-Out</li>
+          {accessToken ? (
+            <li onClick={signOut}>Sign-Out</li>
+          ) : (
+            <li>
+              <Link to="/" style={{ color: "white" }}>
+                Sign-In
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
       <div className="nav-bar-inner">

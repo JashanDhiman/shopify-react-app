@@ -9,8 +9,8 @@ const ShopProvider = ({ children }) => {
   const [productsList, setProductsList] = useState([]);
   //const [checkoutId, setCheckoutId] = useState("");
   //const [checkout, setCheckout] = useState("");
-  const [cart, setCart] = useState("");
-  const [cartId, setCartId] = useState("");
+  const [cart, setCart] = useState(false);
+  const [cartId, setCartId] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
@@ -18,15 +18,13 @@ const ShopProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(false);
   const domain = process.env.REACT_APP_DEPLOY_DOMAIN;
   useEffect(() => {
-    if (localStorage.ATG_AccessToken) {
+    if (localStorage.ATG_AccessToken && localStorage.ATG_CartId) {
       tokenRenew(JSON.parse(localStorage.ATG_AccessToken));
+      fetchCart();
       //navigate(`/homepage`);
       //fetchCheckout(localStorage.checkoutId);
-    }
-    if (localStorage.ATG_CartId) {
-      fetchCart();
     } else {
-      createCart();
+      createGuestCart();
     }
   }, []);
   const cartOpen = (val) => {
@@ -58,6 +56,7 @@ const ShopProvider = ({ children }) => {
         navigate(`/homepage`);
         //navigate(`/${response.data.accessToken}/homepage`);
         localStorage.setItem("ATG_AccessToken", JSON.stringify(response.data));
+        createUserCart();
       })
       .catch((error) => {
         //console.log(error.response.data.message);
@@ -76,6 +75,7 @@ const ShopProvider = ({ children }) => {
         setAccessToken(response.data);
         navigate(`/homepage`);
         localStorage.setItem("ATG_AccessToken", JSON.stringify(response.data));
+        createUserCart();
         //navigate(`/${response.data.accessToken}/homepage`);
       })
       .catch((error) => {
@@ -108,8 +108,11 @@ const ShopProvider = ({ children }) => {
       .then((response) => {
         console.log(response.data);
         setAccessToken(false);
+        setCart(false);
+        setCartId(false);
         navigate("/");
         localStorage.removeItem("ATG_AccessToken");
+        localStorage.removeItem("ATG_CartId");
       })
       .catch((error) => {
         console.log(error.response.data.message);
@@ -135,17 +138,34 @@ const ShopProvider = ({ children }) => {
       setIsProductById(response.data);
     });
   };
-  //----------------------------------------Cart functions-------------------
-  const createCart = async () => {
+  //----------------------------------------Cart functions-------------------28b90b750c0a7b37546f2e477af52abd
+  //"gid://shopify/Cart/39cfe812df881839932d3ddd4536c77a"
+  //
+  const createUserCart = async () => {
     var config = {
       method: "post",
-      url: `${domain}:4000/cart`,
-      data: accessToken,
+      url: `${domain}:4000/createcart`,
+      data: JSON.parse(localStorage.ATG_AccessToken),
     };
     await axios(config)
       .then((response) => {
         setCartId(response.data.id);
+        console.log(response.data);
         localStorage.setItem("ATG_CartId", JSON.stringify(response.data.id));
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
+  const createGuestCart = async () => {
+    var config = {
+      method: "post",
+      url: `${domain}:4000/createcart`,
+    };
+    await axios(config)
+      .then((response) => {
+        setCartId(response.data.id);
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error.response);
@@ -209,7 +229,27 @@ const ShopProvider = ({ children }) => {
         console.log(error.response);
       });
   };
-
+  const updateItemToCart = async (id, quantity) => {
+    setIsLoading(true);
+    const data = {
+      cartId,
+      id,
+      quantity,
+    };
+    var config = {
+      method: "post",
+      url: `${domain}:4000/updatecart`,
+      data: data,
+    };
+    await axios(config)
+      .then((response) => {
+        setCart(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
   //const addItemToCheckout = async (variantId, quantity) => {
   //  setIsAdding(variantId);
   //  setIsLoading(true);
@@ -283,6 +323,7 @@ const ShopProvider = ({ children }) => {
         fetchAll,
         addItemToCart,
         removeItemFromCart,
+        updateItemToCart,
         //addItemToCheckout,
         //removeItemToCheckout,
         //updateItemToCheckout,

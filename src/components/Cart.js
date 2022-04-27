@@ -46,8 +46,8 @@ const Cart = () => {
                 style={{ overflow: "auto", height: "80vh", padding: "1rem" }}
               >
                 {cart.lines.edges.map((node, index) => {
-                  const id = node.node.merchandise.id;
-                  const merchandiseId = node.node.id;
+                  //const merchandiseId = node.node.merchandise.id;
+                  const id = node.node.id;
                   const title = node.node.merchandise.product.title;
                   const quantity = node.node.quantity;
                   const image = node.node.merchandise.image.url;
@@ -81,7 +81,7 @@ const Cart = () => {
                         <p>₹ {totalPrice}</p>
                         <i
                           style={{ cursor: "pointer" }}
-                          onClick={() => removeItemFromCart(merchandiseId)}
+                          onClick={() => removeItemFromCart(id)}
                         >
                           <AiFillDelete />
                         </i>
