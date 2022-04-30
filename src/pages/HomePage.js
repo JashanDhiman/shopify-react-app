@@ -42,7 +42,7 @@ const HomePage = () => {
                 >
                   <img style={{ height: "140px" }} src={image} alt="img" />
                   <p>{title}</p>
-                  <p>{id}</p>
+                  {/*<p>{id}</p>*/}
                 </Link>
               </div>
               <div className="card-details-div">

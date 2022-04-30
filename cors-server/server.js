@@ -32,6 +32,14 @@ app.post("/signup", (req, res) => {
         email: req.body.email,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
+        metafields: [
+          {
+            namespace: "instructions",
+            key: "cartId",
+            value: req.body.cartId,
+            type: "single_line_text_field",
+          },
+        ],
       },
     },
   });
@@ -78,15 +86,10 @@ app.post("/signup", (req, res) => {
         };
         axios(config)
           .then((response) => {
-            //console.log(
-            //  response.data.data.customerGenerateAccountActivationUrl
-            //    .accountActivationUrl
-            //);
             extractToken(
               response.data.data.customerGenerateAccountActivationUrl
                 .accountActivationUrl
             );
-
             if (
               response.data.data.customerGenerateAccountActivationUrl.userErrors
                 .length > 0
@@ -279,6 +282,46 @@ app.post("/signout", (req, res) => {
           message: "something wrong happend or user already signed-out",
         });
       }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
+app.post("/fetchUserCartId", (req, res) => {
+  var data = JSON.stringify({
+    query: `{customer(customerAccessToken:"${req.body.accessToken.accessToken}") {id}}`,
+  });
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+  axios(config)
+    .then(function (response) {
+      var data = JSON.stringify({
+        query: `{customer(id:"${response.data.data.customer.id}") {
+            metafield(key:"cartId",namespace:"instructions"){
+              id
+              value}}}`,
+      });
+      var config = {
+        method: "post",
+        url: "https://jashan-dev-3.myshopify.com/admin/api/2022-04/graphql.json",
+        headers: {
+          "X-Shopify-Access-Token":
+            process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+      axios(config).then(function (response) {
+        res.send(response.data.data.customer.metafield);
+      });
     })
     .catch(function (error) {
       console.log(error);
@@ -879,7 +922,7 @@ app.post("/updatecart", (req, res) => {
 
 // listening
 
-app.listen(4000, (err) => {
+app.listen(4000, "192.168.1.114", (err) => {
   if (err) console.log(err);
-  console.log(`server is running at 4000`);
+  console.log("text");
 });
