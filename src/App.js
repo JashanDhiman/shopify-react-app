@@ -18,7 +18,7 @@ function App() {
           path={`/${accessToken.accessToken}/homepage`}
           element={<HomePage />}
         />*/}
-        <Route path={`/productpage/*`} element={<ProductPage />} />
+        <Route path={`/product/*`} element={<ProductPage />} />
         {/*<Route
           path={`/${accessToken.accessToken}/productpage/*`}
           element={<ProductPage />}

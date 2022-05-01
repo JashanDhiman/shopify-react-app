@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 const ShopContext = React.createContext();
 
 const ShopProvider = ({ children }) => {
-  let navigate = useNavigate();
-  const [productsList, setProductsList] = useState([]);
+  const [productsList, setProductsList] = useState(false);
+  const navigate = useNavigate();
   //const [checkoutId, setCheckoutId] = useState("");
   //const [checkout, setCheckout] = useState("");
   const [cart, setCart] = useState(false);
@@ -53,7 +53,6 @@ const ShopProvider = ({ children }) => {
       .then((response) => {
         setAccessToken(response.data);
         //console.log(response.data);
-        navigate(`/homepage`);
         //navigate(`/${response.data.accessToken}/homepage`);
         localStorage.setItem("ATG_AccessToken", JSON.stringify(response.data));
         fetchUserCartId();
@@ -74,7 +73,6 @@ const ShopProvider = ({ children }) => {
     await axios(config)
       .then((response) => {
         setAccessToken(response.data);
-        navigate(`/homepage`);
         localStorage.setItem("ATG_AccessToken", JSON.stringify(response.data));
         localStorage.setItem("ATG_CartId", JSON.stringify(cartId));
         fetchUserCartId();
@@ -95,7 +93,6 @@ const ShopProvider = ({ children }) => {
       .then((response) => {
         setAccessToken(response.data);
         localStorage.setItem("ATG_AccessToken", JSON.stringify(response.data));
-        navigate("/homepage");
       })
       .catch((error) => {
         console.log(error.response.data.message);

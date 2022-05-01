@@ -370,7 +370,11 @@ app.post("/product", (req, res) => {
       	title
       	description
       	id
-    		priceRangeV2{
+        variants(first:5){
+          edges{
+            node{
+              id}}}
+    		priceRange{
           maxVariantPrice{
             amount}}
     		featuredImage{
@@ -378,9 +382,10 @@ app.post("/product", (req, res) => {
   });
   var config = {
     method: "post",
-    url: "https://jashan-dev-3.myshopify.com/admin/api/2022-04/graphql.json",
+    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
     headers: {
-      "X-Shopify-Access-Token": process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
       "Content-Type": "application/json",
     },
     data: data,
@@ -922,7 +927,7 @@ app.post("/updatecart", (req, res) => {
 
 // listening
 
-app.listen(4000, "192.168.1.114", (err) => {
+app.listen(4000, (err) => {
   if (err) console.log(err);
-  console.log("text");
+  console.log(`server is running at 4000`);
 });
