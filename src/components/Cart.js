@@ -19,6 +19,7 @@ const Cart = () => {
       style={{
         display: isCartOpen ? "block" : "none",
         transition: "all 0.3s ease-in-out",
+        zIndex: "10",
       }}
     >
       <div

@@ -26,7 +26,7 @@ body {
 .row {
   display: flex;
   flex-wrap: wrap;
-  height: 100vh;
+  height: 90vh;
 }
 
 .col {
@@ -250,7 +250,7 @@ body {
   position: absolute;
   top: 0;
   right: 0;
-  height: 100vh;
+  height: 90vh;
   width: 50vw;
   transform: translate(35%, 0);
   background-image: linear-gradient(

@@ -19,7 +19,17 @@ const ShopProvider = ({ children }) => {
   const domain = process.env.REACT_APP_DEPLOY_DOMAIN;
   useEffect(() => {
     if (localStorage.ATG_AccessToken) {
-      tokenRenew(JSON.parse(localStorage.ATG_AccessToken));
+      const today = new Date(Date.now());
+      const myDate = new Date(
+        JSON.parse(localStorage.ATG_AccessToken).expiresAt
+      );
+      const result = myDate.getTime();
+      if (result - today > 120000) {
+        tokenRenew(JSON.parse(localStorage.ATG_AccessToken));
+      } else {
+        localStorage.removeItem("ATG_AccessToken");
+        localStorage.removeItem("ATG_CartId");
+      }
     }
     if (localStorage.ATG_CartId) {
       fetchCart();

@@ -13,8 +13,8 @@ const HomePage = () => {
   }, []);
   return (
     <div style={{ position: "absolute", height: "100%", overflow: "auto" }}>
-      <Navbar />
-      <Cart />
+      {/*<Navbar />*/}
+      {/*<Cart />*/}
       <div className="products-head">
         <h2>SEEDS</h2>
         <p>

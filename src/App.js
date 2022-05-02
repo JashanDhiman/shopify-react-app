@@ -1,16 +1,23 @@
 //import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
+import Cart from "./components/Cart";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import Navbar from "./components/Navbar";
 //import { ShopContext } from "./contexts/ShopContext";
 import HomePage from "./pages/HomePage";
+import ProductPage from "./pages/productPage/ProductPage";
 //import LandingPage from "./pages/LandingPage";
-import ProductPage from "./pages/ProductPage";
-import RegisterPage from "./pages/RegisterPage";
+import RegisterPage from "./pages/registerPage/RegisterPage";
 
 function App() {
   //const { accessToken } = useContext(ShopContext);
   return (
     <ErrorBoundary>
+      {/*<Routes>
+        <Route path="/" element={<RegisterPage />} />
+      </Routes>*/}
+      <Navbar />
+      <Cart />
       <Routes>
         <Route path="/" element={<RegisterPage />} />
         <Route path="/homepage" element={<HomePage />} />

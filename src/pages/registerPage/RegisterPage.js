@@ -1,7 +1,7 @@
 import React from "react";
-import "./registerPage/registerPage.css";
-import SignIn from "./registerPage/SignIn";
-import SignUp from "./registerPage/SignUp";
+import "./registerPage.css";
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
 
 const RegisterPage = () => {
   let container;
