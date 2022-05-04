@@ -139,6 +139,7 @@ const ShopProvider = ({ children }) => {
     });
   };
   const fetchById = (id) => {
+    setIsLoading(true);
     var config = {
       method: "post",
       url: `${domain}:4000/product`,
@@ -146,6 +147,7 @@ const ShopProvider = ({ children }) => {
     };
     axios(config).then((response) => {
       setIsProductById(response.data);
+      setIsLoading(false);
     });
   };
   //----------------------------------------Cart functions-------------------

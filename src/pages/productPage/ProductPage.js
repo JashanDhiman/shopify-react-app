@@ -1,11 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Navbar from "../../components/Navbar";
+import Loading from "../../components/Loading";
+//import Navbar from "../../components/Navbar";
 import { ShopContext } from "../../contexts/ShopContext";
 import "./productPage.css";
 
 const ProductPage = () => {
-  const { isProductById, fetchById, isAdding, addItemToCart } =
+  const { isProductById, fetchById, isAdding, addItemToCart, isLoading } =
     useContext(ShopContext);
 
   const thePath = useLocation().pathname;
@@ -15,6 +16,7 @@ const ProductPage = () => {
   }, []);
 
   if (isProductById) {
+    isLoading && <Loading />;
     const variantId = isProductById.variants.edges[0].node.id;
     return (
       <>
@@ -46,7 +48,7 @@ const ProductPage = () => {
       </>
     );
   } else {
-    return <h1>Product Id is not correct</h1>;
+    return isLoading ? <Loading /> : <h1>Product Id is not correct</h1>;
   }
 };
 
