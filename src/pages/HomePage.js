@@ -65,11 +65,9 @@ const HomePage = () => {
                 <div className="card-image-div">
                   <Link
                     to={`/product/${id.substring(id.lastIndexOf("/") + 1)}`}
-                    //to={`/productpage/${id.substring(id.lastIndexOf("/") + 1)}`}
                   >
                     <img style={{ height: "140px" }} src={image} alt="img" />
                     <p>{title}</p>
-                    {/*<p>{id}</p>*/}
                   </Link>
                 </div>
                 <div className="card-details-div">

@@ -11,6 +11,7 @@ const ShopProvider = ({ children }) => {
   //const [checkout, setCheckout] = useState("");
   const [cart, setCart] = useState(false);
   const [cartId, setCartId] = useState(false);
+  const [isUserProfile, setIsUserProfile] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
@@ -126,6 +127,22 @@ const ShopProvider = ({ children }) => {
       })
       .catch((error) => {
         console.log(error.response.data.message);
+      });
+  };
+  const userProfile = async () => {
+    var config = {
+      method: "post",
+      url: `${domain}:4000/profile`,
+      data: JSON.parse(localStorage.getItem("ATG_AccessToken")),
+    };
+    await axios(config)
+      .then((response) => {
+        setIsUserProfile(response.data);
+      })
+      .catch((error) => {
+        navigate(`/homepage`);
+        //console.log(error.response.data.message);
+        alert(error);
       });
   };
   //-----------------------------Proctucts fetch Functions-----------------------
@@ -330,6 +347,8 @@ const ShopProvider = ({ children }) => {
         isAdding,
         isProductById,
         accessToken,
+        isUserProfile,
+        userProfile,
         fetchById,
         cartOpen,
         fetchAll,

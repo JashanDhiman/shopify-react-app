@@ -757,175 +757,57 @@ app.post("/updatecart", (req, res) => {
       console.log(error);
     });
 });
-//app.post("/sign-up", (req, res) => {
-//  let password = req.body[1];
-//  if (req.body) {
-//    var config = {
-//      method: "post",
-//      url: "https://jashan-dev-3.myshopify.com/admin/api/2022-04/customers.json",
-//      headers: {
-//        "X-Shopify-Access-Token": process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
-//        "Content-Type": "application/json",
-//      },
-//      data: req.body[0],
-//    };
-//    //-----------------------------------------------------------------------------------------------
-
-//    axios(config)
-//      .then((response) => {
-//        customerId = response.data.customer.id;
-//        //console.log(response.data.customer.id);
-//        var config1 = {
-//          method: "post",
-//          url: `https://jashan-dev-3.myshopify.com/admin/api/2022-04/customers/${customerId}/account_activation_url.json`,
-//          headers: {
-//            "X-Shopify-Access-Token": process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
-//            "Content-Type": "application/json",
-//          },
-//        };
-//        //-----------------------------------------------------------------------------------------------
-
-//        axios(config1).then((response) => {
-//          console.log(response.data.account_activation_url);
-//          const account_activation_urlToken = getAccountActivationUrl(
-//            response.data.account_activation_url
-//          );
-//          //console.log(account_activation_urlToken);
-
-//          //-----------------------------------------------------------------------------------------------
-//          let formBody = new FormData();
-//          formBody.append("form_type", "activate_customer_password");
-//          formBody.append("utf8", "✓");
-//          formBody.append("customer[password]", password);
-//          formBody.append("customer[password_confirmation]", password);
-//          formBody.append("token", account_activation_urlToken);
-//          formBody.append("id", customerId);
-//          var config = {
-//            method: "post",
-//            url: `https://jashan-dev-3.myshopify.com/admin/api/2022-04/customers/${customerId}/activate_account.json`,
-//            data: formBody,
-//          };
-//          axios(config)
-//            .then((response) => {
-//              //console.log(response.data);
-//              res.send("Successfully Signed-Up");
-//            })
-//            .catch((error) => {
-//              //console.log(error);
-//            });
-//        });
-//      })
-//      .catch((error) => {
-//        res.status(400).send({
-//          message: error.response.data.errors,
-//        });
-//        //console.log(error.response.data.errors);
-//      });
-//  }
-//});
-//app.post("/activateUrl", (req, res) => {
-//  console.log(customerId);
-//  var config = {
-//    method: "post",
-//    url: `https://jashan-dev-3.myshopify.com/admin/api/2022-04/customers/${customerId}/account_activation_url.json`,
-//    headers: {
-//      "X-Shopify-Access-Token": process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
-//      "Content-Type": "application/json",
-//    },
-//  };
-//  axios(config)
-//    .then((response) => {
-//      console.log(response);
-//      //accountActivateUrl = response
-//    })
-//    .catch((error) => {
-//      //res.status(400).send({
-//      //  message: error,
-//      //});
-//      //console.log(error.response.data.errors);
-//    });
-//  //res.redirect("/account-activate");
-//});
-//app.post("/account-activate", (req, res) => {
-//  let formBody = FormData();
-//  formBody.append(form_type, "activate_customer_password");
-//  formBody.append(utf8, '✓');
-//  formBody.append(customer[password], password);
-//  formBody.append(customer[password_confirmation], password);
-//  formBody.append(token, token);
-//  formBody.append(id, customerId);
-//  if (req.body) {
-//    var config = {
-//      method: "post",
-//      url: `https://jashan-dev-3.myshopify.com/account/activate`,
-//      headers: {
-//        "X-Shopify-Access-Token": process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
-//        "Content-Type": "application/json",
-//      },
-//      data: formBody,
-//    };
-//    axios(config)
-//      .then((response) => {
-//        console.log(response.data);
-//        //res.send("Successfully Signed-Up");
-//        res.redirect("/account-activate");
-//      })
-//      .catch((error) => {
-//        res.status(400).send({
-//          message: error.response.data.errors,
-//        });
-//        //console.log(error.response.data.errors);
-//      });
-//  }
-//});
-
-//app.post("/sign-in", (req, res) => {
-//  console.log(req.body);
-//  if (req.body) {
-//    var config = {
-//      method: "get",
-//      url: `https://jashan-dev-3.myshopify.com/account/login`,
-//      headers: {
-//        "X-Shopify-Access-Token": process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
-//      },
-//      data: req.body,
-//    };
-//    axios(config)
-//      .then((response) => {
-//        console.log(response.data);
-//        res.send("Successfully Signed-Up");
-//      })
-//      .catch((error) => {
-//        res.status(400).send({
-//          message: error.response.data.errors,
-//        });
-//        console.log(error.response.data.errors);
-//      });
-//  }
-//});
-//app.post("/create-customer1", async (req, res) => {
-//  console.log("start");
-//  var config = {
-//    method: "post",
-//    url: "https://jashan-dev-3.myshopify.com/admin/api/2022-04/customers.json",
-//    headers: {
-//      "X-Shopify-Access-Token": process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
-//      "Content-Type": "application/json",
-//    },
-//    data: customer,
-//  };
-//  axios(config)
-//    .then(function (response) {
-//      console.log(JSON.stringify(response.data));
-//      console.log("data");
-//    })
-//    .catch(function (error) {
-//      console.log(error.response);
-//      console.log("error");
-//    });
-//});
-
-// listening
+app.post("/profile", (req, res) => {
+  var data = JSON.stringify({
+    query: `{customer(customerAccessToken: "${req.body.accessToken}") {
+        id
+        displayName
+        firstName
+        lastName
+        acceptsMarketing
+        email
+        phone
+        createdAt
+        defaultAddress{
+          zip
+          city
+          phone
+          country
+        }
+        orders(first:250){
+          edges{
+            node{
+              id
+              name
+              lineItems(first:250){
+                edges{node{
+                  title
+                  originalTotalPrice{
+                    amount
+                  }
+                  variant{
+                    id
+                    image{
+                      url}}}}}}}}}}`,
+  });
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+  axios(config)
+    .then(function (response) {
+      res.send(response.data.data.customer);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
 
 app.listen(4000, (err) => {
   if (err) console.log(err);

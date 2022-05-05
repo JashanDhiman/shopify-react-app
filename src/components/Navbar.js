@@ -15,13 +15,21 @@ const Navbar = () => {
       </div>
       <div className="nav-bar-inner">
         <ul>
-          <li>Seeds</li>
+          {/*<li>Seeds</li>
           <li>Microgreens</li>
           <li>kits & gifts</li>
           <li>Garden suplies</li>
-          <li>Discover</li>
+          <li>Discover</li>*/}
+          <li>HomePage</li>
           {accessToken ? (
-            <li onClick={signOut}>Sign-Out</li>
+            <>
+              <li>
+                <Link to="/profile" style={{ color: "white" }}>
+                  DashBoard
+                </Link>
+              </li>
+              <li onClick={signOut}>Sign-Out</li>
+            </>
           ) : (
             <li>
               <Link to="/" style={{ color: "white" }}>
