@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/shopify-react-app/static/css/main.bf7944eb.css",
+    "main.js": "/shopify-react-app/static/js/main.f729e980.js",
+    "static/media/leafLogo.webp": "/shopify-react-app/static/media/leafLogo.5cf6aab4da0a3adc49e6.webp",
+    "index.html": "/shopify-react-app/index.html",
+    "static/media/loader.svg": "/shopify-react-app/static/media/loader.c63f4d6b737c69a96887a055f1c867f3.svg",
+    "main.bf7944eb.css.map": "/shopify-react-app/static/css/main.bf7944eb.css.map",
+    "main.f729e980.js.map": "/shopify-react-app/static/js/main.f729e980.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bf7944eb.css",
+    "static/js/main.f729e980.js"
+  ]
+}
