@@ -95,7 +95,7 @@ const Cart = () => {
                 <div>
                   <p>Sub-Total - {cart.estimatedCost.totalAmount.amount}</p>
                 </div>
-                <a href={cart.webUrl}>
+                <a href={cart.checkoutUrl}>
                   <button>CHECK-OUT</button>
                 </a>
               </div>

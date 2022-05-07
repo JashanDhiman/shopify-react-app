@@ -106,7 +106,10 @@ const ShopProvider = ({ children }) => {
         localStorage.setItem("ATG_AccessToken", JSON.stringify(response.data));
       })
       .catch((error) => {
-        console.log(error.response.data.message);
+        navigate(`/`);
+        localStorage.removeItem("ATG_AccessToken");
+        localStorage.removeItem("ATG_CartId");
+        //console.log(error.response.data.message);
       });
   };
   const signOut = async () => {
@@ -140,9 +143,8 @@ const ShopProvider = ({ children }) => {
         setIsUserProfile(response.data);
       })
       .catch((error) => {
-        navigate(`/homepage`);
+        navigate(`/`);
         //console.log(error.response.data.message);
-        alert(error);
       });
   };
   //-----------------------------Proctucts fetch Functions-----------------------

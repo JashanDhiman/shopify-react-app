@@ -492,7 +492,7 @@ app.post("/createcart", (req, res) => {
     var data = JSON.stringify({
       query: `mutation cartCreate($input: CartInput) {
         cartCreate(input: $input) {
-          cart {
+          cart {checkoutUrl
             id}
           userErrors {
             message}}} `,
@@ -546,6 +546,7 @@ app.post("/fetchcart", (req, res) => {
             totalAmount{
               amount}}
           id
+          checkoutUrl
           lines(first:5) {
             edges {
               node {
@@ -594,6 +595,7 @@ app.post("/addtocart", (req, res) => {
             totalAmount{
               amount}}
           id
+          checkoutUrl
           lines(first:5) {
             edges {
               node {
@@ -655,6 +657,7 @@ app.post("/removefromcart", (req, res) => {
             totalAmount {
               amount}}
           id
+          checkoutUrl
           lines(first: 5) {
             edges {
               node {
@@ -708,6 +711,7 @@ app.post("/updatecart", (req, res) => {
             totalAmount {
               amount}}
           id
+          checkoutUrl
           lines(first: 5) {
             edges {
               node {
@@ -769,9 +773,9 @@ app.post("/profile", (req, res) => {
         phone
         createdAt
         defaultAddress{
+          address1
           zip
           city
-          phone
           country
         }
         orders(first:250){
@@ -779,6 +783,12 @@ app.post("/profile", (req, res) => {
             node{
               id
               name
+              processedAt
+              fulfillmentStatus
+              financialStatus
+              totalPriceV2{
+                amount
+              }
               lineItems(first:250){
                 edges{node{
                   title
