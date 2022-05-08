@@ -92,9 +92,9 @@ const Cart = () => {
                 })}
               </div>
               <div className="checkout-div">
-                <div>
-                  <p>Sub-Total - {cart.estimatedCost.totalAmount.amount}</p>
-                </div>
+                <p style={{ margin: "0" }}>
+                  Sub-Total - {cart.estimatedCost.totalAmount.amount}
+                </p>
                 <a href={cart.checkoutUrl}>
                   <button>CHECK-OUT</button>
                 </a>

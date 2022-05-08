@@ -20,15 +20,23 @@ const Navbar = () => {
           <li>kits & gifts</li>
           <li>Garden suplies</li>
           <li>Discover</li>*/}
-          <li>HomePage</li>
+          <li>
+            <Link to="/homepage" style={{ color: "white" }}>
+              Home
+            </Link>
+          </li>
           {accessToken ? (
             <>
               <li>
                 <Link to="/profile" style={{ color: "white" }}>
-                  DashBoard
+                  Profile
                 </Link>
               </li>
-              <li onClick={signOut}>Sign-Out</li>
+              <li onClick={signOut}>
+                <Link to="#" style={{ color: "white" }}>
+                  Sign-Out
+                </Link>
+              </li>
             </>
           ) : (
             <li>

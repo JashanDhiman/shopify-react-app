@@ -1,6 +1,9 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../../contexts/ShopContext";
+import { FaUserAlt } from "react-icons/fa";
+import { HiOutlineMail } from "react-icons/hi";
+import { RiLockPasswordFill } from "react-icons/ri";
 
 const SignUp = (props) => {
   const { signUp } = useContext(ShopContext);
@@ -49,7 +52,9 @@ const SignUp = (props) => {
         <div className="form-wrapper align-items-center">
           <div className="form sign-up">
             <div className="input-group">
-              <i className="bx bxs-user"></i>
+              <i className="icons">
+                <FaUserAlt />
+              </i>
               <input
                 required
                 name="fname"
@@ -58,7 +63,9 @@ const SignUp = (props) => {
               />
             </div>
             <div className="input-group">
-              <i className="bx bxs-user"></i>
+              <i className="icons">
+                <FaUserAlt />
+              </i>
               <input
                 required
                 name="lname"
@@ -67,11 +74,15 @@ const SignUp = (props) => {
               />
             </div>
             <div className="input-group">
-              <i className="bx bx-mail-send"></i>
+              <i className="icons">
+                <HiOutlineMail />
+              </i>
               <input required name="email" type="email" placeholder="Email" />
             </div>
             <div className="input-group">
-              <i className="bx bxs-lock-alt"></i>
+              <i className="bx bxs-lock-alt">
+                <RiLockPasswordFill />
+              </i>
               <input
                 required
                 name="password1"
@@ -82,7 +93,9 @@ const SignUp = (props) => {
               />
             </div>
             <div className="input-group">
-              <i className="bx bxs-lock-alt"></i>
+              <i className="bx bxs-lock-alt">
+                <RiLockPasswordFill />
+              </i>
               <input
                 required
                 name="password2"

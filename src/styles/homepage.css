@@ -1,7 +1,7 @@
 :root {
   --primary-color: #4ea685;
-  --secondary-color: #57b894;
-  --main-color: #205b4b;
+  --background-color: #fbf7ed;
+  --main-color: #004c3f;
   --black: #000000;
   --white: #ffffff;
   --gray: #efefef;
@@ -11,7 +11,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "Lato-Semibold";
+  font-family: Open Sans, sans-serif !important;
 }
 *,
 *::before,
@@ -32,7 +32,7 @@ a {
     var(--secondary-color) 100%,
     var(--primary-color) 0%
   );*/
-  color: #fff;
+  color: var(--background-color);
   overflow: hidden;
   display: flex;
   justify-content: space-between;
@@ -41,6 +41,7 @@ a {
   font-size: clamp(1rem, 3vw, 1.5rem);
   position: sticky;
   top: 0%;
+  height: 10vh;
 }
 .nav-bar-main ul {
   display: flex;
@@ -53,7 +54,7 @@ a {
   position: fixed;
   top: 0%;
   right: 0%;
-  min-height: 100vh;
+  height: 100vh;
   min-width: 300px;
   width: 20vw;
   background-color: #fff;
@@ -74,14 +75,15 @@ a {
   text-align: center;
   background-color: #fff;
   font-size: 1.5rem;
-  font-weight: 900;
+  font-weight: 600;
+  padding: 0.3rem;
 }
 .cart .checkout-div button {
   font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 1px;
   outline: 0;
-  border-radius: 20px;
+  border-radius: 10px;
   line-height: 2rem;
   padding: 0 30px;
   color: #fff !important;
@@ -152,7 +154,7 @@ a {
   color: #fff !important;
   border: 0;
   cursor: pointer;
-  background: #205b4b !important;
+  background: var(--main-color) !important;
   text-decoration: none;
 }
 .veg-cards .card-details-div button:hover {

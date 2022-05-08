@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../../contexts/ShopContext";
+import { HiOutlineMail } from "react-icons/hi";
+import { RiLockPasswordFill } from "react-icons/ri";
 
 const SignIn = (props) => {
   const { signIn } = useContext(ShopContext);
@@ -25,11 +27,15 @@ const SignIn = (props) => {
         <div className="form-wrapper align-items-center">
           <div className="form sign-in">
             <div className="input-group">
-              <i className="bx bxs-user"></i>
+              <i className="icons">
+                <HiOutlineMail />
+              </i>
               <input required name="email" type="email" placeholder="Email" />
             </div>
             <div className="input-group">
-              <i className="bx bxs-lock-alt"></i>
+              <i className="icons">
+                <RiLockPasswordFill />
+              </i>
               <input
                 required
                 name="password"
