@@ -57,7 +57,7 @@ a {
   height: 100vh;
   min-width: 300px;
   width: 20vw;
-  background-color: #fff;
+  background-color: var(--background-color);
   border-left: 2px solid black;
   color: #205b4b;
 }
@@ -73,7 +73,7 @@ a {
   height: 10vh;
   display: grid;
   text-align: center;
-  background-color: #fff;
+  background-color: var(--background-color);
   font-size: 1.5rem;
   font-weight: 600;
   padding: 0.3rem;
@@ -158,8 +158,9 @@ a {
   text-decoration: none;
 }
 .veg-cards .card-details-div button:hover {
-  background: var(--secondary-color) !important;
-  color: black !important;
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 76, 63, 1);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(0, 76, 63, 1);
+  box-shadow: 0px 0px 10px 1px rgba(0, 76, 63, 1);
 }
 .custom-shape-divider-top-1653280505 {
   position: absolute;

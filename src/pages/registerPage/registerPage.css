@@ -320,7 +320,7 @@ body {
     width: 100%;
     position: absolute;
     padding: 2rem;
-    background-color: var(--white);
+    background-color: var(--background-color);
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
     transform: translateY(100%);

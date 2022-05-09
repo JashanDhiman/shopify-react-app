@@ -105,12 +105,12 @@ hr {
   overflow-y: auto;
 }
 .profile-page .display-2 {
-  font-size: 2.75rem;
-  font-weight: 600;
+  font-weight: 900;
   line-height: 1.5;
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
 }
 .profile-page .form-control {
-  font-size: 1rem;
+  font-size: clamp(0.5rem, 3.5vw, 1rem);
   line-height: 1.5;
   display: block;
   width: 100%;
@@ -159,6 +159,7 @@ hr {
 }
 .profile-page .form-control-label {
   font-size: 0.875rem;
+  /*font-size: clamp(0.5rem, 3.5vw, 0.875rem);*/
   font-weight: 600;
 }
 
@@ -265,8 +266,14 @@ input:disabled {
   .orders-data:nth-child(2)
   p:first-child
   a {
-  color: var(--background-color);
-  text-decoration: underline;
+  color: var(--main-color);
+  background-color: var(--background-color);
+  padding: 0.1rem 0.5rem;
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
+  -webkit-box-shadow: 0px 1px 1px 0px var(--background-color);
+  -moz-box-shadow: 0px 1px 1px 0px var(--background-color);
+  box-shadow: 0px 1px 1px 0px var(--background-color);
 }
 .profile-page .edit-profile {
   height: 90vh;
@@ -310,4 +317,32 @@ input:disabled {
 
 .profile-page .input-group > div {
   padding: 1rem;
+}
+@media only screen and (max-width: 924px) {
+  .profile-page .user-data,
+  .profile-page .user-data .input-group,
+  .profile-page .edit-profile .input-group {
+    grid-template-columns: 1fr;
+  }
+  .profile-page {
+    padding: 0 0.8rem 0.8rem;
+  }
+  .profile-page .say-hello {
+    height: 40vh;
+  }
+  .profile-page .edit-profile,
+  .profile-page .edit-profile .my-account,
+  .profile-page .user-data .my-account,
+  .profile-page .user-data .my-orders {
+    padding: 1.2rem;
+  }
+  .profile-page .user-data .my-orders .order-detail .orders-div .orders-data p {
+    margin: 0.8rem 0.2rem;
+  }
+  .profile-page .input-group > div {
+    padding: 0.2rem;
+  }
+  .profile-page .form-control {
+    height: 2.2rem;
+  }
 }

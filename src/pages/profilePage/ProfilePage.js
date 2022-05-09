@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Loading from "../../components/Loading";
 import { ShopContext } from "../../contexts/ShopContext";
 import "./profilePage.css";
@@ -8,7 +8,9 @@ const ProfilePage = () => {
   useEffect(() => {
     userProfile();
   }, []);
+  const [editShow, setEditShow] = useState(false);
   console.log(isUserProfile);
+
   if (isUserProfile) {
     var fname = isUserProfile.firstName;
     var lname = isUserProfile.lastName;
@@ -21,11 +23,9 @@ const ProfilePage = () => {
     var joined = isUserProfile.createdAt;
     var orders = isUserProfile.orders.edges;
   }
-  const handleEdit = () => {
-    console.log("edit");
-  };
   const handleSubmit = (e) => {
     e.preventDefault();
+    setEditShow(false);
     const { firstname, lastname, email, phone, address, city, country, zip } =
       e.target;
     const userVariables = {
@@ -48,10 +48,10 @@ const ProfilePage = () => {
               Hello {fname}
             </h1>
             <p>Joined us {joined.split("T")[0]}</p>
-            <p>
+            <p style={{ textAlign: "center" }}>
               This is your profile page. You can see and edit your details here.
             </p>
-            <button onClick={() => handleEdit} className="btn btn-info">
+            <button onClick={() => setEditShow(true)} className="btn btn-info">
               Edit Profile
             </button>
           </div>
@@ -191,7 +191,10 @@ const ProfilePage = () => {
               </div>
             </div>
           </div>
-          <div className="edit-profile">
+          <div
+            className="edit-profile"
+            style={{ display: editShow ? "block" : "none" }}
+          >
             <form className="my-account" onSubmit={handleSubmit}>
               <div className="edit-header">
                 <h2>Edit Profile</h2>

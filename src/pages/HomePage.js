@@ -18,6 +18,7 @@ const HomePage = () => {
         height: "90%",
         overflow: "auto",
         width: "100%",
+        background: "#fbf7ed",
       }}
     >
       <div className="products-head">
