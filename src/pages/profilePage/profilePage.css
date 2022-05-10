@@ -12,6 +12,10 @@ hr {
   box-sizing: content-box;
   height: 0;
   background-color: var(--background-color);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 ::-webkit-scrollbar {
   width: 10px;
@@ -82,12 +86,6 @@ h5,
 h6,
 .h6 {
   font-size: 0.625rem;
-}
-hr {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  border: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 .profile-page {
   position: relative;
@@ -210,9 +208,18 @@ input:disabled {
   background-color: seashell;
 }
 .profile-page .user-data {
-  display: grid;
+  /*display: grid;
   grid-template-columns: 53% 44%;
-  grid-gap: 2rem;
+  grid-gap: 2rem;*/
+  position: relative;
+  display: flex;
+  gap: 2rem;
+}
+.profile-page .user-data .my-account {
+  width: 60%;
+}
+.profile-page .user-data .my-orders {
+  width: 40%;
 }
 .profile-page .user-data .my-account,
 .profile-page .user-data .my-orders {
@@ -221,12 +228,17 @@ input:disabled {
   padding: 2rem;
   border-radius: 20px;
   max-width: 900px;
+  position: sticky;
+  top: 0;
+  bottom: 0;
+  height: min-content;
 }
 .profile-page .user-data .input-group {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   color: var(--background-color) !important;
   grid-column-gap: 2rem;
+  margin: 0;
 }
 .profile-page .user-data .my-account h2,
 .profile-page .user-data .my-orders h2 {
@@ -244,8 +256,7 @@ input:disabled {
   flex-direction: row;
   justify-content: space-between;
   border-bottom: 1px solid var(--background-color);
-  margin-bottom: 2rem;
-  padding-bottom: 2rem;
+  padding: 2rem 0;
 }
 .profile-page
   .user-data
@@ -319,7 +330,13 @@ input:disabled {
   padding: 1rem;
 }
 @media only screen and (max-width: 924px) {
-  .profile-page .user-data,
+  .profile-page .user-data {
+    flex-direction: column;
+  }
+  .profile-page .user-data .my-account,
+  .profile-page .user-data .my-orders {
+    position: relative;
+  }
   .profile-page .user-data .input-group,
   .profile-page .edit-profile .input-group {
     grid-template-columns: 1fr;
@@ -335,6 +352,7 @@ input:disabled {
   .profile-page .user-data .my-account,
   .profile-page .user-data .my-orders {
     padding: 1.2rem;
+    width: 100%;
   }
   .profile-page .user-data .my-orders .order-detail .orders-div .orders-data p {
     margin: 0.8rem 0.2rem;

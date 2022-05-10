@@ -63,103 +63,46 @@ const ProfilePage = () => {
                 <h3>User Information</h3>
                 <div className="general-data input-group">
                   <div>
-                    <label className="form-control-label" htmlFor="email">
-                      Email Address
-                    </label>
-                    <input
-                      className="form-control form-control-alternative"
-                      type="text"
-                      id="email"
-                      defaultValue={email ? email : "Null"}
-                    />
+                    <label className="form-control-label">Email Address</label>
+                    <p>{email ? email : "--"}</p>
                   </div>
                   <div>
-                    <label className="form-control-label" htmlFor="phone">
-                      Phone no
-                    </label>
-                    <input
-                      className="form-control form-control-alternative"
-                      type="text"
-                      id="phone"
-                      defaultValue={phone ? phone : "Null"}
-                    />
+                    <label className="form-control-label">Phone no</label>
+                    <p>{phone ? phone : "--"}</p>
                   </div>
                   <div>
-                    <label className="form-control-label" htmlFor="firstname">
-                      First Name
-                    </label>
-                    <input
-                      className="form-control form-control-alternative"
-                      type="text"
-                      id="firstname"
-                      defaultValue={fname ? fname : "Null"}
-                    />
+                    <label className="form-control-label">First Name</label>
+                    <p>{fname ? fname : "--"}</p>
                   </div>
                   <div>
-                    <label className="form-control-label" htmlFor="lastname">
-                      Last Name
-                    </label>
-                    <input
-                      className="form-control form-control-alternative"
-                      type="text"
-                      id="lastname"
-                      defaultValue={lname ? lname : "Null"}
-                    />
+                    <label className="form-control-label">Last Name</label>
+                    <p>{lname ? lname : "--"}</p>
                   </div>
                 </div>
                 <hr></hr>
                 <h3>Address Information</h3>
                 <div className="contact-info input-group">
                   <div>
-                    <label className="form-control-label" htmlFor="address">
-                      Address
-                    </label>
-                    <input
-                      className="form-control form-control-alternative"
-                      type="text"
-                      id="address"
-                      defaultValue={address ? address : "Null"}
-                    />
+                    <label className="form-control-label">Address</label>
+                    <p>{address ? address : "--"}</p>
                   </div>
                   <div>
-                    <label className="form-control-label" htmlFor="city">
-                      City
-                    </label>
-                    <input
-                      className="form-control form-control-alternative"
-                      type="text"
-                      id="city"
-                      defaultValue={city ? city : "Null"}
-                    />
+                    <label className="form-control-label">City</label>
+                    <p>{city ? city : "--"}</p>
                   </div>
                   <div>
-                    <label className="form-control-label" htmlFor="country">
-                      Country
-                    </label>
-                    <input
-                      className="form-control form-control-alternative"
-                      type="text"
-                      id="country"
-                      defaultValue={country ? country : "Null"}
-                    />
+                    <label className="form-control-label">Country</label>
+                    <p>{country ? country : "--"}</p>
                   </div>
                   <div>
-                    <label className="form-control-label" htmlFor="zip">
-                      Zip
-                    </label>
-                    <input
-                      className="form-control form-control-alternative"
-                      type="text"
-                      id="zip"
-                      defaultValue={zip ? zip : "Null"}
-                    />
+                    <label className="form-control-label">Zip</label>
+                    <p>{zip ? zip : "--"}</p>
                   </div>
                 </div>
               </div>
             </div>
             <div className="my-orders">
               <h2>My Orders</h2>
-              <br></br>
               <div className="order-detail">
                 {orders.map((order, index) => {
                   const orderName = order.node.name;
@@ -212,7 +155,7 @@ const ProfilePage = () => {
                       className="form-control form-control-alternative"
                       type="text"
                       id="email"
-                      defaultValue={email ? email : "Null"}
+                      defaultValue={email ? email : "--"}
                     />
                   </div>
                   <div>
@@ -223,7 +166,7 @@ const ProfilePage = () => {
                       className="form-control form-control-alternative"
                       type="text"
                       id="phone"
-                      defaultValue={phone ? phone : "Null"}
+                      defaultValue={phone ? phone : "--"}
                     />
                   </div>
                   <div>
@@ -234,7 +177,7 @@ const ProfilePage = () => {
                       className="form-control form-control-alternative"
                       type="text"
                       id="firstname"
-                      defaultValue={fname ? fname : "Null"}
+                      defaultValue={fname ? fname : "--"}
                     />
                   </div>
                   <div>
@@ -245,7 +188,7 @@ const ProfilePage = () => {
                       className="form-control form-control-alternative"
                       type="text"
                       id="lastname"
-                      defaultValue={lname ? lname : "Null"}
+                      defaultValue={lname ? lname : "--"}
                     />
                   </div>
                 </div>
@@ -260,7 +203,7 @@ const ProfilePage = () => {
                       className="form-control form-control-alternative"
                       type="text"
                       id="address"
-                      defaultValue={address ? address : "Null"}
+                      defaultValue={address ? address : "--"}
                     />
                   </div>
                   <div>
@@ -271,7 +214,7 @@ const ProfilePage = () => {
                       className="form-control form-control-alternative"
                       type="text"
                       id="city"
-                      defaultValue={city ? city : "Null"}
+                      defaultValue={city ? city : "--"}
                     />
                   </div>
                   <div>
@@ -282,7 +225,7 @@ const ProfilePage = () => {
                       className="form-control form-control-alternative"
                       type="text"
                       id="country"
-                      defaultValue={country ? country : "Null"}
+                      defaultValue={country ? country : "--"}
                     />
                   </div>
                   <div>
@@ -293,7 +236,7 @@ const ProfilePage = () => {
                       className="form-control form-control-alternative"
                       type="text"
                       id="zip"
-                      defaultValue={zip ? zip : "Null"}
+                      defaultValue={zip ? zip : "--"}
                     />
                   </div>
                 </div>
