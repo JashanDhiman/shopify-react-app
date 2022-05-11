@@ -6,7 +6,7 @@ const ShopContext = React.createContext();
 
 const ShopProvider = ({ children }) => {
   const [productsList, setProductsList] = useState(false);
-  const [editShow, setEditShow] = useState(false);
+  const [editShow, setEditShow] = useState(true);
   const [editAddressData, setEditAddressData] = useState(false);
   const navigate = useNavigate();
   //const [checkoutId, setCheckoutId] = useState("");
@@ -195,7 +195,6 @@ const ShopProvider = ({ children }) => {
     };
     await axios(config)
       .then((response) => {
-        console.log(response.data.value);
         localStorage.setItem("ATG_CartId", JSON.stringify(response.data.value));
         setCartId(response.data.value);
         fetchCart();

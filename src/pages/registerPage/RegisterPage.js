@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./registerPage.css";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem("ATG_AccessToken")) {
+      navigate("/homepage");
+    }
+  }, []);
+
   let container;
   setTimeout(() => {
     container = document.getElementById("container");
@@ -13,7 +21,6 @@ const RegisterPage = () => {
     container.classList.toggle("sign-in");
     container.classList.toggle("sign-up");
   };
-
   return (
     <div id="container" className={`container`}>
       <div className="row">

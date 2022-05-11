@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import CountrySelector from "../../components/CountrySelector";
 import { ShopContext } from "../../contexts/ShopContext";
 
 const Input = (e) => {
@@ -8,12 +9,16 @@ const Input = (e) => {
       <label className="form-control-label" htmlFor={id}>
         {label}
       </label>
-      <input
-        className="form-control form-control-alternative"
-        type="text"
-        id={id}
-        defaultValue={data}
-      />
+      {id == "phone" ? (
+        <CountrySelector />
+      ) : (
+        <input
+          className="form-control form-control-alternative"
+          type="text"
+          id={id}
+          defaultValue={data}
+        />
+      )}
     </div>
   );
 };
@@ -33,12 +38,6 @@ const EditUserInfo = () => {
   var fname = isUserProfile.firstName;
   var lname = isUserProfile.lastName;
   var phone = isUserProfile.phone;
-  //var addresses = isUserProfile.addresses.edges;
-  //var addressId = isUserProfile.addresses.edges[0].node.id;
-  //var address = isUserProfile.addresses.edges[0].node.address1;
-  //var city = isUserProfile.addresses.edges[0].node.city;
-  //var country = isUserProfile.addresses.edges[0].node.country;
-  //var zip = isUserProfile.addresses.edges[0].node.zip;
   const userInfoList = [
     { id: "firstname", label: "First Name", data: fname },
     { id: "lastname", label: "Last Name", data: lname },

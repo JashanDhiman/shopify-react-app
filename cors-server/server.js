@@ -826,6 +826,64 @@ app.post("/profile", (req, res) => {
       console.log(error);
     });
 });
+app.post("/update-profile", (req, res) => {
+  var data = JSON.stringify({
+    query: `mutation customerUpdate($customer: CustomerUpdateInput!, $customerAccessToken: String!) {
+      customerUpdate(customer: $customer, customerAccessToken: $customerAccessToken) {
+        customer {
+          id
+          firstName
+          lastName
+          phone
+          addresses(first: 20) {
+            edges {
+              node {
+                id
+                address1
+                zip
+                city
+                country
+                firstName
+                lastName
+                phone
+              }
+            }
+          }
+        }
+        customerUserErrors {
+          message
+        }
+      }
+    }
+    `,
+    variables: {
+      customer: {
+        firstName: body.firstname,
+        lastName: body.lastname,
+        phone: body.phone,
+      },
+      customerAccessToken: body.accessToken,
+    },
+  });
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+  axios(config)
+    .then(function (response) {
+      console.log(response.data);
+      res.send(response.data.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
 app.post("/update-address", (req, res) => {
   var data = JSON.stringify({
     query: `mutation customerAddressUpdate($address: MailingAddressInput!, $customerAccessToken: String!, $id: ID!) {
