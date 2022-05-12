@@ -6,46 +6,60 @@ import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { MdAddCircle } from "react-icons/md";
 import EditUserInfo from "./EditUserInfo";
 import EditAddress from "./EditAddress";
+import AddAddress from "./AddAddress";
 
+const Input = (e) => {
+  const { label, data } = e;
+  return (
+    <>
+      <label className="form-control-label">{label}</label>
+      <p>{data ? data : "--"}</p>
+    </>
+  );
+};
 const ProfilePage = () => {
   const {
     userProfile,
     isUserProfile,
+    isLoading,
     setEditShow,
     deleteAddress,
     setEditAddressData,
+    addAddress,
   } = useContext(ShopContext);
   useEffect(() => {
     userProfile();
   }, []);
   if (isUserProfile) {
-    var fname = isUserProfile.firstName;
-    var lname = isUserProfile.lastName;
-    var email = isUserProfile.email;
-    var phone = isUserProfile.phone;
-    var addresses = isUserProfile.addresses.edges;
-    var joined = isUserProfile.createdAt;
-    var orders = isUserProfile.orders.edges;
-  }
-  const userInfoList = [
-    { label: "Email Address", data: email },
-    { label: "First Name", data: fname },
-    { label: "Last Name", data: lname },
-    { label: "Phone no", data: phone },
-  ];
+    const fname = isUserProfile.firstName;
+    const lname = isUserProfile.lastName;
+    const email = isUserProfile.email;
+    const phone = isUserProfile.phone;
+    const addresses = isUserProfile.addresses.edges;
+    const joined = isUserProfile.createdAt;
+    const orders = isUserProfile.orders.edges;
+    const userInfoList = [
+      { label: "Email Address", data: email },
+      { label: "First Name", data: fname },
+      { label: "Last Name", data: lname },
+      { label: "Phone no", data: phone },
+    ];
 
-  const Input = (e) => {
-    const { label, data } = e;
     return (
       <>
-        <label className="form-control-label">{label}</label>
-        <p>{data ? data : "--"}</p>
-      </>
-    );
-  };
-  return (
-    <>
-      {isUserProfile ? (
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: "10",
+            //background:
+          }}
+        >
+          {/*<Loading />*/}
+          {isLoading && <Loading />}
+        </div>
         <div className="profile-page">
           <div className="say-hello">
             <h1 className="display-2" style={{ textTransform: "capitalize" }}>
@@ -75,15 +89,14 @@ const ProfilePage = () => {
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   <h3>Address Information</h3>
-                  <i className="icons">
+                  <i className="icons" onClick={() => addAddress(true)}>
                     <MdAddCircle />
                   </i>
                 </div>
                 <div>
                   {addresses.length > 0 ? (
                     addresses.map((address, index) => {
-                      const { addressId, address1, city, country, zip } =
-                        address.node;
+                      const { id, address1, city, country, zip } = address.node;
                       const userAddressList = [
                         { label: "Address", data: address1 },
                         { label: "City", data: city },
@@ -107,7 +120,7 @@ const ProfilePage = () => {
                               <i
                                 title="Delete"
                                 className="icons"
-                                onClick={() => deleteAddress(addressId)}
+                                onClick={() => deleteAddress(id)}
                               >
                                 <AiFillDelete />
                               </i>
@@ -123,7 +136,7 @@ const ProfilePage = () => {
                       );
                     })
                   ) : (
-                    <button>Add Address</button>
+                    <span>You have no Address yet.</span>
                   )}
                 </div>
               </div>
@@ -165,12 +178,12 @@ const ProfilePage = () => {
           </div>
           <EditUserInfo />
           <EditAddress />
+          <AddAddress />
         </div>
-      ) : (
-        <Loading />
-      )}
-    </>
-  );
+      </>
+    );
+  }
+  return <Loading />;
 };
 
 export default ProfilePage;

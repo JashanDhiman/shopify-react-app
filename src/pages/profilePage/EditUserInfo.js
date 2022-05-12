@@ -9,8 +9,8 @@ const Input = (e) => {
       <label className="form-control-label" htmlFor={id}>
         {label}
       </label>
-      {id == "phone" ? (
-        <CountrySelector />
+      {id === "phone" ? (
+        <CountrySelector value={data} />
       ) : (
         <input
           className="form-control form-control-alternative"
@@ -24,16 +24,18 @@ const Input = (e) => {
 };
 
 const EditUserInfo = () => {
-  const { isUserProfile, editShow, setEditShow } = useContext(ShopContext);
+  const { isUserProfile, editShow, setEditShow, accessToken, updateProfile } =
+    useContext(ShopContext);
   const handleSubmit = (e) => {
     e.preventDefault();
-    setEditShow(false);
-    const { firstname, lastname, phone } = e.target;
-    const userVariables = {
-      phone: phone.value,
+    const { firstname, lastname } = e.target;
+    const phone = `+${e.target[3].value.replace(/\D/g, "")}`;
+    updateProfile({
+      phone: phone,
       lastName: lastname.value,
       firstName: firstname.value,
-    };
+      accessToken: accessToken.accessToken,
+    });
   };
   var fname = isUserProfile.firstName;
   var lname = isUserProfile.lastName;

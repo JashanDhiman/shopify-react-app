@@ -9,7 +9,7 @@ const Input = (e) => {
       <label className="form-control-label" htmlFor={id}>
         {label}
       </label>
-      {id == "phone" ? (
+      {id === "phone" ? (
         <CountrySelector value={data} />
       ) : (
         <input
@@ -23,8 +23,8 @@ const Input = (e) => {
   );
 };
 
-const EditAddress = () => {
-  const { editAddressData, setEditAddressData } = useContext(ShopContext);
+const AddAddress = () => {
+  const { editAddressData, setShowAddress } = useContext(ShopContext);
 
   if (editAddressData) {
     const { id, firstname, lastname, phone, address1, city, country, zip } =
@@ -53,7 +53,7 @@ const EditAddress = () => {
         zip: zip.value,
         addressId: id,
       };
-      setEditAddressData(false);
+      setShowAddress(false);
     };
     return (
       <div className="edit-profile">
@@ -80,4 +80,4 @@ const EditAddress = () => {
   return null;
 };
 
-export default EditAddress;
+export default AddAddress;

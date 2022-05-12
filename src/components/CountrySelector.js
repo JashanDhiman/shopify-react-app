@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
-function CountrySelector() {
-  const [code, setCode] = useState("");
+function CountrySelector(props) {
+  const [code, setCode] = useState(props.value);
   return (
     <PhoneInput
       inputStyle={{

@@ -6,8 +6,9 @@ const ShopContext = React.createContext();
 
 const ShopProvider = ({ children }) => {
   const [productsList, setProductsList] = useState(false);
-  const [editShow, setEditShow] = useState(true);
+  const [editShow, setEditShow] = useState(false);
   const [editAddressData, setEditAddressData] = useState(false);
+  const [showAddress, setShowAddress] = useState(false);
   const navigate = useNavigate();
   //const [checkoutId, setCheckoutId] = useState("");
   //const [checkout, setCheckout] = useState("");
@@ -147,6 +148,54 @@ const ShopProvider = ({ children }) => {
       .catch((error) => {
         navigate(`/`);
         //console.log(error.response.data.message);
+      });
+  };
+  const updateProfile = async (data) => {
+    var config = {
+      method: "post",
+      url: `${domain}:4000/update-profile`,
+      data,
+    };
+    await axios(config)
+      .then((response) => {
+        setEditShow(false);
+        console.log(response.data);
+        setIsUserProfile(response.data);
+      })
+      .catch((error) => {
+        alert(error.response.data[0].message);
+      });
+  };
+  const addAddress = async (data) => {
+    var config = {
+      method: "post",
+      url: `${domain}:4000/add-address`,
+      data,
+    };
+    await axios(config)
+      .then((response) => {
+        console.log(response);
+        //userProfile();
+        //setShowAddress(false);
+      })
+      .catch((error) => {
+        alert(error.response.data[0].message);
+      });
+  };
+  const deleteAddress = async (id) => {
+    setIsLoading(true);
+    var config = {
+      method: "post",
+      url: `${domain}:4000/delete-address`,
+      data: { addressId: id, accessToken: accessToken.accessToken },
+    };
+    await axios(config)
+      .then((response) => {
+        userProfile();
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        alert(error.response.data[0].message);
       });
   };
   //-----------------------------Proctucts fetch Functions-----------------------
@@ -353,6 +402,11 @@ const ShopProvider = ({ children }) => {
         isUserProfile,
         editShow,
         editAddressData,
+        showAddress,
+        setShowAddress,
+        addAddress,
+        deleteAddress,
+        updateProfile,
         setEditAddressData,
         setEditShow,
         userProfile,

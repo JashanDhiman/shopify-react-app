@@ -287,46 +287,9 @@ app.post("/signout", (req, res) => {
       console.log(error);
     });
 });
-app.post("/fetchUserCartId", (req, res) => {
-  var data = JSON.stringify({
-    query: `{customer(customerAccessToken:"${req.body.accessToken.accessToken}") {id}}`,
-  });
-  var config = {
-    method: "post",
-    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
-    headers: {
-      "X-Shopify-Storefront-Access-Token":
-        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
-      "Content-Type": "application/json",
-    },
-    data: data,
-  };
-  axios(config)
-    .then(function (response) {
-      var data = JSON.stringify({
-        query: `{customer(id:"${response.data.data.customer.id}") {
-            metafield(key:"cartId",namespace:"instructions"){
-              id
-              value}}}`,
-      });
-      var config = {
-        method: "post",
-        url: "https://jashan-dev-3.myshopify.com/admin/api/2022-04/graphql.json",
-        headers: {
-          "X-Shopify-Access-Token":
-            process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
-          "Content-Type": "application/json",
-        },
-        data: data,
-      };
-      axios(config).then(function (response) {
-        res.send(response.data.data.customer.metafield);
-      });
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-});
+
+//-----------------------------cart and products-----------
+
 app.get("/products", (req, res) => {
   var data = JSON.stringify({
     query: ` {
@@ -393,6 +356,46 @@ app.post("/product", (req, res) => {
   axios(config)
     .then(function (response) {
       res.send(response.data.data.product);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
+app.post("/fetchUserCartId", (req, res) => {
+  var data = JSON.stringify({
+    query: `{customer(customerAccessToken:"${req.body.accessToken.accessToken}") {id}}`,
+  });
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+  axios(config)
+    .then(function (response) {
+      var data = JSON.stringify({
+        query: `{customer(id:"${response.data.data.customer.id}") {
+            metafield(key:"cartId",namespace:"instructions"){
+              id
+              value}}}`,
+      });
+      var config = {
+        method: "post",
+        url: "https://jashan-dev-3.myshopify.com/admin/api/2022-04/graphql.json",
+        headers: {
+          "X-Shopify-Access-Token":
+            process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+      axios(config).then(function (response) {
+        res.send(response.data.data.customer.metafield);
+      });
     })
     .catch(function (error) {
       console.log(error);
@@ -487,6 +490,7 @@ app.post("/product", (req, res) => {
 //      console.log(error);
 //    });
 //});
+
 app.post("/createcart", (req, res) => {
   if (req.body.accessToken) {
     var data = JSON.stringify({
@@ -761,14 +765,15 @@ app.post("/updatecart", (req, res) => {
       console.log(error);
     });
 });
+
+//-------------------user profile, address and orders-------------
+
 app.post("/profile", (req, res) => {
   var data = JSON.stringify({
     query: `{customer(customerAccessToken: "${req.body.accessToken}") {
         id
-        displayName
         firstName
         lastName
-        acceptsMarketing
         email
         phone
         createdAt
@@ -834,7 +839,9 @@ app.post("/update-profile", (req, res) => {
           id
           firstName
           lastName
+          email
           phone
+          createdAt
           addresses(first: 20) {
             edges {
               node {
@@ -849,20 +856,51 @@ app.post("/update-profile", (req, res) => {
               }
             }
           }
+          orders(first: 250) {
+            edges {
+              node {
+                id
+                name
+                processedAt
+                fulfillmentStatus
+                financialStatus
+                totalPriceV2 {
+                  amount
+                }
+                lineItems(first: 250) {
+                  edges {
+                    node {
+                      title
+                      originalTotalPrice {
+                        amount
+                      }
+                      variant {
+                        id
+                        image {
+                          url
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
         customerUserErrors {
           message
         }
       }
     }
+    
     `,
     variables: {
       customer: {
-        firstName: body.firstname,
-        lastName: body.lastname,
-        phone: body.phone,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        phone: req.body.phone,
       },
-      customerAccessToken: body.accessToken,
+      customerAccessToken: req.body.accessToken,
     },
   });
   var config = {
@@ -877,43 +915,78 @@ app.post("/update-profile", (req, res) => {
   };
   axios(config)
     .then(function (response) {
-      console.log(response.data);
-      res.send(response.data.data);
+      if (response.data.data.customerUpdate.customerUserErrors.length > 0) {
+        res
+          .status(400)
+          .send(response.data.data.customerUpdate.customerUserErrors);
+      } else {
+        res.send(response.data.data.customerUpdate.customer);
+      }
     })
     .catch(function (error) {
       console.log(error);
     });
 });
-app.post("/update-address", (req, res) => {
+app.post("/add-address", (req, res) => {
   var data = JSON.stringify({
-    query: `mutation customerAddressUpdate($address: MailingAddressInput!, $customerAccessToken: String!, $id: ID!) {
-      customerAddressUpdate(address: $address, customerAccessToken: $customerAccessToken, id: $id) {
+    query: `mutation customerAddressCreate($address: MailingAddressInput!, $customerAccessToken: String!) {
+      customerAddressCreate(address: $address, customerAccessToken: $customerAccessToken) {
         customerAddress {
+          id
+          zip
           firstName
           lastName
           phone
           address1
           city
           country
-          zip
         }
+        customerUserErrors {
+          message}}}`,
+    variables: {
+      address: {
+        address1: req.body.address1,
+        city: req.body.city,
+        country: req.body.country,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        phone: req.body.phone,
+        zip: req.body.zip,
+      },
+      customerAccessToken: req.body.accessToken,
+    },
+  });
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+  axios(config)
+    .then(function (response) {
+      console.log(response.data.data);
+      res.send(response.data.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
+app.post("/delete-address", (req, res) => {
+  var data = JSON.stringify({
+    query: `mutation customerAddressDelete($customerAccessToken: String!, $id: ID!) {
+      customerAddressDelete(customerAccessToken: $customerAccessToken, id: $id) {
         customerUserErrors {
           message
         }
-      }
-    }`,
+        deletedCustomerAddressId
+      }}`,
     variables: {
-      address: {
-        city: body.city,
-        country: body.country,
-        address1: body.address1,
-        zip: body.zip,
-        firstName: body.firstName,
-        lastName: body.lastName,
-        phone: body.phone,
-      },
-      customerAccessToken: body.accessToken,
-      id: body.addressId,
+      customerAccessToken: req.body.accessToken,
+      id: req.body.addressId,
     },
   });
   var config = {
@@ -934,6 +1007,56 @@ app.post("/update-address", (req, res) => {
       console.log(error);
     });
 });
+//app.post("/update-address", (req, res) => {
+//  var data = JSON.stringify({
+//    query: `mutation customerAddressUpdate($address: MailingAddressInput!, $customerAccessToken: String!, $id: ID!) {
+//      customerAddressUpdate(address: $address, customerAccessToken: $customerAccessToken, id: $id) {
+//        customerAddress {
+//          firstName
+//          lastName
+//          phone
+//          address1
+//          city
+//          country
+//          zip
+//        }
+//        customerUserErrors {
+//          message
+//        }
+//      }
+//    }`,
+//    variables: {
+//      address: {
+//        city: body.city,
+//        country: body.country,
+//        address1: body.address1,
+//        zip: body.zip,
+//        firstName: body.firstName,
+//        lastName: body.lastName,
+//        phone: body.phone,
+//      },
+//      customerAccessToken: body.accessToken,
+//      id: body.addressId,
+//    },
+//  });
+//  var config = {
+//    method: "post",
+//    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
+//    headers: {
+//      "X-Shopify-Storefront-Access-Token":
+//        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
+//      "Content-Type": "application/json",
+//    },
+//    data: data,
+//  };
+//  axios(config)
+//    .then(function (response) {
+//      res.send(response.data.data);
+//    })
+//    .catch(function (error) {
+//      console.log(error);
+//    });
+//});
 app.listen(4000, (err) => {
   if (err) console.log(err);
   console.log(`server is running at 4000`);
