@@ -25,7 +25,7 @@ const ProfilePage = () => {
     setEditShow,
     deleteAddress,
     setEditAddressData,
-    addAddress,
+    setShowAddress,
   } = useContext(ShopContext);
   useEffect(() => {
     userProfile();
@@ -89,7 +89,11 @@ const ProfilePage = () => {
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   <h3>Address Information</h3>
-                  <i className="icons" onClick={() => addAddress(true)}>
+                  <i
+                    className="icons"
+                    onClick={() => setShowAddress(true)}
+                    title="Create"
+                  >
                     <MdAddCircle />
                   </i>
                 </div>

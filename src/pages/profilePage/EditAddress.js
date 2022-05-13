@@ -1,38 +1,17 @@
 import React, { useContext } from "react";
-import CountrySelector from "../../components/CountrySelector";
+import InputField from "../../components/InputField";
 import { ShopContext } from "../../contexts/ShopContext";
 
-const Input = (e) => {
-  const { id, label, data } = e;
-  return (
-    <div>
-      <label className="form-control-label" htmlFor={id}>
-        {label}
-      </label>
-      {id == "phone" ? (
-        <CountrySelector value={data} />
-      ) : (
-        <input
-          className="form-control form-control-alternative"
-          type="text"
-          id={id}
-          defaultValue={data}
-        />
-      )}
-    </div>
-  );
-};
-
 const EditAddress = () => {
-  const { editAddressData, setEditAddressData } = useContext(ShopContext);
+  const { editAddressData, editAddress } = useContext(ShopContext);
 
   if (editAddressData) {
-    const { id, firstname, lastname, phone, address1, city, country, zip } =
+    const { id, firstName, lastName, phone, address1, city, country, zip } =
       editAddressData;
     const userInfoList = [
-      { id: "firstname", label: "First Name", data: firstname },
-      { id: "lastname", label: "Last Name", data: lastname },
-      { id: "phone", label: "Phone no", data: phone },
+      { id: "firstname", label: "First Name", data: firstName },
+      { id: "lastname", label: "Last Name", data: lastName },
+      { id: "Phone", label: "Phone no", data: phone },
       { id: "address", label: "Address", data: address1 },
       { id: "city", label: "City", data: city },
       { id: "country", label: "Country", data: country },
@@ -41,10 +20,10 @@ const EditAddress = () => {
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      const { firstname, lastname, phone, address, city, country, zip } =
-        e.target;
+      const { firstname, lastname, address, city, country, zip } = e.target;
+      const phone = `+${e.target[3].value.replace(/\D/g, "")}`;
       const userVariables = {
-        phone: phone.value,
+        phone: phone,
         lastName: lastname.value,
         firstName: firstname.value,
         address: address.value,
@@ -53,7 +32,7 @@ const EditAddress = () => {
         zip: zip.value,
         addressId: id,
       };
-      setEditAddressData(false);
+      editAddress(userVariables);
     };
     return (
       <div className="edit-profile">
@@ -69,7 +48,7 @@ const EditAddress = () => {
             </div>
             <div className="general-data input-group">
               {userInfoList.map((data, index) => {
-                return <div key={index}>{Input(data)}</div>;
+                return <div key={index}>{InputField(data)}</div>;
               })}
             </div>
           </div>

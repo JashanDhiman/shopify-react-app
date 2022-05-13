@@ -1,30 +1,9 @@
 import React, { useContext } from "react";
-import CountrySelector from "../../components/CountrySelector";
+import InputField from "../../components/InputField";
 import { ShopContext } from "../../contexts/ShopContext";
 
-const Input = (e) => {
-  const { id, label, data } = e;
-  return (
-    <div>
-      <label className="form-control-label" htmlFor={id}>
-        {label}
-      </label>
-      {id === "phone" ? (
-        <CountrySelector value={data} />
-      ) : (
-        <input
-          className="form-control form-control-alternative"
-          type="text"
-          id={id}
-          defaultValue={data}
-        />
-      )}
-    </div>
-  );
-};
-
 const EditUserInfo = () => {
-  const { isUserProfile, editShow, setEditShow, accessToken, updateProfile } =
+  const { isUserProfile, editShow, accessToken, updateProfile } =
     useContext(ShopContext);
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -63,7 +42,7 @@ const EditUserInfo = () => {
           </div>
           <div className="general-data input-group">
             {userInfoList.map((data, index) => {
-              return <div key={index}>{Input(data)}</div>;
+              return <div key={index}>{InputField(data)}</div>;
             })}
           </div>
           {/*<hr></hr>

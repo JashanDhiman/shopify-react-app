@@ -166,7 +166,8 @@ const ShopProvider = ({ children }) => {
         alert(error.response.data[0].message);
       });
   };
-  const addAddress = async (data) => {
+  const createAddress = async (data) => {
+    data = { ...data, accessToken: accessToken.accessToken };
     var config = {
       method: "post",
       url: `${domain}:4000/add-address`,
@@ -174,9 +175,24 @@ const ShopProvider = ({ children }) => {
     };
     await axios(config)
       .then((response) => {
-        console.log(response);
-        //userProfile();
-        //setShowAddress(false);
+        userProfile();
+        setShowAddress(false);
+      })
+      .catch((error) => {
+        alert(error.response.data[0].message);
+      });
+  };
+  const editAddress = async (data) => {
+    data = { ...data, accessToken: accessToken.accessToken };
+    var config = {
+      method: "post",
+      url: `${domain}:4000/edit-address`,
+      data,
+    };
+    await axios(config)
+      .then((response) => {
+        userProfile();
+        setEditAddressData(false);
       })
       .catch((error) => {
         alert(error.response.data[0].message);
@@ -404,7 +420,8 @@ const ShopProvider = ({ children }) => {
         editAddressData,
         showAddress,
         setShowAddress,
-        addAddress,
+        createAddress,
+        editAddress,
         deleteAddress,
         updateProfile,
         setEditAddressData,

@@ -785,13 +785,14 @@ app.post("/profile", (req, res) => {
               zip
               city
               country
+              countryCodeV2
               firstName
               lastName
               phone
             }
           }
         }
-        orders(first:250){
+        orders(first:250, reverse: true){
           edges{
             node{
               id
@@ -968,8 +969,71 @@ app.post("/add-address", (req, res) => {
   };
   axios(config)
     .then(function (response) {
-      console.log(response.data.data);
-      res.send(response.data.data);
+      if (
+        response.data.data.customerAddressCreate.customerUserErrors.length > 0
+      ) {
+        res
+          .status(400)
+          .send(response.data.data.customerAddressCreate.customerUserErrors);
+      } else {
+        res.send(response.data.data.customerAddressCreate.customerAddress);
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
+app.post("/edit-address", (req, res) => {
+  var data = JSON.stringify({
+    query: `mutation customerAddressUpdate($address: MailingAddressInput!, $customerAccessToken: String!, $id: ID!) {
+      customerAddressUpdate(address: $address, customerAccessToken: $customerAccessToken, id: $id) {
+        customerAddress {
+          id
+          zip
+          firstName
+          lastName
+          phone
+          address1
+          city
+          country
+        }
+        customerUserErrors {
+          message}}}`,
+    variables: {
+      address: {
+        address1: req.body.address1,
+        city: req.body.city,
+        country: req.body.country,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        phone: req.body.phone,
+        zip: req.body.zip,
+      },
+      customerAccessToken: req.body.accessToken,
+      id: req.body.addressId,
+    },
+  });
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+  axios(config)
+    .then(function (response) {
+      if (
+        response.data.data.customerAddressUpdate.customerUserErrors.length > 0
+      ) {
+        res
+          .status(400)
+          .send(response.data.data.customerAddressUpdate.customerUserErrors);
+      } else {
+        res.send(response.data.data.customerAddressUpdate.customerAddress);
+      }
     })
     .catch(function (error) {
       console.log(error);

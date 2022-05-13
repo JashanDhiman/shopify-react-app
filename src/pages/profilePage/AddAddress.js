@@ -1,77 +1,47 @@
 import React, { useContext } from "react";
-import CountrySelector from "../../components/CountrySelector";
+import InputField from "../../components/InputField";
 import { ShopContext } from "../../contexts/ShopContext";
 
-const Input = (e) => {
-  const { id, label, data } = e;
-  return (
-    <div>
-      <label className="form-control-label" htmlFor={id}>
-        {label}
-      </label>
-      {id === "phone" ? (
-        <CountrySelector value={data} />
-      ) : (
-        <input
-          className="form-control form-control-alternative"
-          type="text"
-          id={id}
-          defaultValue={data}
-        />
-      )}
-    </div>
-  );
-};
-
 const AddAddress = () => {
-  const { editAddressData, setShowAddress } = useContext(ShopContext);
+  const { showAddress, createAddress } = useContext(ShopContext);
 
-  if (editAddressData) {
-    const { id, firstname, lastname, phone, address1, city, country, zip } =
-      editAddressData;
+  if (showAddress) {
     const userInfoList = [
-      { id: "firstname", label: "First Name", data: firstname },
-      { id: "lastname", label: "Last Name", data: lastname },
-      { id: "phone", label: "Phone no", data: phone },
-      { id: "address", label: "Address", data: address1 },
-      { id: "city", label: "City", data: city },
-      { id: "country", label: "Country", data: country },
-      { id: "zip", label: "Zip", data: zip },
+      { id: "firstname", label: "First Name", data: "jashan" },
+      { id: "lastname", label: "Last Name", data: "dhiman" },
+      { id: "phone", label: "Phone no", data: "+919872076386" },
+      { id: "address", label: "Address", data: "sector 19 d" },
+      { id: "city", label: "City", data: "chandigarh" },
+      { id: "country", label: "Country", data: "india" },
+      { id: "zip", label: "Zip", data: "160019" },
     ];
-
     const handleSubmit = (e) => {
       e.preventDefault();
-      const { firstname, lastname, phone, address, city, country, zip } =
-        e.target;
+      const { firstname, lastname, address, city, country, zip } = e.target;
+      const phone = `+${e.target[3].value.replace(/\D/g, "")}`;
       const userVariables = {
-        phone: phone.value,
+        phone: phone,
         lastName: lastname.value,
         firstName: firstname.value,
-        address: address.value,
+        address1: address.value,
         city: city.value,
         country: country.value,
         zip: zip.value,
-        addressId: id,
       };
-      setShowAddress(false);
+      createAddress(userVariables);
     };
     return (
       <div className="edit-profile">
         <form className="my-account" onSubmit={handleSubmit}>
           <div className="edit-header">
-            <h2>Edit Profile</h2>
+            <h2>Create Address</h2>
+            <button className="btn btn-info">Save</button>
           </div>
           <br></br>
-          <div className="edit-div">
-            <div className="header">
-              <h3>User Information</h3>
-              <button className="btn btn-info">Save</button>
-            </div>
-            <div className="general-data input-group">
-              {userInfoList.map((data, index) => {
-                return <div key={index}>{Input(data)}</div>;
-              })}
-            </div>
+          <div className="general-data input-group">
+            {userInfoList.map((data, index) => {
+              return <div key={index}>{InputField(data)}</div>;
+            })}
           </div>
         </form>
       </div>
