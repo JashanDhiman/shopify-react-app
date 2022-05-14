@@ -7,12 +7,6 @@
   --gray: #efefef;
   --gray-2: #757575;
 }
-html,
-body {
-  height: 100vh;
-  overflow: hidden;
-}
-
 .container {
   position: relative;
   min-height: 100vh;

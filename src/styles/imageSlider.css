@@ -1,0 +1,81 @@
+.slider {
+  margin: auto;
+  margin-bottom: 8rem;
+}
+.slick-dots li.slick-active button:before {
+  font-size: 0.9rem;
+  color: #5ac59d;
+}
+.slick-dots li button:before {
+  font-size: 0.6rem;
+}
+.slick-dots li:hover button:before {
+  color: #5ac59d;
+}
+.slick-prev:before,
+.slick-next:before {
+  color: black;
+  background-color: transparent;
+}
+.slick-arrow .slick-next:before {
+  display: block;
+  color: #5ac59d;
+  background-color: black;
+}
+.sliderMainDiv {
+  display: block;
+  text-align: center;
+  margin: auto;
+  width: 85%;
+  max-width: 1020px;
+}
+.slick-slider,
+.slick-slider img {
+  margin: auto;
+}
+.content-div {
+  width: 550px;
+  position: relative;
+  transition: opacity 500ms ease 0s;
+  text-align: center;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+.content-div .title {
+  font-family: "Unna-Regular" !important;
+  color: #080202;
+  font-size: 40px;
+  letter-spacing: 1px;
+  display: block;
+}
+.content-div .desc {
+  color: #080202;
+  font-size: 16px;
+  padding: 40px 0;
+}
+.content-div .link {
+  color: #080202 !important;
+  font-size: 16px;
+  letter-spacing: 4px;
+  border-bottom: 1px solid #000;
+}
+.seed_slider .product-card {
+  border: 0.5rem solid #fafafa !important;
+}
+.seed_slider .product-card p {
+  min-height: 50px;
+}
+.slick-prev,
+.slick-next {
+  font-size: 30px !important;
+  color: #000;
+}
+.slick-prev:hover,
+.slick-next:hover {
+  color: #5ac59d;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  content: "" !important;
+}

@@ -1,0 +1,187 @@
+body.index .footer_section,
+body.product-greenfavour .footer_section {
+  padding: 0 0 30px 0;
+}
+
+.footer_section {
+  position: relative;
+  z-index: 1;
+  padding: 0px 0 30px 0;
+}
+.display-block {
+  float: left;
+  width: 100%;
+}
+.layout_center {
+  max-width: 1280px;
+  padding: 0 20px;
+  margin: 0 auto;
+  width: 100%;
+  clear: both;
+  position: relative;
+}
+.foot-wrap {
+  position: relative;
+  border-radius: 30px 30px 0 0;
+}
+
+.display-block {
+  float: left;
+  width: 100%;
+}
+.foot-wrap:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 70px;
+  background: #f3f3f3;
+  border-radius: 30px 30px 0 0;
+  box-shadow: 0 -20px 40px 0px rgb(0 0 0 / 10%);
+  z-index: -1;
+}
+.foot-wrap .block-4 {
+  float: left;
+  width: 30%;
+  padding: 0 2% 0 8%;
+}
+.foot-wrap .fcopy {
+  padding: 20px 0 0 0;
+  text-align: center;
+  color: #8b8b8b;
+  font-size: 12px;
+}
+.foot-wrap .ftitle {
+  color: #000;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: normal;
+  letter-spacing: 0.4px;
+  padding: 26px 0;
+  margin: 0 0 30px 0;
+}
+.foot-wrap .fpages {
+  margin: 0 0 15px 0;
+}
+.foot-wrap .foot-logo {
+  display: inline-block;
+}
+.foot-wrap .fpages > li {
+  padding: 2px 0 0 0;
+}
+.foot-wrap .fpages > li a {
+  color: #000;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-family: "Lato-Medium";
+}
+.foot-wrap .connect-icons {
+  float: left;
+  width: 100%;
+  margin: 15px 0 0 0;
+}
+.foot-wrap .connect-icons li {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 5px 0 0;
+}
+.foot-wrap .connect-icons li a {
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  background: #000;
+  color: #fff !important;
+  text-align: center;
+  display: flex;
+  border-radius: 50%;
+  font-size: 16px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+.foot-wrap form {
+  position: relative;
+  padding: 0 0 30px 0;
+}
+.foot-wrap form input.email {
+  border: 5px solid #f2f2f2;
+  border-radius: 30px;
+  background: #fff;
+  height: 60px;
+  padding: 10px 120px 10px 20px;
+  margin: 0;
+  color: #7c7c7c;
+  text-transform: uppercase;
+  font-family: "Lato-Medium";
+  letter-spacing: normal;
+}
+.foot-wrap form .button {
+  transition: 0.5s ease all;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+  font: inherit;
+  overflow: visible;
+  text-decoration: none;
+  -webkit-appearance: none;
+  border-style: solid;
+  border-width: 0;
+  cursor: pointer;
+  text-align: center;
+  border-color: #007095;
+  display: inline-block;
+  box-shadow: none;
+  font-size: 0.9375rem;
+  font-weight: 500 !important;
+  margin: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  border-radius: 0 30px 30px 0;
+  background: #2d9e7a !important;
+  color: #fff;
+  text-transform: uppercase;
+  line-height: 60px;
+  padding: 0;
+  width: 110px;
+  z-index: 1;
+  -webkit-transition: 0.5s ease all;
+}
+.foot-wrap .fcopy span {
+  display: inline-block;
+  padding: 0 15px;
+}
+.foot-wrap .fcopy a {
+  color: #000;
+}
+.foot-wrap .block-4.newsletter_box {
+  width: 40%;
+  padding: 0 2% 0 4%;
+}
+.cb-testimonials .hv_a_que {
+  float: none;
+  font-family: "Lato-Semibold";
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+  outline: 0;
+  border-radius: 20px;
+  display: inline-block;
+  line-height: 40px;
+  padding: 0 30px;
+  color: #fff !important;
+  border: 0;
+  cursor: pointer;
+  background: #205b4b !important;
+}
+.foot-wrap .ftext span {
+  display: inline-block;
+  vertical-align: top;
+  color: #000;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding: 10px 0 0 20px;
+}

@@ -1,0 +1,243 @@
+:root {
+  --os-ink: #21243d !important;
+  --os-ink-light: #6e718b !important;
+  --os-blue: #e75e37 !important;
+  --os-sky: #dcdee9 !important;
+  --os-white: #fff !important;
+  --os-sales-badge-color: #2c3438 !important;
+  --os-border-color: #e0e0e0 !important;
+  --os-border-radius: 2px !important;
+  --os-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2) !important;
+}
+button,
+a,
+select {
+  cursor: pointer;
+}
+a,
+a:link,
+a:visited {
+  text-decoration: none;
+}
+ul {
+  list-style: none;
+}
+a img {
+  border: none;
+}
+
+img {
+  max-width: 100%;
+  letter-spacing: normal;
+}
+.header-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: #fff;
+  padding: 25px 30px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+.display-block {
+  float: left;
+  width: 100%;
+}
+.header-navbar .logo {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+}
+.header-navbar .logo a {
+  display: inline-block;
+  max-width: 90px;
+}
+.header-navbar .logo a img {
+  width: 100%;
+}
+.header-navbar .discoverMenu {
+  display: inline-block;
+}
+.header-navbar .discoverMenu ul {
+  float: left;
+}
+.header-navbar .discoverMenu ul li {
+  position: relative;
+  float: left;
+  font-size: 15px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+}
+.header-navbar .discoverMenu ul li a {
+  display: inline-block;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 12px 0 15px 0;
+}
+.header-navbar .discoverMenu ul li.last label {
+  position: absolute;
+  right: 10px;
+  top: -8px;
+}
+.header-navbar .discoverMenu li ul {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 45px;
+  background: #fff;
+  min-width: 215px;
+  z-index: 999999;
+  padding: 65px 30px 25px 30px;
+  margin: 0;
+  text-align: left;
+  border: 5px solid #f4f4f4;
+  border-radius: 25px;
+}
+.header-navbar .discoverMenu li ul li {
+  padding: 4px 0;
+  width: 100%;
+  font-size: 14px;
+}
+.header-navbar .discoverMenu ul li:hover .child {
+  display: block;
+}
+.header-navbar .discoverMenu ul li a:hover,
+.header-navbar .discoverMenu ul li a:hover ~ i,
+.header-navbar .discoverMenu ul li.current > a {
+  color: #49b78a;
+}
+.header-navbar .discoverMenu li ul:before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #f4f4f4;
+  position: absolute;
+  top: -15px;
+  left: 30px;
+}
+.header-navbar .discoverMenu li.seeds ul:after {
+  background-position: 0 0;
+}
+.header-navbar .discoverMenu li.microgreens ul:after {
+  background-position: -30px 0;
+}
+.header-navbar .discoverMenu li.discover ul:after {
+  background-position: -60px 0;
+}
+.header-navbar .discoverMenu li.garden ul:after {
+  background-position: -90px 0;
+}
+.header-navbar .discoverMenu li.gifts ul:after {
+  background-position: -120px 0;
+}
+.header-navbar .discoverMenu li ul:after {
+  content: "";
+  width: 30px;
+  height: 25px;
+  position: absolute;
+  left: 30px;
+  top: 20px;
+  background: url(//cdn.shopify.com/s/files/1/1380/2059/t/117/assets/grey-nested-icons.png?v=1138075…);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.header-navbar .discoverMenu ul.child a {
+  display: inline-block;
+}
+.header-navbar .discoverMenu li ul li a {
+  padding: 0;
+  display: block;
+}
+
+.header-navbar .search-cart {
+  position: absolute;
+  top: 24px;
+  right: 30px;
+}
+span.login-link.mob-only {
+  display: none;
+}
+.login-link {
+  float: left;
+  margin: 4px 0 0 0px;
+  padding: 4px;
+}
+.header-navbar .search-cart .header-search {
+  float: left;
+}
+.search-icon {
+  display: inline-block !important;
+}
+.search-icon {
+  font-size: 26px;
+  color: #000;
+  line-height: 50px;
+  padding: 3px 5px 5px 5px;
+  cursor: pointer;
+  display: none;
+}
+.header-navbar .search-cart .header-cart a {
+  position: relative;
+}
+.header-navbar .search-cart .header-cart a .count {
+  position: absolute;
+  right: -5px;
+  top: -20px;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  font-size: 12px;
+  color: #fff;
+  border-radius: 50%;
+  background: #2ea380;
+  line-height: 20px;
+  border: 0;
+}
+.header-navbar .header-search input.search {
+  border: 4px solid #f2f2f2;
+  border-radius: 30px;
+  background: #fff;
+  height: 54px;
+  padding: 10px 60px 10px 20px;
+  margin: 0;
+  color: #7c7c7c;
+  font-family: "Lato-Medium";
+  font-size: 14px;
+  width: 250px;
+}
+@media (max-width: 1370px) and (min-width: 1201px) {
+  .header-top-navbar .discoverMenu {
+    padding-left: 90px;
+    padding-right: 245px;
+  }
+}
+@media (max-width: 1370px) {
+  .header-navbar {
+    padding: 25px;
+  }
+  .header-navbar .logo {
+    left: 25px;
+  }
+  .header-navbar .discoverMenu ul li {
+    padding: 0 15px;
+  }
+  .header-navbar .search-cart {
+    right: 25px;
+  }
+  .header-navbar .search-cart .header-cart {
+    margin: 20px 0 0 20px;
+  }
+
+  .header-navbar .search-cart .header-cart {
+    float: left;
+    margin: 15px 0 0 25px;
+  }
+  .header-navbar .header-search input.search {
+    width: 200px;
+  }
+}
