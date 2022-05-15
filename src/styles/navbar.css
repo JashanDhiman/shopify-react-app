@@ -154,9 +154,10 @@ img {
 }
 
 .header-navbar .search-cart {
-  position: absolute;
-  top: 24px;
-  right: 30px;
+  float: right;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 span.login-link.mob-only {
   display: none;
@@ -176,7 +177,6 @@ span.login-link.mob-only {
   font-size: 26px;
   color: #000;
   line-height: 50px;
-  padding: 3px 5px 5px 5px;
   cursor: pointer;
   display: none;
 }
@@ -228,14 +228,6 @@ span.login-link.mob-only {
   }
   .header-navbar .search-cart {
     right: 25px;
-  }
-  .header-navbar .search-cart .header-cart {
-    margin: 20px 0 0 20px;
-  }
-
-  .header-navbar .search-cart .header-cart {
-    float: left;
-    margin: 15px 0 0 25px;
   }
   .header-navbar .header-search input.search {
     width: 200px;

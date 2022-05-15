@@ -21,7 +21,7 @@ function App() {
       <Navbar />
       <Cart />
       <Routes>
-        <Route path="/login" element={<RegisterPage />} />
+        <Route path="/" element={<RegisterPage />} />
         <Route path="/homepage" element={<HomePage />} />
         <Route path="/profile" element={<ProfilePage />} />
         {/*<Route

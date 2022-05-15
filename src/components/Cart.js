@@ -3,6 +3,7 @@ import { ShopContext } from "../contexts/ShopContext";
 import { ImCross } from "react-icons/im";
 import { AiFillDelete } from "react-icons/ai";
 import Loading from "./Loading";
+import "../styles/homepage.css";
 
 const Cart = () => {
   const {
@@ -13,27 +14,66 @@ const Cart = () => {
     updateItemToCart,
     isLoading,
   } = useContext(ShopContext);
+  const cartStyle = {
+    position: "fixed",
+    top: "0%",
+    right: "0%",
+    height: "100vh",
+    minWidth: "300px",
+    width: "20vw",
+    backgroundColor: "#fff",
+    borderLeft: "2px solid black",
+    color: "#205b4b",
+    transition: "all 0.3s ease-in-out",
+    zIndex: "10",
+    display: isCartOpen ? "block" : "none",
+  };
+  const cartHeaderStyle = {
+    boxShadow: "0px 0px 20px 3px rgba(32, 91, 75, 0.2)",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "1rem",
+    height: "10vh",
+  };
+  const checkoutDivStyle = {
+    position: "static",
+    bottom: "0%",
+    height: "10vh",
+    display: "grid",
+    textAlign: "center",
+    backgroundColor: "#fff",
+    fontSize: "1.5rem",
+    fontWeight: "600",
+    padding: "0.3rem",
+  };
+  const checkoutDivButtonStyle = {
+    fontSize: "1rem",
+    textTransform: "uppercase",
+    letterSpacing: "1px",
+    outline: "0",
+    borderRadius: "10px",
+    lineHeight: "2rem",
+    padding: "0 30px",
+    color: "#fff",
+    border: "0",
+    cursor: "pointer",
+    background: "#205b4b",
+    textDecoration: "none",
+  };
+  const productcardStyle = {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 1fr)",
+    overflow: "hidden",
+    borderBottom: "1px solid #205b4b",
+    padding: "1rem 0",
+  };
+
   return (
-    <div
-      className="cart"
-      style={{
-        display: isCartOpen ? "block" : "none",
-        transition: "all 0.3s ease-in-out",
-        zIndex: "10",
-      }}
-    >
-      <div
-        className="cart-header"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "1rem",
-          height: "10vh",
-        }}
-      >
+    <div style={cartStyle}>
+      <div style={cartHeaderStyle}>
         <h1>CART</h1>
-        <div onClick={() => cartOpen(false)}>
+        <div onClick={() => cartOpen(false)} style={{ cursor: "pointer" }}>
           <ImCross />
         </div>
       </div>
@@ -56,7 +96,7 @@ const Cart = () => {
                   const totalPrice =
                     node.node.estimatedCost.subtotalAmount.amount;
                   return (
-                    <div key={index} className="product-card">
+                    <div key={index} style={productcardStyle}>
                       <div className="card-image-div">
                         <img
                           style={{ height: "100px" }}
@@ -91,12 +131,12 @@ const Cart = () => {
                   );
                 })}
               </div>
-              <div className="checkout-div">
+              <div style={checkoutDivStyle}>
                 <p style={{ margin: "0" }}>
                   Sub-Total - {cart.estimatedCost.totalAmount.amount}
                 </p>
                 <a href={cart.checkoutUrl}>
-                  <button>CHECK-OUT</button>
+                  <button style={checkoutDivButtonStyle}>CHECK-OUT</button>
                 </a>
               </div>
             </>

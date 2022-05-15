@@ -1,6 +1,5 @@
-import React from "react";
-//import React, { useContext } from "react";
-//import { ShopContext } from "../contexts/ShopContext";
+import React, { useContext } from "react";
+import { ShopContext } from "../contexts/ShopContext";
 //import logo from "../images/leafLogo.webp";
 //import { AiOutlineSearch } from "react-icons/ai";
 //import { BsFillBucketFill } from "react-icons/bs";
@@ -8,13 +7,14 @@ import React from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaSearch } from "react-icons/fa";
 import "../styles/navbar.css";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  //const { cartOpen, cart, signOut, accessToken } = useContext(ShopContext);
+  const { cartOpen, cart, signOut, accessToken } = useContext(ShopContext);
   return (
     <div className="header-navbar">
       <div className="logo">
-        <a href="/">
+        <a href="/homepage">
           <img
             src="//cdn.shopify.com/s/files/1/1380/2059/t/117/assets/logo.png?v=120999594118203418871610950602"
             data-src="//cdn.shopify.com/s/files/1/1380/2059/t/117/assets/logo.png?v=120999594118203418871610950602"
@@ -22,7 +22,7 @@ const Navbar = () => {
             className=" ls-is-cached lazyloaded"
           />
         </a>
-        <a href="/" className="leaf-only">
+        <a href="/homepage" className="leaf-only">
           <img
             src="//cdn.shopify.com/s/files/1/1380/2059/files/dot-img_1x.jpg?v=12921307864587141952"
             data-src="//cdn.shopify.com/s/files/1/1380/2059/t/117/assets/leaf.png?v=99331424205049980601610950595"
@@ -154,6 +154,17 @@ const Navbar = () => {
               </li>
             </ul>
           </li>
+          {accessToken ? (
+            <>
+              <li onClick={signOut}>
+                <Link to="#">Sign-Out</Link>
+              </li>
+            </>
+          ) : (
+            <li>
+              <Link to="/">Sign-In</Link>
+            </li>
+          )}
         </ul>
       </div>
       <div className="search-cart">
@@ -174,14 +185,14 @@ const Navbar = () => {
           </i>
         </div>
         <div className="header-cart">
-          <a href="/cart">
+          <a onClick={() => cartOpen(true)}>
             <img
               src="//cdn.shopify.com/s/files/1/1380/2059/t/117/assets/atg-cart.png?v=149032906229090180871610950461"
               data-src="//cdn.shopify.com/s/files/1/1380/2059/t/117/assets/atg-cart.png?v=149032906229090180871610950461"
               alt="Cart Icon"
               className=" ls-is-cached lazyloaded"
             />
-            <span className="count">0</span>
+            {cart && <span className="count">{cart.lines.edges.length}</span>}
           </a>
         </div>
       </div>
