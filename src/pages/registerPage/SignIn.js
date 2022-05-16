@@ -1,12 +1,10 @@
 import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../../contexts/ShopContext";
 import { HiOutlineMail } from "react-icons/hi";
 import { RiLockPasswordFill } from "react-icons/ri";
 
 const SignIn = (props) => {
   const { signIn } = useContext(ShopContext);
-  const navigate = useNavigate();
   const handleSignin = (e) => {
     e.preventDefault();
     const { email, password } = e.target;
@@ -15,7 +13,6 @@ const SignIn = (props) => {
       password: password.value,
     };
     signIn(userVariables);
-    navigate(`/homepage`);
   };
 
   return (

@@ -70,11 +70,12 @@ const ShopProvider = ({ children }) => {
         //navigate(`/${response.data.accessToken}/homepage`);
         localStorage.setItem("ATG_AccessToken", JSON.stringify(response.data));
         fetchUserCartId();
+        navigate(`/homepage`);
         //createUserCart();
       })
       .catch((error) => {
         //console.log(error.response.data.message);
-        alert(error);
+        alert(error.response.data.message);
       });
   };
   const signUp = async (userVariables) => {
@@ -90,11 +91,13 @@ const ShopProvider = ({ children }) => {
         localStorage.setItem("ATG_AccessToken", JSON.stringify(response.data));
         localStorage.setItem("ATG_CartId", JSON.stringify(cartId));
         fetchUserCartId();
+        navigate(`/homepage`);
         //createUserCart();
         //navigate(`/${response.data.accessToken}/homepage`);
       })
       .catch((error) => {
         console.log(error.response.data);
+        alert(error.response.data);
       });
   };
   const tokenRenew = async (token) => {

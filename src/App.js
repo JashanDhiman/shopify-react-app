@@ -1,9 +1,6 @@
 //import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
-import Cart from "./components/Cart";
 import { ErrorBoundary } from "./components/ErrorBoundary";
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
 //import { ShopContext } from "./contexts/ShopContext";
 import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/productPage/ProductPage";
@@ -18,8 +15,6 @@ function App() {
       {/*<Routes>
         <Route path="/" element={<RegisterPage />} />
       </Routes>*/}
-      <Navbar />
-      <Cart />
       <Routes>
         <Route path="/" element={<RegisterPage />} />
         <Route path="/homepage" element={<HomePage />} />
@@ -35,7 +30,6 @@ function App() {
         />*/}
         <Route path="*" element={<h1>Page Not Found</h1>} />
       </Routes>
-      <Footer />
     </ErrorBoundary>
   );
 }

@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../../contexts/ShopContext";
 import { FaUserAlt } from "react-icons/fa";
 import { HiOutlineMail } from "react-icons/hi";
@@ -7,7 +6,6 @@ import { RiLockPasswordFill } from "react-icons/ri";
 
 const SignUp = (props) => {
   const { signUp } = useContext(ShopContext);
-  const navigate = useNavigate();
 
   const verifyPassword = (e) => {
     const pw1 = document.getElementById("pass1").value;
@@ -33,7 +31,6 @@ const SignUp = (props) => {
     if (password1.value && password2.value) {
       if (password1.value === password2.value) {
         signUp(userVariables);
-        navigate(`/homepage`);
       } else {
         document.getElementById("passErr").innerHTML =
           "**Passwords didn't match";

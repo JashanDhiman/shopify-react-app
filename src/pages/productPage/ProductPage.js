@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import Layout from "../../components/Layout";
 import Loading from "../../components/Loading";
-//import Navbar from "../../components/Navbar";
 import { ShopContext } from "../../contexts/ShopContext";
 import "./productPage.css";
 
@@ -19,8 +19,7 @@ const ProductPage = () => {
     isLoading && <Loading />;
     const variantId = isProductById.variants.edges[0].node.id;
     return (
-      <>
-        {/*<Navbar />*/}
+      <Layout showFooter={true} showHeader={true} showCart={true}>
         <div className="product-card">
           <div className="product-div">
             <div className="product-image-div block">
@@ -45,7 +44,7 @@ const ProductPage = () => {
             </div>
           </div>
         </div>
-      </>
+      </Layout>
     );
   } else {
     return isLoading ? <Loading /> : <h1>Product Id is not correct</h1>;

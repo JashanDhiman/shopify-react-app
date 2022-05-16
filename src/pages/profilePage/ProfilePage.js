@@ -7,6 +7,7 @@ import { MdAddCircle } from "react-icons/md";
 import EditUserInfo from "./EditUserInfo";
 import EditAddress from "./EditAddress";
 import AddAddress from "./AddAddress";
+import Layout from "../../components/Layout";
 
 const Input = (e) => {
   const { label, data } = e;
@@ -46,7 +47,7 @@ const ProfilePage = () => {
     ];
 
     return (
-      <>
+      <Layout showFooter={true} showHeader={true} showCart={true}>
         <div
           style={{
             position: "absolute",
@@ -184,7 +185,7 @@ const ProfilePage = () => {
           <EditAddress />
           <AddAddress />
         </div>
-      </>
+      </Layout>
     );
   }
   return <Loading />;
