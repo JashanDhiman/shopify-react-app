@@ -287,6 +287,48 @@ app.post("/signout", (req, res) => {
       console.log(error);
     });
 });
+app.post("/resetpass", (req, res) => {
+  console.log(req.body.email);
+  var data = JSON.stringify({
+    query: `mutation customerRecover($email: String!) {
+      customerRecover(email: $email) {
+        customerUserErrors {
+          message}}}`,
+    variables: {
+      email: req.body.email,
+    },
+  });
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+  axios(config)
+    .then(function (response) {
+      console.log(response.data.data.customerRecover.customerUserErrors.length);
+      if (response.data.data.customerRecover == null) {
+        res.send("Limit exceeded! Please wait for 5 mins then try again");
+      } else if (
+        response.data.data.customerRecover.customerUserErrors.length < 1
+      ) {
+        res.send(
+          "Successfully sent email!\nPlease check your email for further steps."
+        );
+      } else {
+        res.status(400).send({
+          message: "something wrong happend or email is not registered",
+        });
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
 
 //-----------------------------cart and products-----------
 

@@ -7,6 +7,7 @@ import ProductPage from "./pages/productPage/ProductPage";
 import ProfilePage from "./pages/profilePage/ProfilePage";
 //import LandingPage from "./pages/LandingPage";
 import RegisterPage from "./pages/registerPage/RegisterPage";
+import ResetPassPage from "./pages/ResetPassPage";
 
 function App() {
   //const { accessToken } = useContext(ShopContext);
@@ -17,6 +18,7 @@ function App() {
       </Routes>*/}
       <Routes>
         <Route path="/" element={<RegisterPage />} />
+        <Route path="/reset-pass" element={<ResetPassPage />} />
         <Route path="/homepage" element={<HomePage />} />
         <Route path="/profile" element={<ProfilePage />} />
         {/*<Route

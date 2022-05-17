@@ -19,7 +19,21 @@ const HomePage = () => {
   const SamplePrevArrow = (props) => {
     const { className, onClick } = props;
     return (
-      <div className={className} onClick={onClick}>
+      <div
+        className={className}
+        onClick={onClick}
+        //style={{
+        //  color: "#000",
+        //  width: "60px",
+        //  height: "120px",
+        //  background: "#aaa",
+        //  borderBottomLeftRadius: "100px",
+        //  borderTopLeftRadius: "100px",
+        //  display: "flex",
+        //  alignItems: "center",
+        //  justifyContent: "center",
+        //}}
+      >
         <FaAngleLeft />
       </div>
     );
@@ -27,7 +41,21 @@ const HomePage = () => {
   const SampleNextArrow = (props) => {
     const { className, onClick } = props;
     return (
-      <div className={className} onClick={onClick}>
+      <div
+        className={className}
+        onClick={onClick}
+        //style={{
+        //  color: "#000",
+        //  width: "60px",
+        //  height: "120px",
+        //  background: "#aaa",
+        //  borderBottomRightRadius: "100px",
+        //  borderTopRightRadius: "100px",
+        //  display: "flex",
+        //  alignItems: "center",
+        //  justifyContent: "center",
+        //}}
+      >
         <FaAngleRight />
       </div>
     );
