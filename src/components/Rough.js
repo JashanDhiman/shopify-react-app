@@ -27,7 +27,7 @@
 import React from "react";
 
 const Rough = () => {
-  return <div>Rough</div>;
+  return <div>Rough page</div>;
 };
 
 export default Rough;
