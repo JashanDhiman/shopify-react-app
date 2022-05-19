@@ -2,6 +2,7 @@
 import { Route, Routes } from "react-router-dom";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import Rough from "./components/Rough";
+import CartPage from "./pages/cartPage/CartPage";
 //import { ShopContext } from "./contexts/ShopContext";
 import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/productPage/ProductPage";
@@ -26,6 +27,7 @@ function App() {
           path={`/${accessToken.accessToken}/homepage`}
           element={<HomePage />}
         />*/}
+        <Route path={`/cart`} element={<CartPage />} />
         <Route path={`/product/*`} element={<ProductPage />} />
         {/*<Route
           path={`/${accessToken.accessToken}/productpage/*`}

@@ -1,0 +1,156 @@
+.cursor-pointer {
+  cursor: pointer;
+}
+.card-details-div {
+  display: flex;
+}
+.cart-items-head,
+.col2,
+.col1 {
+  display: flex;
+  justify-content: space-between;
+}
+.col1 {
+  width: 60%;
+}
+.col2 {
+  width: 40%;
+}
+/* -------------------------------- */
+.page-header h1 {
+  font-size: 34px;
+  text-align: center;
+  font-family: "Unna-Regular";
+  clear: both;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.display-block {
+  float: left;
+  width: 100%;
+}
+.line-items {
+  margin-top: 20px;
+}
+.primary .line-items {
+  float: left;
+  width: 100%;
+  margin: 40px 0;
+}
+.line-items .line-item-header {
+  padding-bottom: 10px;
+  margin-bottom: 0;
+  padding-top: 0;
+  margin-top: 0;
+}
+.line-items .line-item {
+  padding: 15px 0;
+  margin: 15px 0;
+}
+.row {
+  max-width: 1280px;
+  min-width: auto;
+  width: auto;
+  margin: 0 auto;
+}
+.line-item-header .columns.item-colA {
+  padding-left: 0;
+}
+.line-item-header .columns {
+  line-height: 30px;
+  color: #000;
+  text-transform: uppercase;
+}
+.columns + .columns:last-child {
+  float: right;
+}
+.line-item-header .columns {
+  line-height: 30px;
+  color: #000;
+  text-transform: uppercase;
+}
+.row:after,
+.row:before {
+  content: " ";
+  display: table;
+}
+a.title {
+  line-height: 1.2em;
+  font-size: 1.1875rem;
+}
+.line-item a.title {
+  display: block;
+  font-weight: 400;
+}
+a img {
+  border: none;
+}
+img {
+  max-width: 100%;
+  letter-spacing: normal;
+}
+.row .row {
+  margin: 0 -0.75rem;
+}
+.row .row .column,
+.row .row .columns {
+  padding: 0 0.75rem;
+}
+.line-items .line-item a.title {
+  color: #000;
+}
+.line-item p:last-child {
+  margin-bottom: 0;
+}
+.line-item .description {
+  font-size: 12px;
+  margin-top: 2px;
+}
+.selector-qty {
+  background: none;
+  display: inline-block;
+}
+.selector-qty {
+  height: 40px;
+  position: relative;
+  display: inline-block;
+}
+.selector-qty input {
+  background: #ddd;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  width: 40px;
+  float: left;
+  border: 1px solid #eee;
+  text-align: center;
+  border-radius: 0;
+  margin: 0 -1px;
+}
+.selector-qty input.qty_input {
+  background: #fff;
+}
+#your-cart .atg_samples {
+  margin-top: -15px;
+  padding: 30px 10px 30px 83px;
+  background-image: url(https://cdn.shopify.com/s/files/1/1380/2059/files/atg-leaf.svg?v=1654164757);
+  background-size: 23px;
+  background-color: #f6fffc;
+  background-repeat: no-repeat;
+  background-position: 40px center;
+}
+@media only screen and (min-width: 64.0625em) {
+  .large-11 {
+    width: 91.66667%;
+  }
+  .column,
+  .columns {
+    position: relative;
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    float: left;
+  }
+  .large-1 {
+    width: 8.33333%;
+  }
+}

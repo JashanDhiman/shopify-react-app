@@ -149,17 +149,17 @@ app.post("/signup", (req, res) => {
                   }
                 })
                 .catch((error) => {
-                  //console.log(error);
+                  console.log(error.response.data);
                 });
             }
           })
           .catch((error) => {
-            //console.log(error);
+            console.log(error.response.data);
           });
       }
     })
     .catch(function (error) {
-      //console.log(error);
+      console.log(error.response.data);
     });
 });
 app.post("/signin", (req, res) => {
@@ -203,7 +203,7 @@ app.post("/signin", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
 });
 app.post("/tokenrenew", (req, res) => {
@@ -245,7 +245,7 @@ app.post("/tokenrenew", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
 });
 app.post("/signout", (req, res) => {
@@ -284,7 +284,7 @@ app.post("/signout", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
 });
 app.post("/resetpass", (req, res) => {
@@ -324,7 +324,7 @@ app.post("/resetpass", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
 });
 
@@ -363,7 +363,7 @@ app.get("/products", (req, res) => {
       res.send(response.data.data.products.edges);
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
 });
 app.post("/product", (req, res) => {
@@ -398,7 +398,7 @@ app.post("/product", (req, res) => {
       res.send(response.data.data.product);
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
 });
 app.post("/fetchUserCartId", (req, res) => {
@@ -438,7 +438,7 @@ app.post("/fetchUserCartId", (req, res) => {
       });
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
 });
 //app.post("/checkout", (req, res) => {
@@ -471,7 +471,7 @@ app.post("/fetchUserCartId", (req, res) => {
 //      }
 //    })
 //    .catch(function (error) {
-//      console.log(error);
+//      console.log(error.response.data);
 //    });
 //});
 //app.post("/additemtocheckout", (req, res) => {
@@ -527,7 +527,7 @@ app.post("/fetchUserCartId", (req, res) => {
 //      }
 //    })
 //    .catch(function (error) {
-//      console.log(error);
+//      console.log(error.response.data);
 //    });
 //});
 
@@ -580,7 +580,7 @@ app.post("/createcart", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
 });
 app.post("/fetchcart", (req, res) => {
@@ -602,6 +602,7 @@ app.post("/fetchcart", (req, res) => {
                 merchandise {
                   ... on ProductVariant {
                     id
+                    sku
                     product {
                       title
                     }
@@ -627,7 +628,7 @@ app.post("/fetchcart", (req, res) => {
       res.send(response.data.data.cart);
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
 });
 app.post("/addtocart", (req, res) => {
@@ -687,7 +688,7 @@ app.post("/addtocart", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
 });
 app.post("/removefromcart", (req, res) => {
@@ -743,7 +744,7 @@ app.post("/removefromcart", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
 });
 app.post("/updatecart", (req, res) => {
@@ -802,7 +803,7 @@ app.post("/updatecart", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
 });
 
@@ -869,7 +870,7 @@ app.post("/profile", (req, res) => {
       res.send(response.data.data.customer);
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
 });
 app.post("/update-profile", (req, res) => {
@@ -965,7 +966,7 @@ app.post("/update-profile", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
 });
 app.post("/add-address", (req, res) => {
@@ -1020,7 +1021,7 @@ app.post("/add-address", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
 });
 app.post("/edit-address", (req, res) => {
@@ -1076,7 +1077,7 @@ app.post("/edit-address", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
 });
 app.post("/delete-address", (req, res) => {
@@ -1108,7 +1109,7 @@ app.post("/delete-address", (req, res) => {
       res.send(response.data.data);
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
 });
 //app.post("/update-address", (req, res) => {
@@ -1158,7 +1159,7 @@ app.post("/delete-address", (req, res) => {
 //      res.send(response.data.data);
 //    })
 //    .catch(function (error) {
-//      console.log(error);
+//      console.log(error.response.data);
 //    });
 //});
 app.listen(4000, (err) => {

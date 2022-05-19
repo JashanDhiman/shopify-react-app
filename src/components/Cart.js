@@ -88,25 +88,22 @@ const Cart = () => {
               >
                 {cart.lines.edges.map((node, index) => {
                   //const merchandiseId = node.node.merchandise.id;
-                  const id = node.node.id;
-                  const title = node.node.merchandise.product.title;
-                  const quantity = node.node.quantity;
-                  const image = node.node.merchandise.image.url;
-                  const price = node.node.merchandise.priceV2.amount;
+                  const { id, quantity } = node.node;
+                  const {
+                    product: { title },
+                    image: { url },
+                    priceV2: { amount },
+                  } = node.node.merchandise;
                   const totalPrice =
                     node.node.estimatedCost.subtotalAmount.amount;
                   return (
                     <div key={index} style={productcardStyle}>
                       <div className="card-image-div">
-                        <img
-                          style={{ height: "100px" }}
-                          src={image}
-                          alt="img"
-                        />
+                        <img style={{ height: "100px" }} src={url} alt="img" />
                       </div>
                       <div className="card-details-div">
                         <p>{title}</p>
-                        <p>₹ {price}</p>
+                        <p>₹ {amount}</p>
                         <p>
                           Qty :
                           <input
