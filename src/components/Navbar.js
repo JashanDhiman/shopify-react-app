@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { ShopContext } from "../contexts/ShopContext";
-import { IoIosArrowDown } from "react-icons/io";
-import { FaSearch } from "react-icons/fa";
+import { IoIosArrowDown, IoMdSearch } from "react-icons/io";
+import { FaRegUser } from "react-icons/fa";
+import { FiLogIn, FiLogOut } from "react-icons/fi";
 import "../styles/navbar.css";
 import { Link } from "react-router-dom";
 
@@ -153,12 +154,16 @@ const Navbar = () => {
           {accessToken ? (
             <>
               <li onClick={signOut}>
-                <Link to="#">Sign-Out</Link>
+                <Link to="#">
+                  <FiLogOut />
+                </Link>
               </li>
             </>
           ) : (
             <li>
-              <Link to="/">Sign-In</Link>
+              <Link to="/">
+                <FiLogIn />
+              </Link>
             </li>
           )}
         </ul>
@@ -177,17 +182,11 @@ const Navbar = () => {
         </span>
         <div className="header-search search_cont" id="header-search">
           <i className="search-icon">
-            <FaSearch />
+            <IoMdSearch />
           </i>
         </div>
         <div className="header-cart">
           <div onClick={() => cartOpen(true)}>
-            {/*<img
-              src="//cdn.shopify.com/s/files/1/1380/2059/t/117/assets/atg-cart.png?v=149032906229090180871610950461"
-              data-src="//cdn.shopify.com/s/files/1/1380/2059/t/117/assets/atg-cart.png?v=149032906229090180871610950461"
-              alt="Cart Icon"
-              className=" ls-is-cached lazyloaded"
-            />*/}
             <svg
               width="21"
               height="20"
