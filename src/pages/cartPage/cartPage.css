@@ -1,9 +1,6 @@
 .cursor-pointer {
   cursor: pointer;
 }
-.card-details-div {
-  display: flex;
-}
 .col1 {
   width: 10%;
   min-width: 100px;

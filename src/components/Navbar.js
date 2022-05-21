@@ -7,7 +7,7 @@ import "../styles/navbar.css";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const { cartOpen, cart, signOut, accessToken } = useContext(ShopContext);
+  const { cart, signOut, accessToken } = useContext(ShopContext);
   return (
     <div className="header-navbar">
       <div className="logo">
@@ -37,7 +37,7 @@ const Navbar = () => {
             </i>
             <ul className="child" data-parent="Seeds">
               <li>
-                <a href="/collections/vegetable-seeds">Vegetables</a>
+                <a href="/collections/veg">Vegetables</a>
               </li>
               <li>
                 <a href="/collections/herb-seeds">Herbs</a>
@@ -79,17 +79,6 @@ const Navbar = () => {
               </li>
               <li>
                 <a href="/products/microgreen-seeds-kit">Microgreen Seed Kit</a>
-              </li>
-            </ul>
-          </li>
-          <li className="grow your own food ">
-            <a href="#id">Grow Your Own Food</a>
-            <i className="arrow-down">
-              <IoIosArrowDown />
-            </i>
-            <ul className="child" data-parent="Grow Your Own Food">
-              <li>
-                <a href="/pages/complete-microgreen-growing-kit">Microgreens</a>
               </li>
             </ul>
           </li>
@@ -186,7 +175,7 @@ const Navbar = () => {
           </i>
         </div>
         <div className="header-cart">
-          <div onClick={() => cartOpen(true)}>
+          <a href="/cart">
             <svg
               width="21"
               height="20"
@@ -200,7 +189,7 @@ const Navbar = () => {
               ></path>
             </svg>
             {cart && <span className="count">{cart.lines.edges.length}</span>}
-          </div>
+          </a>
         </div>
       </div>
     </div>

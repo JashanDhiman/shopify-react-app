@@ -1,29 +1,23 @@
 import React, { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Layout from "../../../components/Layout";
 import Loading from "../../../components/Loading";
 import { ShopContext } from "../../../contexts/ShopContext";
 
 const VegitableSeeds = () => {
-  const { productsList, addItemToCart, isAdding, fetchAll } =
+  const { collection, addItemToCart, isAdding, collectionByHandle } =
     useContext(ShopContext);
+  const thePath = useLocation().pathname;
   useEffect(() => {
-    fetchAll();
+    let collectionhandle = thePath.substring(thePath.lastIndexOf("/") + 1);
+    collectionByHandle(collectionhandle);
   }, []);
   return (
     <Layout showFooter={true} showHeader={true} showCart={true}>
-      <div
-        style={{
-          position: "absolute",
-          height: "90%",
-          overflow: "auto",
-          width: "100%",
-          background: "#fbf7ed",
-        }}
-      >
+      <div>
         <div className="products-head">
           <h2>SEEDS</h2>
-          <p style={{ maxWidth: "800px", margin: "auto", textAlign: "center" }}>
+          <p style={{ width: "100%", margin: "auto", textAlign: "center" }}>
             A beautiful garden with fresh produce & fragrant foliage on your
             mind? Create your very own urban garden with our wide variety of
             high-quality heirloom seeds. Reap the benefits of home-grown
@@ -35,12 +29,14 @@ const VegitableSeeds = () => {
           </p>
         </div>
         <div className="veg-cards">
-          {productsList ? (
-            productsList.map((node, index) => {
-              const title = node.node.title;
-              const id = node.node.id;
+          {collection ? (
+            collection.map((node, index) => {
+              const {
+                id,
+                title,
+                featuredImage: { url },
+              } = node.node;
               const variantId = node.node.variants.edges[0].node.id;
-              const image = node.node.featuredImage.url;
               const price = node.node.variants.edges[0].node.priceV2.amount;
               return (
                 <div key={index} className="product-card">
@@ -48,7 +44,7 @@ const VegitableSeeds = () => {
                     <Link
                       to={`/product/${id.substring(id.lastIndexOf("/") + 1)}`}
                     >
-                      <img style={{ height: "140px" }} src={image} alt="img" />
+                      <img style={{ height: "140px" }} src={url} alt="img" />
                       <p>{title}</p>
                     </Link>
                   </div>

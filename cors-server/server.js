@@ -8,7 +8,9 @@ require("dotenv").config();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 // routes
+//------------------------authentication, login-logout functions-----------
 
 app.post("/signup", (req, res) => {
   let customer_Id, activationToken;
@@ -105,6 +107,9 @@ app.post("/signup", (req, res) => {
                 query: `mutation customerActivate($id: ID!, $input: CustomerActivateInput!) {
                   customerActivate(id: $id, input: $input) {
                     customer {
+                      metafield(key: "cartId", namespace: "instructions") {
+                        id
+                        value}
                     email}
                     customerAccessToken {
                       accessToken
@@ -328,7 +333,7 @@ app.post("/resetpass", (req, res) => {
     });
 });
 
-//-----------------------------cart and products-----------
+//-----------------------------product functions-----------
 
 app.get("/products", (req, res) => {
   var data = JSON.stringify({
@@ -401,6 +406,46 @@ app.post("/product", (req, res) => {
       console.log(error.response.data);
     });
 });
+app.post("/collectionbyhandle", (req, res) => {
+  var data = JSON.stringify({
+    query: `{collection(handle: "${req.body.collectionhandle}") {
+        title
+        id
+        products(first: 250) {
+          edges {
+            node {
+              id
+              title
+              featuredImage {
+                url}
+              variants(first: 1) {
+                edges {
+                  node {
+                    id
+                    priceV2 {
+                      amount}}}}}}}}}`,
+  });
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+  axios(config)
+    .then(function (response) {
+      res.send(response.data.data.collection.products.edges);
+    })
+    .catch(function (error) {
+      console.log(error.response.data);
+    });
+});
+
+//-----------------------------cart functions-----------
+
 app.post("/fetchUserCartId", (req, res) => {
   var data = JSON.stringify({
     query: `{customer(customerAccessToken:"${req.body.accessToken.accessToken}") {id}}`,
@@ -441,96 +486,44 @@ app.post("/fetchUserCartId", (req, res) => {
       console.log(error.response.data);
     });
 });
-//app.post("/checkout", (req, res) => {
-//  var data = JSON.stringify({
-//    query: `mutation checkoutCreate($input: CheckoutCreateInput!) {
-//      checkoutCreate(input: $input) {
-//        checkout {
-//          id}
-//        checkoutUserErrors {
-//          message
-//          field        }   }}    `,
-//    variables: { input: {} },
-//  });
-//  var config = {
-//    method: "post",
-//    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
-//    headers: {
-//      "X-Shopify-Storefront-Access-Token":
-//        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
-//      "Content-Type": "application/json",
-//    },
-//    data: data,
-//  };
-//  axios(config)
-//    .then(function (response) {
-//      if (response.data.data.checkoutCreate.checkoutUserErrors.length > 0) {
-//        res.status(400).send(response.data.data.checkoutCreate.userErrors);
-//      } else {
-//        res.send(response.data.data.checkoutCreate.checkout.id);
-//      }
-//    })
-//    .catch(function (error) {
-//      console.log(error.response.data);
-//    });
-//});
-//app.post("/additemtocheckout", (req, res) => {
-//  var data = JSON.stringify({
-//    query: `mutation checkoutLineItemsAdd($checkoutId: ID!, $lineItems: [CheckoutLineItemInput!]!) {
-//      checkoutLineItemsAdd(checkoutId: $checkoutId, lineItems: $lineItems) {
-//        checkout {
-//          webUrl
-//          lineItemsSubtotalPrice {
-//            amount}
-//          lineItems(first:100) {
-//            edges {
-//              node {
-//                id
-//                title
-//                quantity
-//                variant{
-//                  image{
-//                    url}
-//                  priceV2{
-//                    amount}}}}}}
-//        checkoutUserErrors {
-//          message
-//          field}}}  `,
-//    variables: {
-//      checkoutId: req.body.checkoutId,
-//      lineItems: {
-//        quantity: req.body.quantity,
-//        variantId: req.body.variantId,
-//      },
-//    },
-//  });
-//  var config = {
-//    method: "post",
-//    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
-//    headers: {
-//      "X-Shopify-Storefront-Access-Token":
-//        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
-//      "Content-Type": "application/json",
-//    },
-//    data: data,
-//  };
-//  axios(config)
-//    .then(function (response) {
-//      if (
-//        response.data.data.checkoutLineItemsAdd.checkoutUserErrors.length > 0
-//      ) {
-//        res
-//          .status(400)
-//          .send(response.data.data.checkoutLineItemsAdd.userErrors);
-//      } else {
-//        res.send(response.data.data.checkoutLineItemsAdd.checkout);
-//      }
-//    })
-//    .catch(function (error) {
-//      console.log(error.response.data);
-//    });
-//});
-
+app.post("/updateUserCartId", (req, res) => {
+  console.log(req.body);
+  var data = JSON.stringify({
+    query: `mutation metafieldsSet($metafields: [MetafieldsSetInput!]!) {
+          metafieldsSet(metafields: $metafields) {
+            metafield(key: "cartId", namespace: "instructions") {
+              id
+              value
+            }
+            userErrors {
+              field
+              message
+            }
+          }
+        }`,
+    variables: {
+      metafields: {
+        ownerId: response.data.data.customer.metaFieldId,
+        namespace: "instructions",
+        value: req.body.cartId,
+        key: "cartId",
+        type: "single_line_text_field",
+      },
+    },
+  });
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/admin/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Access-Token": process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+  axios(config).then(function (response) {
+    res.send(response.data.data.customer.metafield);
+  });
+});
 app.post("/createcart", (req, res) => {
   if (req.body.accessToken) {
     var data = JSON.stringify({
@@ -688,7 +681,7 @@ app.post("/addtocart", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error.response.data);
+      console.log(error);
     });
 });
 app.post("/removefromcart", (req, res) => {
@@ -1112,56 +1105,6 @@ app.post("/delete-address", (req, res) => {
       console.log(error.response.data);
     });
 });
-//app.post("/update-address", (req, res) => {
-//  var data = JSON.stringify({
-//    query: `mutation customerAddressUpdate($address: MailingAddressInput!, $customerAccessToken: String!, $id: ID!) {
-//      customerAddressUpdate(address: $address, customerAccessToken: $customerAccessToken, id: $id) {
-//        customerAddress {
-//          firstName
-//          lastName
-//          phone
-//          address1
-//          city
-//          country
-//          zip
-//        }
-//        customerUserErrors {
-//          message
-//        }
-//      }
-//    }`,
-//    variables: {
-//      address: {
-//        city: body.city,
-//        country: body.country,
-//        address1: body.address1,
-//        zip: body.zip,
-//        firstName: body.firstName,
-//        lastName: body.lastName,
-//        phone: body.phone,
-//      },
-//      customerAccessToken: body.accessToken,
-//      id: body.addressId,
-//    },
-//  });
-//  var config = {
-//    method: "post",
-//    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
-//    headers: {
-//      "X-Shopify-Storefront-Access-Token":
-//        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
-//      "Content-Type": "application/json",
-//    },
-//    data: data,
-//  };
-//  axios(config)
-//    .then(function (response) {
-//      res.send(response.data.data);
-//    })
-//    .catch(function (error) {
-//      console.log(error.response.data);
-//    });
-//});
 app.listen(4000, (err) => {
   if (err) console.log(err);
   console.log(`server is running at 4000`);
