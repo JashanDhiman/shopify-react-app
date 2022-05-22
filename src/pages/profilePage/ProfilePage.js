@@ -181,7 +181,7 @@ const ProfilePage = () => {
               </div>
             </div>
           </div>
-          <EditUserInfo />
+          {/*<EditUserInfo />*/}
           <EditAddress />
           <AddAddress />
         </div>

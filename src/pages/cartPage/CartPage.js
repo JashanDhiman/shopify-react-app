@@ -25,7 +25,7 @@ const CartPage = () => {
                 {" "}
                 <i className="icons">
                   <FaAngleRight />
-                </i>{" "}
+                </i>
               </li>
               <li>
                 <span> Your Cart</span>

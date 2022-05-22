@@ -373,8 +373,7 @@ app.get("/products", (req, res) => {
 });
 app.post("/product", (req, res) => {
   var data = JSON.stringify({
-    query: ` {
-    	product(id: "gid://shopify/Product/${req.body.id}") {
+    query: ` {product(id: "gid://shopify/Product/${req.body.id}") {
       	title
       	description
       	id

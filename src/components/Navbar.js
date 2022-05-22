@@ -147,6 +147,11 @@ const Navbar = () => {
                   <FiLogOut />
                 </Link>
               </li>
+              <li>
+                <Link to="/profile">
+                  <FiLogOut />
+                </Link>
+              </li>
             </>
           ) : (
             <li>
@@ -169,11 +174,11 @@ const Navbar = () => {
             />
           </a>
         </span>
-        <div className="header-search search_cont" id="header-search">
+        {/*<div className="header-search search_cont" id="header-search">
           <i className="search-icon">
             <IoMdSearch />
           </i>
-        </div>
+        </div>*/}
         <div className="header-cart">
           <a href="/cart">
             <svg

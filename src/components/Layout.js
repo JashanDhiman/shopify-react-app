@@ -8,7 +8,9 @@ const Layout = ({ showHeader, showCart, showFooter, children }) => {
     <>
       {showHeader && <Navbar />}
       {showCart && <Cart />}
-      <div style={{ maxWidth: "1280px", margin: "auto" }}>{children}</div>
+      <div style={{ maxWidth: showHeader ? "1280px" : "100%", margin: "auto" }}>
+        {children}
+      </div>
       {showFooter && <Footer />}
     </>
   );

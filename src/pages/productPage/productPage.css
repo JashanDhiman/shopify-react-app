@@ -7,6 +7,13 @@
   --gray: #efefef;
   --gray-2: #757575;
 }
+.product-card {
+  padding: 1rem;
+}
+strong {
+  font-weight: 500;
+  font-size: 1rem;
+}
 .product-card .product-div {
   padding: 1rem;
   max-width: 100vw;
@@ -26,9 +33,11 @@
   height: 100%;
 }
 .product-card .product-details-div .productHead {
+  text-transform: uppercase;
+  font-family: Unna-Regular;
   font-size: 2rem;
-  font-weight: 900;
-  margin-bottom: 2rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
 }
 .product-card .product-details-div .productDesc {
   font-size: 1.1rem;
@@ -38,16 +47,308 @@
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
-.product-card .product-details-div .productBtn {
-  font-size: 1.3rem;
+/*.product-card .product-details-div .productBtn {
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  font-family: "Lato-Semibold";
   border-radius: 1rem;
   padding: 0.3rem 1.3rem;
   cursor: pointer;
   color: #fff;
   background-color: var(--main-color);
   border: 0;
+}*/
+.product-card .product-details-div .productBtn,
+.hv_a_que,
+#simpAskQuestion .button {
+  float: none;
+  font-family: "Lato-Semibold";
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+  outline: 0;
+  border-radius: 20px;
+  display: inline-block;
+  line-height: 40px;
+  padding: 0 30px;
+  color: #fff;
+  border: 0;
+  cursor: pointer;
+  background: #205b4b;
+  text-decoration: none;
 }
-.product-card .product-details-div .productBtn:hover {
+.tax_info {
+  font-size: 12px;
+  margin: 0;
+  display: block;
+  line-height: 15px;
+  color: #a0a0a0;
+  letter-spacing: 0;
+}
+.product-discount-wrapper {
+  background-color: #f6fffc;
+  border: 1px solid #daf0e7;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  color: #4e4949;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  padding-left: 30px;
+  font-size: 14px;
+  letter-spacing: 1px;
+  column-gap: 0.8rem;
+}
+.product-discount-wrapper span.cc {
+  color: #205b4b;
+  font-size: 16px;
+  line-height: 20px;
+  margin-right: 0;
+  border: 1px dashed #205b4b;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 3px;
+}
+.pro-qty {
+  letter-spacing: 1px;
+  line-height: 1.5rem;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+.product_spec {
+  letter-spacing: 1px;
+  line-height: 1.5rem;
+  margin: 25px 0;
+}
+.product_desc_title {
+  border-bottom: 1px solid #dcdcdd;
+  font-size: 16px;
+  margin-bottom: 20px;
+  padding: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  clear: both;
+}
+.product_spec p span,
+.tab-content p span {
+  font-family: Lato-Semibold;
+  text-transform: uppercase;
+  line-height: 30px;
+}
+.prt-btm ul {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  row-gap: 4rem;
+}
+.prt-btm li span {
+  background-image: url(//cdn.shopify.com/s/files/1/1380/2059/t/117/assets/product_description-updated.png?v=9433718…);
+  display: block;
+  height: 64px;
+  margin: 7px auto 0;
+  width: 60px;
+  background-position: -9px -8px;
+}
+.prt-btm li span.prt-sd {
+  background-position: -14px -79px;
+  width: 44px;
+  height: 64px;
+}
+.prt-btm li span.prt-fw {
+  background-position: -16px -143px;
+  width: 35px;
+  height: 59px;
+  margin-top: 12px;
+}
+.prt-btm li span.prt-fs {
+  background-position: -10px -202px;
+  width: 43px;
+  height: 59px;
+  margin-top: 12px;
+}
+.prt-btm li span.prt-dm {
+  background-position: -19px -413px;
+  width: 42px;
+  height: 46px;
+  margin: 24px auto 0;
+}
+p.prt-value {
+  padding-top: 28px;
+  letter-spacing: 2px;
+}
+.prt-btm li {
+  box-sizing: border-box;
+  display: inline-block;
+  font-size: 13px;
+  padding: 0;
+  text-align: center;
+  text-transform: uppercase;
+  vertical-align: top;
+}
+/*.prt-btm li:hover span {
+  background-position: -76px -8px;
+}
+.prt-btm li:hover span.prt-sd {
+  background-position: -85px -79px;
+}
+.prt-btm li:hover span.prt-fw {
+  background-position: -86px -143px;
+}
+.prt-btm li:hover span.prt-fs {
+  background-position: -81px -202px;
+}
+.prt-btm li:hover span.prt-dm {
+  background-position: -90px -413px;
+}*/
+.prt-btm li span {
+  background-position: -76px -8px;
+}
+.prt-btm li span.prt-sd {
+  background-position: -85px -79px;
+}
+.prt-btm li span.prt-fw {
+  background-position: -86px -143px;
+}
+.prt-btm li span.prt-fs {
+  background-position: -81px -202px;
+}
+.prt-btm li span.prt-dm {
+  background-position: -90px -413px;
+}
+.product-tab {
+  width: 100%;
+  border: solid 2px #282829;
+  height: 58px;
+  margin-top: 100px;
+}
+ul.tabs li {
+  line-height: 1.8em;
+}
+ul.tabs li.current {
+  background: #282829;
+  color: #fff;
+}
+ul.tabs li {
+  background: none;
+  letter-spacing: 2px;
+  color: #222;
+  position: relative;
+  display: inline-block;
+  border-right: solid 2px #282829;
+  cursor: pointer;
+  width: 33.33%;
+  font-size: 14px;
+  padding: 15px;
+  text-align: center;
+  text-transform: uppercase;
+}
+ul.tabs li.current:after {
+  top: 100%;
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-color: #d8dfd100;
+  border-top-color: #282829;
+  border-width: 12px;
+  margin-left: -12px;
+}
+.tab-content {
+  background: #fff;
+  letter-spacing: 1px;
+  line-height: 1.5rem;
+  padding: 45px 15px 15px;
+  font-size: 16px;
+  line-height: 150%;
+}
+.product-disclaimer {
+  letter-spacing: 1px;
+  line-height: 1.5rem;
+  padding: 20px 10px;
+  font-size: 14px;
+  display: block;
+  border-top: solid 1px #eae8e8;
+  border-bottom: solid 1px #eae8e8;
+  margin: 10px 0;
+}
+.product-disclaimer p {
+  margin: 10px 0;
+}
+#simpAskQuestion {
+  clear: both;
+  margin: 20px auto 0;
+  max-width: 1200px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#simpAskQuestion .simpAsk-title-container {
+  margin-bottom: 10px !important;
+}
+.simp-ask-question-header {
+  background-color: #fafafa;
+  padding: 20px;
+  position: relative;
+}
+.simpAskQuestion-Qcontent {
+  width: 275px;
+  letter-spacing: 0.5px;
+  line-height: 1.2rem;
+  display: inline-block;
+}
+.simpAskQuestion-Qcontent p {
+  font-size: 0.9em;
+  margin: 0 !important;
+}
+#simpAskQuestion .button {
+  position: static;
+  float: right;
+  margin: 0 0 0 10px;
+  padding: 0 20px !important;
+  border-radius: 20px !important;
+  text-transform: uppercase !important;
+}
+#simpAskQuestion.simpAsk-container h2 {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 7px 0 7px !important;
+  float: none !important;
+}
+
+#simpAskQuestion.simpAsk-container h2 {
+  text-transform: uppercase;
+  color: #282829;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+.product-card .product-details-div .productBtn:hover,
+.hv_a_que:hover,
+#simpAskQuestion .button:hover {
   background-color: var(--secondary-color);
   color: var(--black);
+}
+@media (max-width: 992px) {
+  .product-discount-wrapper {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 10px 20px;
+    text-align: center;
+    height: auto;
+    font-size: 14px;
+  }
+  .product-discount-wrapper span:not(.cc) {
+    flex: 0 0 100%;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    font-size: 1rem;
+  }
 }
