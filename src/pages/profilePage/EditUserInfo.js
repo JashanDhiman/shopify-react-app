@@ -45,36 +45,6 @@ const EditUserInfo = () => {
               return <div key={index}>{InputField(data)}</div>;
             })}
           </div>
-          {/*<hr></hr>
-          <div className="header">
-            <h3>Address Information</h3>
-            <button className="btn btn-info">Save</button>
-          </div>
-          <div>
-            {addresses.map((address, index) => {
-              const { addressId, address1, city, country, zip } = address.node;
-              const userAddressList = [
-                { id: "address", label: "Address", data: address1 },
-                { id: "city", label: "City", data: city },
-                { id: "country", label: "Country", data: country },
-                { id: "zip", label: "Zip", data: zip },
-              ];
-              return (
-                <div key={index}>
-                  <h4 style={{ marginLeft: "0.5rem" }}>{`Address ${
-                    index + 1
-                  }`}</h4>
-
-                  <div className="contact-info input-group">
-                    {userAddressList.map((data, index) => {
-                      return <div key={index}>{Input(data)}</div>;
-                    })}
-                  </div>
-                  <hr></hr>
-                </div>
-              );
-            })}
-          </div>*/}
         </div>
       </form>
     </div>

@@ -9,7 +9,7 @@ const InputField = (e) => {
         {label}
       </label>
       {id === "phone" ? (
-        <CountrySelector value={data} />
+        <CountrySelector data={data} />
       ) : (
         <input
           className="form-control form-control-alternative"

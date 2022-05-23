@@ -8,14 +8,8 @@ import { ShopContext } from "../../contexts/ShopContext";
 import "./productPage.css";
 
 const ProductPage = () => {
-  const {
-    isProductById,
-    fetchById,
-    isAdding,
-    addItemToCart,
-    isLoading,
-    updateItemToCart,
-  } = useContext(ShopContext);
+  const { isProductById, fetchById, isAdding, addItemToCart, isLoading } =
+    useContext(ShopContext);
 
   const thePath = useLocation().pathname;
   useEffect(() => {
@@ -201,7 +195,7 @@ const ProductPage = () => {
                   <h3>Have a Question?</h3>
                   <p>Be the first to ask a question about this.</p>
                 </div>
-                <a href="#" className="simpAskQuestionForm-btnOpen btn button">
+                <a href="#j" className="simpAskQuestionForm-btnOpen btn button">
                   <i className="demo-icon icon-simp-help-circled"></i> Ask a
                   Question
                 </a>

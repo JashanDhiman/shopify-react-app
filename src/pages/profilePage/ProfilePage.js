@@ -55,10 +55,8 @@ const ProfilePage = () => {
             left: "50%",
             transform: "translate(-50%, -50%)",
             zIndex: "10",
-            //background:
           }}
         >
-          {/*<Loading />*/}
           {isLoading && <Loading />}
         </div>
         <div className="profile-page">
@@ -181,7 +179,7 @@ const ProfilePage = () => {
               </div>
             </div>
           </div>
-          {/*<EditUserInfo />*/}
+          <EditUserInfo />
           <EditAddress />
           <AddAddress />
         </div>

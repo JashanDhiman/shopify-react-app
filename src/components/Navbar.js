@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { ShopContext } from "../contexts/ShopContext";
-import { IoIosArrowDown, IoMdSearch } from "react-icons/io";
+import { IoIosArrowDown } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
 import { FiLogIn, FiLogOut } from "react-icons/fi";
 import "../styles/navbar.css";
@@ -31,7 +31,7 @@ const Navbar = () => {
       <div className="discoverMenu">
         <ul className="parent">
           <li className="seeds ">
-            <a href="/collections/seeds">Seeds</a>
+            <a href="/collections/veg">Seeds</a>
             <i className="arrow-down">
               <IoIosArrowDown />
             </i>
@@ -40,31 +40,31 @@ const Navbar = () => {
                 <a href="/collections/veg">Vegetables</a>
               </li>
               <li>
-                <a href="/collections/herb-seeds">Herbs</a>
+                <a href="/collections/veg">Herbs</a>
               </li>
               <li>
-                <a href="/collections/baby-leaf-seeds">Baby Leaves</a>
+                <a href="/collections/veg">Baby Leaves</a>
               </li>
               <li>
-                <a href="/collections/flower-seeds">Flowers</a>
+                <a href="/collections/veg">Flowers</a>
               </li>
               <li>
-                <a href="/collections/fruit-seeds">Fruits</a>
+                <a href="/collections/veg">Fruits</a>
               </li>
               <li>
-                <a href="/collections/exotic-vegetables">Exotic Vegetables</a>
+                <a href="/collections/veg">Exotic Vegetables</a>
               </li>
               <li>
-                <a href="/collections/exotic-herbs">Exotic Herbs</a>
+                <a href="/collections/veg">Exotic Herbs</a>
               </li>
               <li>
-                <a href="/pages/edible-flowers">Edible Flowers</a>
+                <a href="/collections/veg">Edible Flowers</a>
               </li>
               <li>
-                <a href="/collections/desi-seeds">Desi Seeds</a>
+                <a href="/collections/veg">Desi Seeds</a>
               </li>
               <li>
-                <a href="/collections/grass-seeds">Grass</a>
+                <a href="/collections/veg">Grass</a>
               </li>
             </ul>
           </li>
@@ -75,10 +75,10 @@ const Navbar = () => {
             </i>
             <ul className="child" data-parent="Microgreens">
               <li>
-                <a href="/collections/micro-greens-seeds">Microgreen Seeds</a>
+                <a href="/collections/veg">Microgreen Seeds</a>
               </li>
               <li>
-                <a href="/products/microgreen-seeds-kit">Microgreen Seed Kit</a>
+                <a href="/collections/veg">Microgreen Seed Kit</a>
               </li>
             </ul>
           </li>
@@ -97,32 +97,30 @@ const Navbar = () => {
             </i>
             <ul className="child" data-parent="Kits &amp; Gifts">
               <li>
-                <a href="/products/grow-kit">Grow kits</a>
+                <a href="/collections/veg">Grow kits</a>
               </li>
               <li>
-                <a href="/collections/seed-kits">Seed Kits</a>
+                <a href="/collections/veg">Seed Kits</a>
               </li>
               <li>
-                <a href="/pages/grow-kit-return-gift">Gifting</a>
+                <a href="/collections/veg">Gifting</a>
               </li>
               <li>
-                <a href="/products/complete-microgreen-growing-kit">
-                  Microgreen Growing Kit
-                </a>
+                <a href="/collections/veg">Microgreen Growing Kit</a>
               </li>
             </ul>
           </li>
           <li className="garden supplies ">
-            <a href="/collections/garden-supplies">Garden Supplies</a>
+            <a href="/collections/veg">Garden Supplies</a>
             <i className="arrow-down">
               <IoIosArrowDown />
             </i>
             <ul className="child" data-parent="Garden Supplies">
               <li>
-                <a href="/pages/grow-bags">Grow Bags</a>
+                <a href="/collections/veg">Grow Bags</a>
               </li>
               <li>
-                <a href="/pages/hydroponics">Hydroponics</a>
+                <a href="/collections/veg">Hydroponics</a>
               </li>
               <li>
                 <a href="https://www.allthatgrows.in/pages/jute-wall-planters">
@@ -130,26 +128,26 @@ const Navbar = () => {
                 </a>
               </li>
               <li>
-                <a href="/pages/garden-sprayers">Garden Sprayers</a>
+                <a href="/collections/veg">Garden Sprayers</a>
               </li>
               <li>
-                <a href="/collections/growing-medium">Growing Medium</a>
+                <a href="/collections/veg">Growing Medium</a>
               </li>
               <li>
-                <a href="/collections/gardening-tools">Gardening Tools</a>
+                <a href="/collections/veg">Gardening Tools</a>
               </li>
             </ul>
           </li>
           {accessToken ? (
             <>
               <li onClick={signOut}>
-                <Link to="#">
+                <Link to="#logout">
                   <FiLogOut />
                 </Link>
               </li>
               <li>
                 <Link to="/profile">
-                  <FiLogOut />
+                  <FaRegUser />
                 </Link>
               </li>
             </>
