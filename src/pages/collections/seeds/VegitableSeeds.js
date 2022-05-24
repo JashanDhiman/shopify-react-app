@@ -8,10 +8,12 @@ const VegitableSeeds = () => {
   const { collection, addItemToCart, isAdding, collectionByHandle } =
     useContext(ShopContext);
   const thePath = useLocation().pathname;
+  /*eslint-disable */
   useEffect(() => {
     let collectionhandle = thePath.substring(thePath.lastIndexOf("/") + 1);
     collectionByHandle(collectionhandle);
   }, []);
+  /*eslint-enable */
   return (
     <Layout showFooter={true} showHeader={true} showCart={true}>
       <div>

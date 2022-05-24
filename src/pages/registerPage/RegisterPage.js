@@ -7,12 +7,13 @@ import SignUp from "./SignUp";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
+  /*eslint-disable */
   useEffect(() => {
     if (localStorage.getItem("ATG_AccessToken")) {
       navigate("/homepage");
     }
   }, []);
-
+  /*eslint-enable */
   let container;
   setTimeout(() => {
     container = document.getElementById("container");

@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
 import InputField from "../../components/InputField";
 import { ShopContext } from "../../contexts/ShopContext";
+import { ImCross } from "react-icons/im";
 
 const EditUserInfo = () => {
-  const { isUserProfile, editShow, accessToken, updateProfile } =
+  const { isUserProfile, setEditShow, accessToken, updateProfile } =
     useContext(ShopContext);
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,16 +27,16 @@ const EditUserInfo = () => {
   ];
 
   return (
-    <div
-      className="edit-profile"
-      style={{ display: editShow ? "block" : "none" }}
-    >
-      <form className="my-account" onSubmit={handleSubmit}>
+    <div className="edit-profile">
+      <div className="my-account">
         <div className="edit-header">
           <h2>Edit Profile</h2>
+          <i className="icons" onClick={() => setEditShow(false)}>
+            <ImCross />
+          </i>
         </div>
         <br></br>
-        <div className="edit-div">
+        <form className="edit-div" onSubmit={handleSubmit}>
           <div className="header">
             <h3>User Information</h3>
             <button className="btn btn-info">Save</button>
@@ -45,8 +46,8 @@ const EditUserInfo = () => {
               return <div key={index}>{InputField(data)}</div>;
             })}
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };

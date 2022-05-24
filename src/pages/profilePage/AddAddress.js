@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import InputField from "../../components/InputField";
 import { ShopContext } from "../../contexts/ShopContext";
+import { ImCross } from "react-icons/im";
 
 const AddAddress = () => {
-  const { showAddress, createAddress } = useContext(ShopContext);
+  const { showAddress, createAddress, setShowAddress } =
+    useContext(ShopContext);
 
   if (showAddress) {
     const userInfoList = [
@@ -32,18 +34,26 @@ const AddAddress = () => {
     };
     return (
       <div className="edit-profile">
-        <form className="my-account" onSubmit={handleSubmit}>
+        <div className="my-account" onSubmit={handleSubmit}>
           <div className="edit-header">
             <h2>Create Address</h2>
-            <button className="btn btn-info">Save</button>
+            <i className="icons" onClick={() => setShowAddress(false)}>
+              <ImCross />
+            </i>
           </div>
           <br></br>
-          <div className="general-data input-group">
-            {userInfoList.map((data, index) => {
-              return <div key={index}>{InputField(data)}</div>;
-            })}
-          </div>
-        </form>
+          <form className="edit-div" onSubmit={handleSubmit}>
+            <div className="header">
+              <h3>User Information</h3>
+              <button className="btn btn-info">Save</button>
+            </div>
+            <div className="general-data input-group">
+              {userInfoList.map((data, index) => {
+                return <div key={index}>{InputField(data)}</div>;
+              })}
+            </div>
+          </form>
+        </div>
       </div>
     );
   }

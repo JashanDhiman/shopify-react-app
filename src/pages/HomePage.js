@@ -13,9 +13,11 @@ const HomePage = () => {
   const { productsList, fetchAll } = useContext(ShopContext);
   //const { productsList, addItemToCart, isAdding, fetchAll } =
   //  useContext(ShopContext);
+  /*eslint-disable */
   useEffect(() => {
     fetchAll();
   }, []);
+  /*eslint-enable */
   const SamplePrevArrow = (props) => {
     const { className, onClick } = props;
     return (

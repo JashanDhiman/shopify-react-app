@@ -12,10 +12,12 @@ const ProductPage = () => {
     useContext(ShopContext);
 
   const thePath = useLocation().pathname;
+  /*eslint-disable */
   useEffect(() => {
     let productId = thePath.substring(thePath.lastIndexOf("/") + 1);
     fetchById(productId);
   }, []);
+  /*eslint-enable */
   const [productQuantity, setProductQuantity] = useState(1);
   if (isProductById) {
     isLoading && <Loading />;

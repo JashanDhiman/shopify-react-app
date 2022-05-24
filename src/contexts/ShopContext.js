@@ -21,6 +21,7 @@ const ShopProvider = ({ children }) => {
   const [collection, setCollection] = useState(false);
   const updateCartId = useRef(false);
   const domain = process.env.REACT_APP_DEPLOY_DOMAIN;
+  /*eslint-disable */
   useEffect(() => {
     if (localStorage.ATG_AccessToken) {
       const today = new Date(Date.now());
@@ -41,6 +42,7 @@ const ShopProvider = ({ children }) => {
       createCart();
     }
   }, []);
+  /*eslint-enable */
 
   //-----------------------------User Control Functions starts-----------------------
   const signIn = async (userVariables) => {

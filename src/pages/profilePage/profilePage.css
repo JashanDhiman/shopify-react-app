@@ -290,11 +290,8 @@ input:disabled {
   box-shadow: 0px 1px 1px 0px #fff;
 }
 .profile-page .edit-profile {
-  height: 90vh;
+  height: 100%;
   width: 100%;
-  position: fixed;
-  top: 10%;
-  left: 0;
   background-color: #fff;
   overflow: auto;
   padding: 2rem;
