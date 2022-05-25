@@ -8,6 +8,11 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const { cart, signOut, accessToken } = useContext(ShopContext);
+  let totalQuantity = 0;
+  cart &&
+    cart.lines.edges.map(({ node: { quantity } }) => {
+      totalQuantity += quantity;
+    });
   return (
     <div className="header-navbar">
       <div className="logo">
@@ -191,7 +196,7 @@ const Navbar = () => {
                 fill="black"
               ></path>
             </svg>
-            {cart && <span className="count">{cart.lines.edges.length}</span>}
+            {cart && <span className="count">{totalQuantity}</span>}
           </a>
         </div>
       </div>

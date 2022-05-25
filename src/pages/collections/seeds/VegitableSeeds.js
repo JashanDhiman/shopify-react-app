@@ -40,6 +40,7 @@ const VegitableSeeds = () => {
               } = node.node;
               const variantId = node.node.variants.edges[0].node.id;
               const price = node.node.variants.edges[0].node.priceV2.amount;
+              console.log(node.node);
               return (
                 <div key={index} className="product-card">
                   <div className="card-image-div">

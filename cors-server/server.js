@@ -58,12 +58,10 @@ app.post("/signup", (req, res) => {
 
   axios(config)
     .then(function (response) {
-      //console.log(response.data.data.customerCreate);
       if (response.data.data.customerCreate.userErrors.length > 0) {
         res.status(400).send("Email has already been taken");
       } else {
         customer_Id = response.data.data.customerCreate.customer.id;
-        //console.log(customer_Id);
         var data = JSON.stringify({
           query: `mutation customerGenerateAccountActivationUrl($customerId: ID!) {
           customerGenerateAccountActivationUrl(customerId: $customerId) {
@@ -373,10 +371,13 @@ app.get("/products", (req, res) => {
 });
 app.post("/product", (req, res) => {
   var data = JSON.stringify({
-    query: ` {product(id: "gid://shopify/Product/${req.body.id}") {
+    query: `{product(id: "gid://shopify/Product/${req.body.id}") {
       	title
       	description
       	id
+        seo{
+          title
+          description}
         variants(first:5){
           edges{
             node{
@@ -583,7 +584,7 @@ app.post("/fetchcart", (req, res) => {
               amount}}
           id
           checkoutUrl
-          lines(first:5) {
+          lines(first:250) {
             edges {
               node {
                 id
@@ -597,6 +598,7 @@ app.post("/fetchcart", (req, res) => {
                     sku
                     product {
                       title
+                      id
                     }
                     priceV2 {
                       amount
@@ -645,6 +647,7 @@ app.post("/addtocart", (req, res) => {
                   ... on ProductVariant {
                     id
                     product {
+                      id
                       title}
                     priceV2 {
                       amount}
@@ -707,6 +710,7 @@ app.post("/removefromcart", (req, res) => {
                   ... on ProductVariant {
                     id
                     product {
+                      id
                       title}
                     priceV2 {
                       amount}
@@ -761,6 +765,7 @@ app.post("/updatecart", (req, res) => {
                   ... on ProductVariant {
                     id
                     product {
+                      id
                       title}
                     priceV2 {
                       amount}

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
+import { Helmet } from "react-helmet";
 import { useLocation } from "react-router-dom";
 import Layout from "../../components/Layout";
 import Loading from "../../components/Loading";
@@ -28,8 +29,13 @@ const ProductPage = () => {
     } = isProductById;
     const { amount } = isProductById.priceRange.maxVariantPrice;
     const variantId = isProductById.variants.edges[0].node.id;
+    const { title: seoTitle, description: seoDesc } = isProductById.seo;
     return (
       <Layout showFooter={true} showHeader={true} showCart={true}>
+        <Helmet>
+          <meta name="description" content={seoDesc} />
+          <title>{seoTitle}</title>
+        </Helmet>
         <div className="product-card">
           <div className="product-div">
             <div className="product-image-div block">

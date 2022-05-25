@@ -56,13 +56,14 @@ const CartPage = () => {
                     //const merchandiseId = node.node.merchandise.id;
                     const { id, quantity } = node.node;
                     const {
-                      product: { title },
+                      product: { id: productId, title },
                       image: { url },
                       priceV2: { amount },
                       sku,
                     } = node.node.merchandise;
                     const totalPrice =
                       node.node.estimatedCost.subtotalAmount.amount;
+                    console.log(productId);
                     return (
                       <div key={index} className="cart-row">
                         <div className="col1">
@@ -79,7 +80,9 @@ const CartPage = () => {
                           <div>
                             <a
                               className="title"
-                              href="/products/radish-white-microgreens"
+                              href={`/product/${productId.substring(
+                                id.lastIndexOf("/")
+                              )}`}
                               title="Radish White Microgreen Seeds"
                             >
                               {title}
