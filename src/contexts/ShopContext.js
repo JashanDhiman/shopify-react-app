@@ -6,6 +6,8 @@ const ShopContext = React.createContext();
 
 const ShopProvider = ({ children }) => {
   const [productsList, setProductsList] = useState(false);
+  const [editShow, setEditShow] = useState(false);
+  const [editAddressData, setEditAddressData] = useState(false);
   const navigate = useNavigate();
   //const [checkoutId, setCheckoutId] = useState("");
   //const [checkout, setCheckout] = useState("");
@@ -350,6 +352,10 @@ const ShopProvider = ({ children }) => {
         isProductById,
         accessToken,
         isUserProfile,
+        editShow,
+        editAddressData,
+        setEditAddressData,
+        setEditShow,
         userProfile,
         fetchById,
         cartOpen,

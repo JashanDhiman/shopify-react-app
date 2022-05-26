@@ -772,11 +772,19 @@ app.post("/profile", (req, res) => {
         email
         phone
         createdAt
-        defaultAddress{
-          address1
-          zip
-          city
-          country
+        addresses(first:20) {
+          edges {
+            node {
+              id
+              address1
+              zip
+              city
+              country
+              firstName
+              lastName
+              phone
+            }
+          }
         }
         orders(first:250){
           edges{
@@ -818,7 +826,56 @@ app.post("/profile", (req, res) => {
       console.log(error);
     });
 });
-
+app.post("/update-address", (req, res) => {
+  var data = JSON.stringify({
+    query: `mutation customerAddressUpdate($address: MailingAddressInput!, $customerAccessToken: String!, $id: ID!) {
+      customerAddressUpdate(address: $address, customerAccessToken: $customerAccessToken, id: $id) {
+        customerAddress {
+          firstName
+          lastName
+          phone
+          address1
+          city
+          country
+          zip
+        }
+        customerUserErrors {
+          message
+        }
+      }
+    }`,
+    variables: {
+      address: {
+        city: body.city,
+        country: body.country,
+        address1: body.address1,
+        zip: body.zip,
+        firstName: body.firstName,
+        lastName: body.lastName,
+        phone: body.phone,
+      },
+      customerAccessToken: body.accessToken,
+      id: body.addressId,
+    },
+  });
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+  axios(config)
+    .then(function (response) {
+      res.send(response.data.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
 app.listen(4000, (err) => {
   if (err) console.log(err);
   console.log(`server is running at 4000`);
