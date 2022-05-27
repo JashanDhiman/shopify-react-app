@@ -7,6 +7,7 @@ const ShopContext = React.createContext();
 
 const ShopProvider = ({ children }) => {
   const [productsList, setProductsList] = useState(false);
+  const [wishList, setWishList] = useState(false);
   const [editShow, setEditShow] = useState(false);
   const [editAddressData, setEditAddressData] = useState(false);
   const [showAddress, setShowAddress] = useState(false);
@@ -24,6 +25,7 @@ const ShopProvider = ({ children }) => {
   /*eslint-disable */
   useEffect(() => {
     if (localStorage.ATG_AccessToken) {
+      fetchWishList();
       const today = new Date(Date.now());
       const myDate = new Date(
         JSON.parse(localStorage.ATG_AccessToken).expiresAt
@@ -205,6 +207,7 @@ const ShopProvider = ({ children }) => {
         alert(error.response.data[0].message);
       });
   };
+
   //-----------------------------Proctucts fetch Functions-----------------------
   const fetchAll = () => {
     var config = {
@@ -239,6 +242,7 @@ const ShopProvider = ({ children }) => {
       setIsLoading(false);
     });
   };
+
   //----------------------------------------Cart functions-------------------
   const createCart = async () => {
     var config = {
@@ -376,6 +380,25 @@ const ShopProvider = ({ children }) => {
       });
   };
 
+  //----------------------------------------Cart functions-------------------
+  const fetchWishList = async () => {
+    var config = {
+      method: "post",
+      url: `${domain}:4000/fetchWishList`,
+      data: {
+        accessToken: JSON.parse(localStorage.getItem("ATG_AccessToken")),
+      },
+    };
+    await axios(config)
+      .then((response) => {
+        console.log(response.data);
+        //setWishList(response.data);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
+
   return (
     <ShopContext.Provider
       value={{
@@ -390,6 +413,8 @@ const ShopProvider = ({ children }) => {
         editAddressData,
         showAddress,
         collection,
+        wishList,
+        setWishList,
         setShowAddress,
         createAddress,
         editAddress,

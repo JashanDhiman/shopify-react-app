@@ -63,7 +63,6 @@ const CartPage = () => {
                     } = node.node.merchandise;
                     const totalPrice =
                       node.node.estimatedCost.subtotalAmount.amount;
-                    console.log(productId);
                     return (
                       <div key={index} className="cart-row">
                         <div className="col1">
