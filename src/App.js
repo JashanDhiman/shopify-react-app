@@ -11,6 +11,7 @@ import ProfilePage from "./pages/profilePage/ProfilePage";
 //import LandingPage from "./pages/LandingPage";
 import RegisterPage from "./pages/registerPage/RegisterPage";
 import ResetPassPage from "./pages/ResetPassPage";
+import WishListPage from "./pages/WishListPage/WishListPage";
 
 function App() {
   //const { accessToken } = useContext(ShopContext);
@@ -31,6 +32,7 @@ function App() {
         <Route path={`/cart`} element={<CartPage />} />
         <Route path={`/product/*`} element={<ProductPage />} />
         <Route path={`/collections/veg`} element={<VegitableSeeds />} />
+        <Route path={`/wishlist`} element={<WishListPage />} />
         {/*<Route
           path={`/${accessToken.accessToken}/productpage/*`}
           element={<ProductPage />}

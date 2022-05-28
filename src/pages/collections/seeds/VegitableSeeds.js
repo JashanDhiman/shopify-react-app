@@ -18,7 +18,7 @@ const VegitableSeeds = () => {
     <Layout showFooter={true} showHeader={true} showCart={true}>
       <div>
         <div className="products-head">
-          <h2>SEEDS</h2>
+          <h2>VEGETABLES</h2>
           <p style={{ width: "100%", margin: "auto", textAlign: "center" }}>
             A beautiful garden with fresh produce & fragrant foliage on your
             mind? Create your very own urban garden with our wide variety of

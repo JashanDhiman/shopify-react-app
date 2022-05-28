@@ -392,7 +392,7 @@ const ShopProvider = ({ children }) => {
     await axios(config)
       .then((response) => {
         console.log(response.data);
-        //setWishList(response.data);
+        setWishList(response.data);
       })
       .catch((error) => {
         console.log(error.response);
