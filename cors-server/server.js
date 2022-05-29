@@ -827,8 +827,6 @@ app.post("/fetchWishList", (req, res) => {
       let wishlist = response.data.data.customer.metafields.edges[0].node.value
         .split(",")
         .filter(Boolean);
-      //wishlist = wishlist;
-      //res.send(wishlist);
       //console.log(response.data, wishlist);
       var data = JSON.stringify({
         query: `query test($ids: [ID!]!) {
@@ -854,8 +852,10 @@ app.post("/fetchWishList", (req, res) => {
       };
       axios(config)
         .then(function (response) {
-          //console.log(response.data.data.nodes);
-          res.send(response.data.data.nodes);
+          res.send({
+            wishListIDs: wishlist,
+            wishList: response.data.data.nodes,
+          });
         })
         .catch(function (error) {
           console.log(error.response.data);
@@ -865,7 +865,65 @@ app.post("/fetchWishList", (req, res) => {
       console.log(error.response.data);
     });
 });
-app.post("/updateWishList", (req, res) => {
+app.post("/addToWishList", (req, res) => {
+  console.log(req.body);
+  var data = JSON.stringify({
+    query: `{customer(customerAccessToken:"${req.body.accessToken.accessToken}") {metafields(namespace: "custom",first: 50) {
+      edges {node {id
+            key
+            value}}}}}`,
+  });
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+  axios(config)
+    .then(function (response) {
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      console.log(error.response.data);
+    });
+  let wishlist = req.body.updatedList.split(",").filter(Boolean);
+  var data = JSON.stringify({
+    query: `query test($ids: [ID!]!) {
+          nodes(ids: $ids) {
+            ... on Product {id
+              title
+              featuredImage {url}
+              variants(first: 1) {edges {node {id
+                    priceV2 {amount}}}}}}}`,
+    variables: {
+      ids: wishlist,
+    },
+  });
+  var config = {
+    method: "post",
+    url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
+    headers: {
+      "X-Shopify-Storefront-Access-Token":
+        process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+  axios(config)
+    .then(function (response) {
+      res.send({
+        wishListIDs: wishlist,
+        wishList: response.data.data.nodes,
+      });
+    })
+    .catch(function (error) {
+      console.log(error.response.data);
+    });
+
   //let updatedWishList = wishlist.split(",");
   //wishlist = wishlist.replace(/[, ]+/g, ",").trim();
   //let updatedWishList = wishlist.split(" ").filter(Boolean);
@@ -873,33 +931,6 @@ app.post("/updateWishList", (req, res) => {
   //wishlist = wishlist.replace("6762631856213,", "");
   //wishlist = wishlist.replace("6762631856213", "");
   //console.log(wishlist);
-  //var data = JSON.stringify({
-  //  query: `mutation {
-  //    customerUpdate(input: {id: "${req.body.customerId}", metafields: [{id: "${req.body.metafieldId}", value: "${updatedWishList}"}]}) {
-  //      userErrors {message}
-  //      customer {id
-  //        metafields(namespace:"custom",first:20) {
-  //          edges {node {id
-  //              key
-  //              value}}}}}}`,
-  //});
-  //var config = {
-  //  method: "post",
-  //  url: "https://jashan-dev-3.myshopify.com/api/2022-04/graphql.json",
-  //  headers: {
-  //    "X-Shopify-Access-Token": process.env.REACT_APP_STOREFRONT_ACCESS_TOKEN,
-  //    "Content-Type": "application/json",
-  //  },
-  //  data: data,
-  //};
-  //axios(config)
-  //  .then(function (response) {
-  //    console.log(response.data);
-  //    res.send(response.data.data.customer.metafields.edges);
-  //  })
-  //  .catch(function (error) {
-  //    console.log(error.response.data);
-  //  });
 });
 
 //-------------------user profile, address and orders-------------

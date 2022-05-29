@@ -3,10 +3,18 @@ import { Link, useLocation } from "react-router-dom";
 import Layout from "../../../components/Layout";
 import Loading from "../../../components/Loading";
 import { ShopContext } from "../../../contexts/ShopContext";
+import { AiOutlineHeart, AiTwotoneHeart } from "react-icons/ai";
 
 const VegitableSeeds = () => {
-  const { collection, addItemToCart, isAdding, collectionByHandle } =
-    useContext(ShopContext);
+  const {
+    collection,
+    addItemToCart,
+    isAdding,
+    collectionByHandle,
+    wishListIDs,
+    addToWishList,
+    removeFromWishList,
+  } = useContext(ShopContext);
   const thePath = useLocation().pathname;
   /*eslint-disable */
   useEffect(() => {
@@ -14,6 +22,7 @@ const VegitableSeeds = () => {
     collectionByHandle(collectionhandle);
   }, []);
   /*eslint-enable */
+  //var liked = true;
   return (
     <Layout showFooter={true} showHeader={true} showCart={true}>
       <div>
@@ -42,23 +51,41 @@ const VegitableSeeds = () => {
               const price = node.node.variants.edges[0].node.priceV2.amount;
               return (
                 <div key={index} className="product-card">
-                  <div className="card-image-div">
-                    <Link
-                      to={`/product/${id.substring(id.lastIndexOf("/") + 1)}`}
-                    >
-                      <img style={{ height: "140px" }} src={url} alt="img" />
-                      <p>{title}</p>
-                    </Link>
+                  <div
+                    className="likeedIcon"
+                    onClick={() => {
+                      wishListIDs.includes(id)
+                        ? removeFromWishList(id)
+                        : addToWishList(id);
+                    }}
+                  >
+                    <i className="icons">
+                      {wishListIDs.includes(id) ? (
+                        <AiTwotoneHeart />
+                      ) : (
+                        <AiOutlineHeart />
+                      )}
+                    </i>
                   </div>
-                  <div className="card-details-div">
-                    <p>₹ {price}</p>
-                    {isAdding === variantId ? (
-                      <button>ADDING</button>
-                    ) : (
-                      <button onClick={() => addItemToCart(variantId, 1)}>
-                        ADD
-                      </button>
-                    )}
+                  <div className="card">
+                    <div className="card-image-div">
+                      <Link
+                        to={`/product/${id.substring(id.lastIndexOf("/") + 1)}`}
+                      >
+                        <img style={{ height: "140px" }} src={url} alt="img" />
+                        <p>{title}</p>
+                      </Link>
+                    </div>
+                    <div className="card-details-div">
+                      <p>₹ {price}</p>
+                      {isAdding === variantId ? (
+                        <button>ADDING</button>
+                      ) : (
+                        <button onClick={() => addItemToCart(variantId, 1)}>
+                          ADD
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               );

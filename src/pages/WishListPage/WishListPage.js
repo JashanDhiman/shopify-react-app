@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Layout from "../../components/Layout";
 import Loading from "../../components/Loading";
 import { ShopContext } from "../../contexts/ShopContext";
-import { AiOutlineHeart, AiTwotoneHeart } from "react-icons/ai";
+import { AiTwotoneHeart } from "react-icons/ai";
 
 const WishListPage = () => {
   const { addItemToCart, isAdding, wishList } = useContext(ShopContext);

@@ -8,6 +8,7 @@ const ShopContext = React.createContext();
 const ShopProvider = ({ children }) => {
   const [productsList, setProductsList] = useState(false);
   const [wishList, setWishList] = useState(false);
+  const [wishListIDs, setWishListIDs] = useState([]);
   const [editShow, setEditShow] = useState(false);
   const [editAddressData, setEditAddressData] = useState(false);
   const [showAddress, setShowAddress] = useState(false);
@@ -391,8 +392,45 @@ const ShopProvider = ({ children }) => {
     };
     await axios(config)
       .then((response) => {
+        setWishListIDs(response.data.wishListIDs);
+        setWishList(response.data.wishList);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
+  const addToWishList = async (productId) => {
+    //setWishListIDs([...wishListIDs, productId]);
+    const updatedList = [...wishListIDs, productId].join(",");
+    //console.log(updatedList);
+    var config = {
+      method: "post",
+      url: `${domain}:4000/addToWishList`,
+      data: {
+        accessToken: JSON.parse(localStorage.getItem("ATG_AccessToken")),
+        updatedList: updatedList,
+      },
+    };
+    await axios(config)
+      .then((response) => {
         console.log(response.data);
-        setWishList(response.data);
+        //setWishListIDs(response.data.wishListIDs);
+        //setWishList(response.data.wishList);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
+  const removeFromWishList = async (productId) => {
+    var config = {
+      method: "post",
+      url: `${domain}:4000/removeFromWishList`,
+      data: productId,
+    };
+    await axios(config)
+      .then((response) => {
+        setWishListIDs(response.data.wishListIDs);
+        setWishList(response.data.wishList);
       })
       .catch((error) => {
         console.log(error.response);
@@ -414,6 +452,8 @@ const ShopProvider = ({ children }) => {
         showAddress,
         collection,
         wishList,
+        wishListIDs,
+        setWishListIDs,
         setWishList,
         setShowAddress,
         createAddress,
@@ -433,6 +473,8 @@ const ShopProvider = ({ children }) => {
         setAccessToken,
         signOut,
         collectionByHandle,
+        addToWishList,
+        removeFromWishList,
       }}
     >
       {children}
