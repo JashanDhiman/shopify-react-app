@@ -12,8 +12,7 @@ const VegitableSeeds = () => {
     isAdding,
     collectionByHandle,
     wishListIDs,
-    addToWishList,
-    removeFromWishList,
+    updateWishList,
   } = useContext(ShopContext);
   const thePath = useLocation().pathname;
   /*eslint-disable */
@@ -55,8 +54,8 @@ const VegitableSeeds = () => {
                     className="likeedIcon"
                     onClick={() => {
                       wishListIDs.includes(id)
-                        ? removeFromWishList(id)
-                        : addToWishList(id);
+                        ? updateWishList(id, false)
+                        : updateWishList(id, true);
                     }}
                   >
                     <i className="icons">
