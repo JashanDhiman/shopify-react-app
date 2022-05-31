@@ -1,12 +1,11 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
 import Layout from "../../components/Layout";
 import Loading from "../../components/Loading";
 import { ShopContext } from "../../contexts/ShopContext";
-import { AiTwotoneHeart } from "react-icons/ai";
+import ProductCard from "../../components/ProductCard";
 
 const WishListPage = () => {
-  const { addItemToCart, isAdding, wishList } = useContext(ShopContext);
+  const { wishList } = useContext(ShopContext);
   //const thePath = useLocation().pathname;
   /*eslint-disable */
   //useEffect(() => {
@@ -16,7 +15,11 @@ const WishListPage = () => {
     <Layout showFooter={true} showHeader={true} showCart={true}>
       <div>
         <div className="products-head">
-          <h2>My Wishlist</h2>
+          {wishList && wishList.length < 1 ? (
+            <h2>You have nothing in your wishlist yet.</h2>
+          ) : (
+            <h2>My Wishlist</h2>
+          )}
         </div>
         <div className="veg-cards">
           {wishList ? (
@@ -29,33 +32,14 @@ const WishListPage = () => {
               const variantId = node.variants.edges[0].node.id;
               const price = node.variants.edges[0].node.priceV2.amount;
               return (
-                <div key={index} className="product-card">
-                  <div className="likeedIcon">
-                    <i className="icons">
-                      {/*{liked ? <AiTwotoneHeart /> : <AiOutlineHeart />}*/}
-                      <AiTwotoneHeart />
-                    </i>
-                  </div>
-                  <div className="card">
-                    <div className="card-image-div">
-                      <Link
-                        to={`/product/${id.substring(id.lastIndexOf("/") + 1)}`}
-                      >
-                        <img style={{ height: "140px" }} src={url} alt="img" />
-                        <p>{title}</p>
-                      </Link>
-                    </div>
-                    <div className="card-details-div">
-                      <p>₹ {price}</p>
-                      {isAdding === variantId ? (
-                        <button>ADDING</button>
-                      ) : (
-                        <button onClick={() => addItemToCart(variantId, 1)}>
-                          ADD
-                        </button>
-                      )}
-                    </div>
-                  </div>
+                <div key={index}>
+                  <ProductCard
+                    id={id}
+                    title={title}
+                    url={url}
+                    variantId={variantId}
+                    price={price}
+                  />
                 </div>
               );
             })

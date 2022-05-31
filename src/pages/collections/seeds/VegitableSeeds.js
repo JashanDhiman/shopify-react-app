@@ -1,19 +1,12 @@
 import React, { useContext, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Layout from "../../../components/Layout";
 import Loading from "../../../components/Loading";
+import ProductCard from "../../../components/ProductCard";
 import { ShopContext } from "../../../contexts/ShopContext";
-import { AiOutlineHeart, AiTwotoneHeart } from "react-icons/ai";
 
 const VegitableSeeds = () => {
-  const {
-    collection,
-    addItemToCart,
-    isAdding,
-    collectionByHandle,
-    wishListIDs,
-    updateWishList,
-  } = useContext(ShopContext);
+  const { collection, collectionByHandle } = useContext(ShopContext);
   const thePath = useLocation().pathname;
   /*eslint-disable */
   useEffect(() => {
@@ -21,7 +14,6 @@ const VegitableSeeds = () => {
     collectionByHandle(collectionhandle);
   }, []);
   /*eslint-enable */
-  //var liked = true;
   return (
     <Layout showFooter={true} showHeader={true} showCart={true}>
       <div>
@@ -49,43 +41,14 @@ const VegitableSeeds = () => {
               const variantId = node.node.variants.edges[0].node.id;
               const price = node.node.variants.edges[0].node.priceV2.amount;
               return (
-                <div key={index} className="product-card">
-                  <div
-                    className="likeedIcon"
-                    onClick={() => {
-                      wishListIDs.includes(id)
-                        ? updateWishList(id, false)
-                        : updateWishList(id, true);
-                    }}
-                  >
-                    <i className="icons">
-                      {wishListIDs.includes(id) ? (
-                        <AiTwotoneHeart />
-                      ) : (
-                        <AiOutlineHeart />
-                      )}
-                    </i>
-                  </div>
-                  <div className="card">
-                    <div className="card-image-div">
-                      <Link
-                        to={`/product/${id.substring(id.lastIndexOf("/") + 1)}`}
-                      >
-                        <img style={{ height: "140px" }} src={url} alt="img" />
-                        <p>{title}</p>
-                      </Link>
-                    </div>
-                    <div className="card-details-div">
-                      <p>₹ {price}</p>
-                      {isAdding === variantId ? (
-                        <button>ADDING</button>
-                      ) : (
-                        <button onClick={() => addItemToCart(variantId, 1)}>
-                          ADD
-                        </button>
-                      )}
-                    </div>
-                  </div>
+                <div key={index}>
+                  <ProductCard
+                    id={id}
+                    title={title}
+                    url={url}
+                    variantId={variantId}
+                    price={price}
+                  />
                 </div>
               );
             })

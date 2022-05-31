@@ -21,6 +21,7 @@ const ShopProvider = ({ children }) => {
   const [isProductById, setIsProductById] = useState(false);
   const [accessToken, setAccessToken] = useState(false);
   const [collection, setCollection] = useState(false);
+  const [heartLoading, setHeartLoading] = useState(false);
   const updateCartId = useRef(false);
   const customerId = useRef(false);
   const customerMetafields = useRef(false);
@@ -226,11 +227,12 @@ const ShopProvider = ({ children }) => {
         customerId.current = response.data.id;
         customerMetafields.current = response.data.metafields.edges;
         response.data.metafields.edges.map(({ node }) => {
-          if (node.key == "wish_list") {
+          if (node.key === "wish_list") {
             setWishListIDs(node.value.split(",").filter(Boolean));
             wishlistMetafieldID.current = node.id;
           }
           //node.key == "cart_id" && setCartId(node.value);
+          return null;
         });
       })
       .catch((error) => {
@@ -431,9 +433,11 @@ const ShopProvider = ({ children }) => {
   //both add and remove item from wishlist functionality is happening in below function(updateWishList).
   const updateWishList = async (productId, addFunction) => {
     //setWishListIDs([...wishListIDs, productId]);
+    setHeartLoading(productId);
+    wishListIDs[0] === "Default_Parameter" && wishListIDs.shift();
     const updatedList = addFunction
       ? [...wishListIDs, productId].join(",")
-      : wishListIDs.filter((value) => value != productId).join(",");
+      : wishListIDs.filter((value) => value !== productId).join(",");
     var config = {
       method: "post",
       url: `${domain}:4000/updateWishList`,
@@ -441,11 +445,12 @@ const ShopProvider = ({ children }) => {
         accessToken: JSON.parse(localStorage.getItem("ATG_AccessToken")),
         customerId: customerId.current,
         metafieldId: wishlistMetafieldID.current,
-        updatedList: updatedList,
+        updatedList: updatedList ? updatedList : "Default_Parameter",
       },
     };
     await axios(config)
       .then((response) => {
+        setHeartLoading(false);
         setWishListIDs(response.data.wishListIDs);
         setWishList(response.data.wishList);
       })
@@ -453,21 +458,6 @@ const ShopProvider = ({ children }) => {
         console.log(error.response);
       });
   };
-  //const removeFromWishList = async (productId) => {
-  //  var config = {
-  //    method: "post",
-  //    url: `${domain}:4000/removeFromWishList`,
-  //    data: productId,
-  //  };
-  //  await axios(config)
-  //    .then((response) => {
-  //      setWishListIDs(response.data.wishListIDs);
-  //      setWishList(response.data.wishList);
-  //    })
-  //    .catch((error) => {
-  //      console.log(error.response);
-  //    });
-  //};
 
   return (
     <ShopContext.Provider
@@ -485,6 +475,7 @@ const ShopProvider = ({ children }) => {
         collection,
         wishList,
         wishListIDs,
+        heartLoading,
         setWishListIDs,
         setWishList,
         setShowAddress,

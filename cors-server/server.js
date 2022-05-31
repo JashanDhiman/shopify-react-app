@@ -708,39 +708,38 @@ app.post("/fetchWishList", (req, res) => {
   axios(config)
     .then(function (response) {
       var wishlist;
-      //let wishlist = response.data.data.customer.metafields.edges[0].node.value
-      //.split(",")
-      //.filter(Boolean);
       response.data.data.customer.metafields.edges.map(({ node }) => {
-        if (node.key == "wish_list" && node.value == "null") {
-          wishlist = [];
-          console.log(node);
-        }
+        node.key == "wish_list" &&
+          (node.value == "Default_Parameter"
+            ? res.send({ wishListIDs: [], wishList: [] })
+            : (wishlist = node.value.split(",").filter(Boolean)));
       });
       console.log(wishlist);
-      //var data = JSON.stringify({
-      //  query: `query test($ids: [ID!]!) {
-      //    nodes(ids: $ids) {
-      //      ... on Product {id
-      //        title
-      //        featuredImage {url}
-      //        variants(first: 1) {edges {node {id
-      //              priceV2 {amount}}}}}}}`,
-      //  variables: {
-      //    ids: wishlist,
-      //  },
-      //});
-      //var config = { ...storeFrontConfig, data: data };
-      //axios(config)
-      //  .then(function (response) {
-      //    res.send({
-      //      wishListIDs: wishlist,
-      //      wishList: response.data.data.nodes,
-      //    });
-      //  })
-      //  .catch(function (error) {
-      //    console.log(error.response.data, "\nerror in fetchWishList 1");
-      //  });
+      if (wishlist) {
+        var data = JSON.stringify({
+          query: `query test($ids: [ID!]!) {
+          nodes(ids: $ids) {
+            ... on Product {id
+              title
+              featuredImage {url}
+              variants(first: 1) {edges {node {id
+                    priceV2 {amount}}}}}}}`,
+          variables: {
+            ids: wishlist,
+          },
+        });
+        var config = { ...storeFrontConfig, data: data };
+        axios(config)
+          .then(function (response) {
+            res.send({
+              wishListIDs: wishlist,
+              wishList: response.data.data.nodes,
+            });
+          })
+          .catch(function (error) {
+            console.log(error.response.data, "\nerror in fetchWishList 1");
+          });
+      }
     })
     .catch(function (error) {
       console.log(error.response.data, "\nerror in fetchWishList 2");
@@ -761,90 +760,42 @@ app.post("/updateWishList", (req, res) => {
   var config = { ...adminConfig, data: data };
   axios(config)
     .then(function (response) {
-      console.log(response.data.data.customerUpdate.customer);
-      //if (response.data.data.customerUpdate.userErrors.length > 0) {
-      //  res.status(400).send(response.data.data.customerUpdate.userErrors);
-      //} else {
-      //  res.send(response.data.data.customerUpdate.customer);
-      //}
+      //console.log(response.data.data.customerUpdate.customer);
     })
     .catch(function (error) {
-      console.log(error.response);
+      //console.log(error.response);
     });
-  let wishlist = req.body.updatedList.split(",").filter(Boolean);
-  var data = JSON.stringify({
-    query: `query test($ids: [ID!]!) {
+  if (req.body.updatedList === "Default_Parameter") {
+    res.send({
+      wishListIDs: [],
+      wishList: [],
+    });
+  } else {
+    let wishlist = req.body.updatedList.split(",").filter(Boolean);
+    var data = JSON.stringify({
+      query: `query test($ids: [ID!]!) {
           nodes(ids: $ids) {
             ... on Product {id
               title
               featuredImage {url}
               variants(first: 1) {edges {node {id
                     priceV2 {amount}}}}}}}`,
-    variables: {
-      ids: wishlist,
-    },
-  });
-  var config = { ...storeFrontConfig, data: data };
-  axios(config)
-    .then(function (response) {
-      res.send({
-        wishListIDs: wishlist,
-        wishList: response.data.data.nodes,
+      variables: {
+        ids: wishlist,
+      },
+    });
+    var config = { ...storeFrontConfig, data: data };
+    axios(config)
+      .then(function (response) {
+        res.send({
+          wishListIDs: wishlist,
+          wishList: response.data.data.nodes,
+        });
+      })
+      .catch(function (error) {
+        console.log(error.response, "\nerror in add to wishlist");
       });
-    })
-    .catch(function (error) {
-      console.log(error.response, "\nerror in add to wishlist");
-    });
-});
-app.post("/addToWishList", (req, res) => {
-  //updatedList should be in comma sperated string format i.e gid://shopify/Product/6762631790677,gid://shopify/Product/6762631561301
-  var data = JSON.stringify({
-    query: `mutation {
-      customerUpdate(input: {id: "${req.body.customerId}", metafields: [{id: "${req.body.metafieldId}", value: "${req.body.updatedList}"}]}) {
-        userErrors {message}
-        customer {id
-          metafields(namespace: "custom", first: 20) {edges {node {id
-                key
-                value
-                namespace}}}}}}`,
-  });
-  var config = { ...adminConfig, data: data };
-  axios(config)
-    .then(function (response) {
-      console.log(response.data.data.customerUpdate.customer);
-      //if (response.data.data.customerUpdate.userErrors.length > 0) {
-      //  res.status(400).send(response.data.data.customerUpdate.userErrors);
-      //} else {
-      //  res.send(response.data.data.customerUpdate.customer);
-      //}
-    })
-    .catch(function (error) {
-      console.log(error.response);
-    });
-  let wishlist = req.body.updatedList.split(",").filter(Boolean);
-  var data = JSON.stringify({
-    query: `query test($ids: [ID!]!) {
-          nodes(ids: $ids) {
-            ... on Product {id
-              title
-              featuredImage {url}
-              variants(first: 1) {edges {node {id
-                    priceV2 {amount}}}}}}}`,
-    variables: {
-      ids: wishlist,
-    },
-  });
-  var config = { ...storeFrontConfig, data: data };
-  axios(config)
-    .then(function (response) {
-      res.send({
-        wishListIDs: wishlist,
-        wishList: response.data.data.nodes,
-      });
-    })
-    .catch(function (error) {
-      console.log(error.response.data, "\nerror in add to wishlist");
-    });
+  }
 });
 
 //-------------------user profile, address and orders-------------
