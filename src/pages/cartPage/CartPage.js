@@ -6,6 +6,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 
 import "./cartPage.css";
+import SaveForLater from "../../components/SaveForLater";
 
 const CartPage = () => {
   const { cart, removeItemFromCart, updateItemToCart, isLoading } =
@@ -95,6 +96,16 @@ const CartPage = () => {
                             >
                               SKU: {sku}
                             </p>
+                            <a
+                              style={{
+                                color: "#5d5d5d",
+                                fontSize: "1rem",
+                                textDecoration: "underline",
+                                lineHeight: "2rem",
+                              }}
+                            >
+                              Save for Later
+                            </a>
                           </div>
                           <div className="actions columns">
                             <div className="selector-qty">
@@ -196,6 +207,7 @@ const CartPage = () => {
           </div>
         )}
         {isLoading && <Loading />}
+        <SaveForLater />
       </div>
     </Layout>
   );

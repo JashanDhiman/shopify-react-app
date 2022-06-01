@@ -54,9 +54,21 @@ app.post("/signup", (req, res) => {
         lastName: req.body.lastName,
         metafields: [
           {
-            namespace: "instructions",
-            key: "cartId",
+            namespace: "custom",
+            key: "cart_id",
             value: req.body.cartId,
+            type: "single_line_text_field",
+          },
+          {
+            namespace: "custom",
+            key: "wish_list",
+            value: "Default_Parameter",
+            type: "single_line_text_field",
+          },
+          {
+            namespace: "custom",
+            key: "save_for_later",
+            value: "Default_Parameter",
             type: "single_line_text_field",
           },
         ],
@@ -400,37 +412,6 @@ app.post("/collectionbyhandle", (req, res) => {
 
 //-----------------------------cart functions-----------
 
-app.post("/fetchUserCartId", (req, res) => {
-  var data = JSON.stringify({
-    query: `{customer(customerAccessToken:"${req.body.accessToken.accessToken}") {id}}`,
-  });
-  var config = { ...storeFrontConfig, data: data };
-  axios(config)
-    .then(function (response) {
-      var data = JSON.stringify({
-        query: `{customer(id:"${response.data.data.customer.id}") {
-            metafield(key:"cartId",namespace:"instructions"){
-              id
-              value}}}`,
-      });
-      var config = {
-        method: "post",
-        url: "https://jashan-dev-3.myshopify.com/admin/api/2022-04/graphql.json",
-        headers: {
-          "X-Shopify-Access-Token":
-            process.env.REACT_APP_ADMIN_API_ACCESS_TOKEN,
-          "Content-Type": "application/json",
-        },
-        data: data,
-      };
-      axios(config).then(function (response) {
-        res.send(response.data.data.customer.metafield);
-      });
-    })
-    .catch(function (error) {
-      console.log(error.response.data, "\nerror in ");
-    });
-});
 app.post("/updateUserCartId", (req, res) => {
   console.log(req.body);
   var data = JSON.stringify({
@@ -538,6 +519,7 @@ app.post("/fetchcart", (req, res) => {
   var config = { ...storeFrontConfig, data: data };
   axios(config)
     .then(function (response) {
+      console.log("cart\n",response.data)
       res.send(response.data.data.cart);
     })
     .catch(function (error) {
@@ -746,6 +728,107 @@ app.post("/fetchWishList", (req, res) => {
     });
 });
 app.post("/updateWishList", (req, res) => {
+  //updatedList should be in comma sperated string format i.e gid://shopify/Product/6762631790677,gid://shopify/Product/6762631561301
+  var data = JSON.stringify({
+    query: `mutation {
+      customerUpdate(input: {id: "${req.body.customerId}", metafields: [{id: "${req.body.metafieldId}", value: "${req.body.updatedList}"}]}) {
+        userErrors {message}
+        customer {id
+          metafields(namespace: "custom", first: 20) {edges {node {id
+                key
+                value
+                namespace}}}}}}`,
+  });
+  var config = { ...adminConfig, data: data };
+  axios(config)
+    .then(function (response) {
+      //console.log(response.data.data.customerUpdate.customer);
+    })
+    .catch(function (error) {
+      //console.log(error.response);
+    });
+  if (req.body.updatedList === "Default_Parameter") {
+    res.send({
+      wishListIDs: [],
+      wishList: [],
+    });
+  } else {
+    let wishlist = req.body.updatedList.split(",").filter(Boolean);
+    var data = JSON.stringify({
+      query: `query test($ids: [ID!]!) {
+          nodes(ids: $ids) {
+            ... on Product {id
+              title
+              featuredImage {url}
+              variants(first: 1) {edges {node {id
+                    priceV2 {amount}}}}}}}`,
+      variables: {
+        ids: wishlist,
+      },
+    });
+    var config = { ...storeFrontConfig, data: data };
+    axios(config)
+      .then(function (response) {
+        res.send({
+          wishListIDs: wishlist,
+          wishList: response.data.data.nodes,
+        });
+      })
+      .catch(function (error) {
+        console.log(error.response, "\nerror in add to wishlist");
+      });
+  }
+});
+//----------------------------- Save_for_Later functions-----------
+app.post("/fetchSaveForLater", (req, res) => {
+  var data = JSON.stringify({
+    query: `{customer(customerAccessToken:"${req.body.accessToken.accessToken}") {metafields(namespace: "custom",first: 50) {
+      edges {node {id
+            key
+            value}}}}}`,
+  });
+  var config = { ...storeFrontConfig, data: data };
+  axios(config)
+    .then(function (response) {
+      var productsList;
+      response.data.data.customer.metafields.edges.map(({ node }) => {
+        node.key == "save_for_later" &&
+          (node.value == "Default_Parameter"
+            ? res.send({ productsIDs: [], productsList: [] })
+            : (productsList = node.value.split(",").filter(Boolean)));
+      });
+      console.log(productsList, response.data.data.customer.metafields.edges);
+      if (productsList) {
+        var data = JSON.stringify({
+          query: `query test($ids: [ID!]!) {
+          nodes(ids: $ids) {
+            ... on Product {id
+              title
+              featuredImage {url}
+              variants(first: 1) {edges {node {id
+                    priceV2 {amount}}}}}}}`,
+          variables: {
+            ids: productsList,
+          },
+        });
+        var config = { ...storeFrontConfig, data: data };
+        axios(config)
+          .then(function (response) {
+            res.send({
+              productsIDs: productsList,
+              productsList: response.data.data.nodes,
+            });
+          })
+          .catch(function (error) {
+            console.log(error.response.data, "\nerror in fetchWishList 1");
+          });
+      }
+    })
+    .catch(function (error) {
+      console.log(error.response.data, "\nerror in fetchWishList 2");
+    });
+});
+app.post("/updateSaveForLater", (req, res) => {
   //updatedList should be in comma sperated string format i.e gid://shopify/Product/6762631790677,gid://shopify/Product/6762631561301
   var data = JSON.stringify({
     query: `mutation {

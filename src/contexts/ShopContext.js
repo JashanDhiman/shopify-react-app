@@ -9,6 +9,8 @@ const ShopProvider = ({ children }) => {
   const [productsList, setProductsList] = useState(false);
   const [wishList, setWishList] = useState(false);
   const [wishListIDs, setWishListIDs] = useState([]);
+  const [saveForLater, setSaveForLater] = useState(false);
+  const [saveForLaterIDs, setSaveForLaterIDs] = useState([]);
   const [editShow, setEditShow] = useState(false);
   const [editAddressData, setEditAddressData] = useState(false);
   const [showAddress, setShowAddress] = useState(false);
@@ -25,13 +27,16 @@ const ShopProvider = ({ children }) => {
   const updateCartId = useRef(false);
   const customerId = useRef(false);
   const customerMetafields = useRef(false);
-  const wishlistMetafieldID = useRef(false);
+  const wishlistMetaID = useRef(false);
+  const saveForLaterMetaID = useRef(false);
+  const cartMetaID = useRef(false);
   const domain = process.env.REACT_APP_DEPLOY_DOMAIN;
   /*eslint-disable */
   useEffect(() => {
     if (localStorage.ATG_AccessToken) {
       getCustomerData();
       fetchWishList();
+      fetchSaveForLater();
       const today = new Date(Date.now());
       const myDate = new Date(
         JSON.parse(localStorage.ATG_AccessToken).expiresAt
@@ -65,7 +70,6 @@ const ShopProvider = ({ children }) => {
         //console.log(response.data);
         //navigate(`/${response.data.accessToken}/homepage`);
         localStorage.setItem("ATG_AccessToken", JSON.stringify(response.data));
-        fetchUserCartId();
         navigate(`/homepage`);
         getCustomerData();
         //createUserCart();
@@ -87,7 +91,6 @@ const ShopProvider = ({ children }) => {
         setAccessToken(response.data);
         localStorage.setItem("ATG_AccessToken", JSON.stringify(response.data));
         localStorage.setItem("ATG_CartId", JSON.stringify(cartId));
-        fetchUserCartId();
         navigate(`/homepage`);
         getCustomerData();
         //createUserCart();
@@ -229,9 +232,18 @@ const ShopProvider = ({ children }) => {
         response.data.metafields.edges.map(({ node }) => {
           if (node.key === "wish_list") {
             setWishListIDs(node.value.split(",").filter(Boolean));
-            wishlistMetafieldID.current = node.id;
+            wishlistMetaID.current = node.id;
           }
-          //node.key == "cart_id" && setCartId(node.value);
+          if (node.key === "save_for_later") {
+            setSaveForLaterIDs(node.value.split(",").filter(Boolean));
+            saveForLaterMetaID.current = node.id;
+          }
+          if (node.key === "cart_id") {
+            localStorage.setItem("ATG_CartId", JSON.stringify(node.value));
+            setCartId(node.value);
+            cartMetaID.current = node.id;
+            fetchCart();
+          }
           return null;
         });
       })
@@ -284,19 +296,17 @@ const ShopProvider = ({ children }) => {
     await axios(config)
       .then((response) => {
         if (updateCartId.current) {
-          console.log("update", accessToken);
           var config = {
             method: "post",
             url: `${domain}:4000/updateUserCartId`,
             data: {
-              //accessToken: JSON.parse(localStorage.ATG_AccessToken),
               cartId: cartId,
-              metaFieldId: JSON.parse(localStorage.ATG_CartId.id),
+              metaFieldId: cartMetaID,
             },
           };
           axios(config)
             .then((response) => {
-              console.log(response.data);
+              //console.log(response.data);
             })
             .catch((error) => {
               console.log(error.response);
@@ -308,38 +318,18 @@ const ShopProvider = ({ children }) => {
         console.log(error.response);
       });
   };
-  const fetchUserCartId = async () => {
-    var config = {
-      method: "post",
-      url: `${domain}:4000/fetchUserCartId`,
-      data: {
-        accessToken: JSON.parse(localStorage.getItem("ATG_AccessToken")),
-      },
-    };
-    await axios(config)
-      .then((response) => {
-        localStorage.setItem("ATG_CartId", JSON.stringify(response.data));
-        setCartId(response.data.value);
-        fetchCart();
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
-  };
   const fetchCart = async () => {
     var config = {
       method: "post",
       url: `${domain}:4000/fetchcart`,
-      data: { id: JSON.parse(localStorage.getItem("ATG_CartId")).value },
+      data: { id: JSON.parse(localStorage.getItem("ATG_CartId")) },
     };
     await axios(config)
       .then((response) => {
         if (response.data.id) {
-          setCartId(response.data.id);
           setCart(response.data);
         } else {
           updateCartId.current = true;
-          console.log(response.data, "fetch");
           createCart();
         }
       })
@@ -412,7 +402,7 @@ const ShopProvider = ({ children }) => {
       });
   };
 
-  //----------------------------------------Cart functions-------------------
+  //----------------------------------------Wishlist functions-------------------
   const fetchWishList = async () => {
     var config = {
       method: "post",
@@ -432,7 +422,6 @@ const ShopProvider = ({ children }) => {
   };
   //both add and remove item from wishlist functionality is happening in below function(updateWishList).
   const updateWishList = async (productId, addFunction) => {
-    //setWishListIDs([...wishListIDs, productId]);
     setHeartLoading(productId);
     wishListIDs[0] === "Default_Parameter" && wishListIDs.shift();
     const updatedList = addFunction
@@ -444,7 +433,7 @@ const ShopProvider = ({ children }) => {
       data: {
         accessToken: JSON.parse(localStorage.getItem("ATG_AccessToken")),
         customerId: customerId.current,
-        metafieldId: wishlistMetafieldID.current,
+        metafieldId: wishlistMetaID.current,
         updatedList: updatedList ? updatedList : "Default_Parameter",
       },
     };
@@ -453,6 +442,51 @@ const ShopProvider = ({ children }) => {
         setHeartLoading(false);
         setWishListIDs(response.data.wishListIDs);
         setWishList(response.data.wishList);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
+  //---------------------------------------- Save_for_later functions-------------------
+  const fetchSaveForLater = async () => {
+    var config = {
+      method: "post",
+      url: `${domain}:4000/fetchSaveForLater`,
+      data: {
+        accessToken: JSON.parse(localStorage.getItem("ATG_AccessToken")),
+      },
+    };
+    await axios(config)
+      .then((response) => {
+        setSaveForLaterIDs(response.data.productsIDs);
+        setSaveForLater(response.data.productsList);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
+  //both add and remove item from save for later functionality is happening in below function(updateSaveForLater).
+  const updateSaveForLater = async (productId, addFunction) => {
+    //setHeartLoading(productId);
+    saveForLaterIDs[0] === "Default_Parameter" && saveForLaterIDs.shift();
+    const updatedList = addFunction
+      ? [...saveForLaterIDs, productId].join(",")
+      : saveForLaterIDs.filter((value) => value !== productId).join(",");
+    var config = {
+      method: "post",
+      url: `${domain}:4000/updateSaveForLater`,
+      data: {
+        accessToken: JSON.parse(localStorage.getItem("ATG_AccessToken")),
+        customerId: customerId.current,
+        metafieldId: saveForLaterMetaID.current,
+        updatedList: updatedList ? updatedList : "Default_Parameter",
+      },
+    };
+    await axios(config)
+      .then((response) => {
+        //setHeartLoading(false);
+        setSaveForLaterIDs(response.data.productsIDs);
+        setSaveForLater(response.data.productsList);
       })
       .catch((error) => {
         console.log(error.response);
@@ -476,6 +510,7 @@ const ShopProvider = ({ children }) => {
         wishList,
         wishListIDs,
         heartLoading,
+        saveForLater,
         setWishListIDs,
         setWishList,
         setShowAddress,
@@ -497,6 +532,8 @@ const ShopProvider = ({ children }) => {
         signOut,
         collectionByHandle,
         updateWishList,
+        updateSaveForLater,
+        fetchSaveForLater,
       }}
     >
       {children}

@@ -5,7 +5,7 @@ import { ShopContext } from "../../contexts/ShopContext";
 import ProductCard from "../../components/ProductCard";
 
 const WishListPage = () => {
-  const { wishList } = useContext(ShopContext);
+  const { wishList, updateSaveForLater } = useContext(ShopContext);
   //const thePath = useLocation().pathname;
   /*eslint-disable */
   //useEffect(() => {
