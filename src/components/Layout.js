@@ -1,9 +1,13 @@
 import React from "react";
+import { useContext } from "react";
+import { ShopContext } from "../contexts/ShopContext";
 //import Cart from "./Cart";
 import Footer from "./Footer";
+import Loading from "./Loading";
 import Navbar from "./Navbar";
 
 const Layout = ({ showHeader, showFooter, children }) => {
+  const { isLoading } = useContext(ShopContext);
   return (
     <>
       {showHeader && <Navbar />}
@@ -12,6 +16,7 @@ const Layout = ({ showHeader, showFooter, children }) => {
         {children}
       </div>
       {showFooter && <Footer />}
+      {isLoading && <Loading />}
     </>
   );
 };

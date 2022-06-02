@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import Layout from "../../components/Layout";
-import Loading from "../../components/Loading";
 import { ShopContext } from "../../contexts/ShopContext";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
@@ -9,7 +8,7 @@ import "./cartPage.css";
 import SaveForLater from "../../components/SaveForLater";
 
 const CartPage = () => {
-  const { cart, removeItemFromCart, updateItemToCart, isLoading } =
+  const { cart, removeItemFromCart, updateItemToCart, updateSaveForLater } =
     useContext(ShopContext);
   return (
     <Layout showFooter={true} showHeader={true} showCart={true}>
@@ -97,12 +96,16 @@ const CartPage = () => {
                               SKU: {sku}
                             </p>
                             <a
+                              href="#saveforlater"
                               style={{
                                 color: "#5d5d5d",
                                 fontSize: "1rem",
                                 textDecoration: "underline",
                                 lineHeight: "2rem",
                               }}
+                              onClick={() =>
+                                updateSaveForLater(productId, id, false)
+                              }
                             >
                               Save for Later
                             </a>
@@ -206,7 +209,6 @@ const CartPage = () => {
             )}
           </div>
         )}
-        {isLoading && <Loading />}
         <SaveForLater />
       </div>
     </Layout>

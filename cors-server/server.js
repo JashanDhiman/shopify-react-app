@@ -413,7 +413,6 @@ app.post("/collectionbyhandle", (req, res) => {
 //-----------------------------cart functions-----------
 
 app.post("/updateUserCartId", (req, res) => {
-  console.log(req.body);
   var data = JSON.stringify({
     query: `mutation metafieldsSet($metafields: [MetafieldsSetInput!]!) {
           metafieldsSet(metafields: $metafields) {
@@ -519,7 +518,6 @@ app.post("/fetchcart", (req, res) => {
   var config = { ...storeFrontConfig, data: data };
   axios(config)
     .then(function (response) {
-      console.log("cart\n",response.data)
       res.send(response.data.data.cart);
     })
     .catch(function (error) {
@@ -696,7 +694,6 @@ app.post("/fetchWishList", (req, res) => {
             ? res.send({ wishListIDs: [], wishList: [] })
             : (wishlist = node.value.split(",").filter(Boolean)));
       });
-      console.log(wishlist);
       if (wishlist) {
         var data = JSON.stringify({
           query: `query test($ids: [ID!]!) {
@@ -797,7 +794,6 @@ app.post("/fetchSaveForLater", (req, res) => {
             ? res.send({ productsIDs: [], productsList: [] })
             : (productsList = node.value.split(",").filter(Boolean)));
       });
-      console.log(productsList, response.data.data.customer.metafields.edges);
       if (productsList) {
         var data = JSON.stringify({
           query: `query test($ids: [ID!]!) {
@@ -831,8 +827,7 @@ app.post("/fetchSaveForLater", (req, res) => {
 app.post("/updateSaveForLater", (req, res) => {
   //updatedList should be in comma sperated string format i.e gid://shopify/Product/6762631790677,gid://shopify/Product/6762631561301
   var data = JSON.stringify({
-    query: `mutation {
-      customerUpdate(input: {id: "${req.body.customerId}", metafields: [{id: "${req.body.metafieldId}", value: "${req.body.updatedList}"}]}) {
+    query: `mutation {customerUpdate(input: {id: "${req.body.customerId}", metafields: [{id: "${req.body.metafieldId}", value: "${req.body.updatedList}"}]}) {
         userErrors {message}
         customer {id
           metafields(namespace: "custom", first: 20) {edges {node {id
@@ -850,11 +845,11 @@ app.post("/updateSaveForLater", (req, res) => {
     });
   if (req.body.updatedList === "Default_Parameter") {
     res.send({
-      wishListIDs: [],
-      wishList: [],
+      productsIDs: [],
+      productsList: [],
     });
   } else {
-    let wishlist = req.body.updatedList.split(",").filter(Boolean);
+    let productsList = req.body.updatedList.split(",").filter(Boolean);
     var data = JSON.stringify({
       query: `query test($ids: [ID!]!) {
           nodes(ids: $ids) {
@@ -864,15 +859,15 @@ app.post("/updateSaveForLater", (req, res) => {
               variants(first: 1) {edges {node {id
                     priceV2 {amount}}}}}}}`,
       variables: {
-        ids: wishlist,
+        ids: productsList,
       },
     });
     var config = { ...storeFrontConfig, data: data };
     axios(config)
       .then(function (response) {
         res.send({
-          wishListIDs: wishlist,
-          wishList: response.data.data.nodes,
+          productsIDs: productsList,
+          productsList: response.data.data.nodes,
         });
       })
       .catch(function (error) {

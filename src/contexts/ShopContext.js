@@ -306,7 +306,7 @@ const ShopProvider = ({ children }) => {
           };
           axios(config)
             .then((response) => {
-              //console.log(response.data);
+              console.log(response.data);
             })
             .catch((error) => {
               console.log(error.response);
@@ -466,12 +466,16 @@ const ShopProvider = ({ children }) => {
       });
   };
   //both add and remove item from save for later functionality is happening in below function(updateSaveForLater).
-  const updateSaveForLater = async (productId, addFunction) => {
-    //setHeartLoading(productId);
+  const updateSaveForLater = async (productId, merchandiseId, moveToCart) => {
+    setIsLoading(true);
+    merchandiseId && moveToCart
+      ? addItemToCart(merchandiseId, 1)
+      : removeItemFromCart(merchandiseId);
     saveForLaterIDs[0] === "Default_Parameter" && saveForLaterIDs.shift();
-    const updatedList = addFunction
-      ? [...saveForLaterIDs, productId].join(",")
-      : saveForLaterIDs.filter((value) => value !== productId).join(",");
+    const updatedList =
+      merchandiseId && !moveToCart
+        ? [...saveForLaterIDs, productId].join(",")
+        : saveForLaterIDs.filter((value) => value !== productId).join(",");
     var config = {
       method: "post",
       url: `${domain}:4000/updateSaveForLater`,
@@ -484,7 +488,7 @@ const ShopProvider = ({ children }) => {
     };
     await axios(config)
       .then((response) => {
-        //setHeartLoading(false);
+        setIsLoading(false);
         setSaveForLaterIDs(response.data.productsIDs);
         setSaveForLater(response.data.productsList);
       })
