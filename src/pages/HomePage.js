@@ -21,21 +21,7 @@ const HomePage = () => {
   const SamplePrevArrow = (props) => {
     const { className, onClick } = props;
     return (
-      <div
-        className={className}
-        onClick={onClick}
-        //style={{
-        //  color: "#000",
-        //  width: "60px",
-        //  height: "120px",
-        //  background: "#aaa",
-        //  borderBottomLeftRadius: "100px",
-        //  borderTopLeftRadius: "100px",
-        //  display: "flex",
-        //  alignItems: "center",
-        //  justifyContent: "center",
-        //}}
-      >
+      <div className={className} onClick={onClick}>
         <FaAngleLeft />
       </div>
     );
@@ -43,21 +29,7 @@ const HomePage = () => {
   const SampleNextArrow = (props) => {
     const { className, onClick } = props;
     return (
-      <div
-        className={className}
-        onClick={onClick}
-        //style={{
-        //  color: "#000",
-        //  width: "60px",
-        //  height: "120px",
-        //  background: "#aaa",
-        //  borderBottomRightRadius: "100px",
-        //  borderTopRightRadius: "100px",
-        //  display: "flex",
-        //  alignItems: "center",
-        //  justifyContent: "center",
-        //}}
-      >
+      <div className={className} onClick={onClick}>
         <FaAngleRight />
       </div>
     );
@@ -91,6 +63,29 @@ const HomePage = () => {
     autoplaySpeed: 2000,
     cssEase: "linear",
     arrows: false,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
   const imageSlider2Settings = {
     nextArrow: <SampleNextArrow />,
@@ -105,6 +100,29 @@ const HomePage = () => {
     cssEase: "linear",
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
   const collectionSlider2Settings = {
     infinite: true,
@@ -114,6 +132,29 @@ const HomePage = () => {
     cssEase: "linear",
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
   const imageSlider2Data = [
     {
@@ -146,7 +187,9 @@ const HomePage = () => {
         </div>
         <div className="layout_center">
           <div className="seed_slider-cont" role="toolbar">
-            <h2 className="bestSellers">BUY SEEDS FOR A MICROGREEN GARDEN</h2>
+            <h2 className="bestSellers h1">
+              BUY SEEDS FOR A MICROGREEN GARDEN
+            </h2>
             <h4 className="coll_desc" style={{ textAlign: "center" }}>
               <span>Now Is The Time To Grow Your Own Superfood</span>
             </h4>

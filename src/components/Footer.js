@@ -11,7 +11,6 @@ const Footer = () => {
         <div className="foot-wrap display-block">
           <div className="block-4 customer_service">
             <h3 className="ftitle">Customer services</h3>
-
             <ul className="fpages">
               <li>
                 <a href="/pages/shipping">Shipping Policy</a>
@@ -49,7 +48,6 @@ const Footer = () => {
               />
             </span>
           </div>
-
           <div className="block-4 contact_details">
             <h3 className="ftitle">Connect with us</h3>
 
@@ -108,7 +106,6 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-
           <div className="block-4 newsletter_box">
             <h3 className="ftitle">Subscribe To Newsletter</h3>
 
@@ -166,16 +163,15 @@ const Footer = () => {
               </span>
             </div>
           </div>
-
-          <div className="fcopy display-block">
-            <span>Copyright 2022 © AllThatGrows. All rights reserved</span>
-            <span>
-              Design by
-              <a href="https://blimp.agency"> Blimp.agency </a>
-              &amp; Shopify Development by
-              <a href=" https://www.cueblocks.com/shopify.php"> CueBlocks</a>.
-            </span>
-          </div>
+        </div>
+        <div className="fcopy display-block">
+          <span>Copyright 2022 © AllThatGrows. All rights reserved</span>
+          <span>
+            Design by
+            <a href="https://blimp.agency"> Blimp.agency </a>
+            &amp; Shopify Development by
+            <a href=" https://www.cueblocks.com/shopify.php"> CueBlocks</a>.
+          </span>
         </div>
       </div>
     </div>

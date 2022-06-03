@@ -12,6 +12,7 @@ const Navbar = () => {
   cart &&
     cart.lines.edges.map(({ node: { quantity } }) => {
       totalQuantity += quantity;
+      return null;
     });
   return (
     <div className="header-navbar">

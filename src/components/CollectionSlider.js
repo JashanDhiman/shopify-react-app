@@ -27,11 +27,11 @@ const CollectionSlider = ({ data, settings }) => {
                       to={`/product/${id.substring(id.lastIndexOf("/") + 1)}`}
                     >
                       <img style={{ height: "140px" }} src={image} alt="img" />
-                      <p>{title}</p>
+                      <p className="p2">{title}</p>
                     </Link>
                   </div>
                   <div className="card-details-div">
-                    <p>₹ {price}</p>
+                    <p className="price">₹ {price}</p>
                     {isAdding === variantId ? (
                       <button>ADDING</button>
                     ) : (

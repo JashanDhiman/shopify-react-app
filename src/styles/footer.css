@@ -38,15 +38,15 @@ body.product-greenfavour .footer_section {
   width: 30%;
   padding: 0 2% 0 8%;
 }
-.foot-wrap .fcopy {
+.layout_center .fcopy {
   padding: 20px 0 0 0;
   text-align: center;
   color: #8b8b8b;
-  font-size: 12px;
+  font-size: clamp(0.6rem, 3.5vw, 1.2rem);
 }
 .foot-wrap .ftitle {
   color: #000;
-  font-size: 14px;
+  font-size: clamp(0.7rem, 3.5vw, 1.4rem);
   text-transform: uppercase;
   font-weight: normal;
   letter-spacing: 0.4px;
@@ -64,7 +64,7 @@ body.product-greenfavour .footer_section {
 }
 .foot-wrap .fpages > li a {
   color: #000;
-  font-size: 12px;
+  font-size: clamp(0.6rem, 3.5vw, 1.2rem);
   text-transform: uppercase;
   font-family: "Lato-Medium";
 }
@@ -87,7 +87,7 @@ body.product-greenfavour .footer_section {
   text-align: center;
   display: flex;
   border-radius: 50%;
-  font-size: 16px;
+  font-size: clamp(0.8rem, 3.5vw, 1.6rem);
   flex-direction: row;
   flex-wrap: nowrap;
   align-content: center;
@@ -126,7 +126,7 @@ body.product-greenfavour .footer_section {
   border-color: #007095;
   display: inline-block;
   box-shadow: none;
-  font-size: 0.9375rem;
+  font-size: clamp(0.6rem, 3.5vw, 1.2rem);
   font-weight: 500 !important;
   margin: 0;
   position: absolute;
@@ -142,11 +142,11 @@ body.product-greenfavour .footer_section {
   z-index: 1;
   -webkit-transition: 0.5s ease all;
 }
-.foot-wrap .fcopy span {
+.layout_center .fcopy span {
   display: inline-block;
   padding: 0 15px;
 }
-.foot-wrap .fcopy a {
+.layout_center .fcopy a {
   color: #000;
 }
 .foot-wrap .block-4.newsletter_box {
@@ -156,7 +156,7 @@ body.product-greenfavour .footer_section {
 .cb-testimonials .hv_a_que {
   float: none;
   font-family: "Lato-Semibold";
-  font-size: 15px;
+  font-size: clamp(0.8rem, 3.5vw, 1.5rem);
   text-transform: uppercase;
   letter-spacing: 1px;
   margin: 0;
@@ -174,7 +174,34 @@ body.product-greenfavour .footer_section {
   display: inline-block;
   vertical-align: top;
   color: #000;
-  font-size: 14px;
+  font-size: clamp(0.7rem, 3.5vw, 1.4rem);
   text-transform: uppercase;
   padding: 10px 0 0 20px;
+}
+@media screen and (max-width: 720px) {
+  .foot-wrap {
+    border-radius: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .foot-wrap .block-4 {
+    width: 100%;
+    padding: 0;
+  }
+  .foot-wrap .connect-icons li a {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+  }
+  .foot-wrap .foot-logo {
+    display: none;
+  }
+  .foot-wrap .ftitle {
+    margin: 0;
+  }
+  .foot-wrap .block-4.newsletter_box {
+    width: 100%;
+    padding: 0 2% 0 4%;
+    grid-column: 1 / span 2;
+  }
 }

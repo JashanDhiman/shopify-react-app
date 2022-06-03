@@ -18,6 +18,36 @@
 *::after {
   box-sizing: border-box;
 }
+html {
+  font-size: 62.5%;
+}
+.h1 {
+  font-size: clamp(2rem, 3.5vw, 4rem) !important;
+}
+.h2 {
+  font-size: clamp(1.6rem, 3.5vw, 2.6rem) !important;
+}
+.p1 {
+  font-size: clamp(1rem, 3.5vw, 2rem) !important;
+}
+.p2 {
+  font-size: clamp(0.8rem, 3.5vw, 1.6rem) !important;
+}
+h1,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
+
 ul {
   list-style-type: none;
 }
@@ -27,6 +57,10 @@ a {
 }
 .innerPadding {
   padding: 1rem 2rem;
+}
+.price {
+  font-size: clamp(1rem, 3.5vw, 1.6rem);
+  font-weight: 900;
 }
 /* ----------------------------new home page css starts */
 .homePage {
@@ -46,7 +80,7 @@ a {
 .home_seeds-slider .seed_slider > h2 {
   font-family: "Unna-Regular";
   color: #000;
-  font-size: 40px;
+  font-size: clamp(2rem, 3.5vw, 4rem);
   text-transform: uppercase;
   text-align: center;
   padding: 30px 0 10px 0;
@@ -67,7 +101,7 @@ a {
 .seed_slider > h2 {
   font-family: "Unna-Regular";
   color: #000;
-  font-size: 40px;
+  font-size: clamp(2rem, 3.5vw, 4rem);
   text-transform: uppercase;
   text-align: center;
   padding: 30px 0 10px 0;
@@ -91,7 +125,7 @@ a {
   overflow: hidden;
 }
 .slider .product-card p {
-  min-height: 50px;
+  min-height: clamp(2.5rem, 3.5vw, 5rem);
 }
 .slider .card-image-div:hover p {
   color: #57b894 !important;
@@ -103,14 +137,14 @@ a {
 }
 .slider .card-details-div button {
   float: none;
-  font-size: 15px;
+  font-size: clamp(1rem, 3.5vw, 1.5rem);
   text-transform: uppercase;
   letter-spacing: 1px;
   margin: 1rem 0 0 0;
   outline: 0;
   border-radius: 20px;
   display: inline-block;
-  line-height: 40px;
+  line-height: clamp(3rem, 3.5vw, 4rem);
   padding: 0 30px;
   color: #fff !important;
   border: 0;
@@ -125,12 +159,12 @@ a {
 .cb-testimonials h2 {
   font-family: "Unna-Regular";
   color: #000;
-  font-size: 40px;
+  font-size: clamp(2rem, 3.5vw, 4rem);
   text-transform: uppercase;
   text-align: center;
   padding: 0;
   margin-bottom: 48px;
-  line-height: 60px;
+  line-height: clamp(4rem, 3.5vw, 6rem);
 }
 .cb-testimonial-blocks {
   width: 100%;
@@ -154,9 +188,9 @@ a {
   margin-bottom: 16px;
 }
 .cb-testimonial-block-item p {
-  font-size: 16px;
+  font-size: clamp(1rem, 3.5vw, 1.6rem);
   color: #5d5d5d;
-  line-height: 30px;
+  line-height: clamp(2rem, 3.5vw, 3rem);
   font-family: Lato-Regular;
   letter-spacing: 0;
 }
@@ -196,9 +230,9 @@ a {
     margin-bottom: 50px;
   }
   .cb-testimonials h2 {
-    font-size: 24px;
+    font-size: clamp(1.2rem, 3.5vw, 2.4rem);
     margin-bottom: 28px;
-    line-height: 36px;
+    line-height: clamp(1.8rem, 3.5vw, 3.6rem);
   }
   .cb-testimonial-blocks {
     max-width: 100%;
@@ -208,6 +242,9 @@ a {
   }
   .cb-testimonials .hv_a_que {
     margin: 36px auto 0 auto;
+  }
+  .sliderOut {
+    padding: 0;
   }
 }
 .cart .product-card:last-child {
@@ -342,14 +379,14 @@ a {
 }
 .veg-cards .card-details-div button {
   float: none;
-  font-size: 15px;
+  font-size: clamp(1rem, 3.5vw, 1.5rem);
   text-transform: uppercase;
   letter-spacing: 1px;
   margin: 1rem 0 0 0;
   outline: 0;
   border-radius: 20px;
   display: inline-block;
-  line-height: 40px;
+  line-height: clamp(2rem, 3.5vw, 4rem);
   padding: 0 30px;
   color: #fff !important;
   border: 0;
