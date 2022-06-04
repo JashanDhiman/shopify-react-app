@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useWindowSize } from "../Hooks/CustomHooks";
 
 const ShopContext = React.createContext();
 
@@ -30,9 +31,14 @@ const ShopProvider = ({ children }) => {
   const wishlistMetaID = useRef(false);
   const saveForLaterMetaID = useRef(false);
   const cartMetaID = useRef(false);
+  const isMobile = useRef(false);
   const domain = process.env.REACT_APP_DEPLOY_DOMAIN;
   /*eslint-disable */
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const width = window.innerWidth;
+      width < 720 && (isMobile.current = true);
+    }
     if (localStorage.ATG_AccessToken) {
       getCustomerData();
       fetchWishList();
@@ -515,6 +521,7 @@ const ShopProvider = ({ children }) => {
         wishListIDs,
         heartLoading,
         saveForLater,
+        isMobile,
         setWishListIDs,
         setWishList,
         setShowAddress,

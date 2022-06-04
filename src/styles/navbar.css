@@ -157,7 +157,7 @@ img {
   float: right;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
 }
 span.login-link.mob-only {
   display: none;
@@ -216,9 +216,15 @@ span.login-link.mob-only {
     padding-right: 245px;
   }
 }
+@media (max-width: 720px) {
+  .header-navbar {
+    margin-bottom: 0;
+    padding-bottom: 0 !important;
+  }
+}
 @media (max-width: 1370px) {
   .header-navbar {
-    padding: 25px;
+    padding: 25px 10px;
   }
   .header-navbar .logo {
     left: 25px;
