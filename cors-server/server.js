@@ -428,7 +428,7 @@ app.post("/updateUserCartId", (req, res) => {
         }`,
     variables: {
       metafields: {
-        ownerId: response.data.data.customer.metaFieldId,
+        ownerId: req.body.metaFieldId,
         namespace: "instructions",
         value: req.body.cartId,
         key: "cartId",
