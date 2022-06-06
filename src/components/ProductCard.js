@@ -13,10 +13,10 @@ const ProductCard = ({ id, title, url, variantId, price }) => {
         <div className="card-image-div">
           <Link to={`/product/${id.substring(id.lastIndexOf("/") + 1)}`}>
             <img style={{ height: "140px" }} src={url} alt="img" />
-            <p>{title}</p>
+            <p style={{ fontSize: "1.4rem" }}>{title}</p>
           </Link>
         </div>
-        <div className="card-details-div">
+        <div className="card-details-div price">
           <p>₹ {price}</p>
           {isAdding === variantId ? (
             <button>ADDING</button>

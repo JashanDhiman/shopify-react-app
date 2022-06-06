@@ -137,7 +137,7 @@ const ShopProvider = ({ children }) => {
         setAccessToken(false);
         setCart(false);
         setCartId(false);
-        navigate("/");
+        navigate("/homepage");
         localStorage.removeItem("ATG_AccessToken");
         localStorage.removeItem("ATG_CartId");
       })

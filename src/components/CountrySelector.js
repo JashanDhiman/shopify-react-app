@@ -262,10 +262,11 @@ function CountrySelector({ data }) {
   return (
     <PhoneInput
       inputStyle={{
-        fontSize: "0.875rem",
+        fontSize: "clamp(1rem, 3.5vw, 1.6rem)",
         height: "calc(2.75rem + 2px)",
         width: "100%",
         color: "black !important",
+        paddingLeft: "5rem",
       }}
       value={value}
       onChange={(e) => setValue(e)}

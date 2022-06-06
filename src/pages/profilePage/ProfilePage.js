@@ -50,7 +50,6 @@ const ProfilePage = () => {
       { label: "Last Name", data: lname },
       { label: "Phone no", data: phone },
     ];
-    console.log(editShow || editAddressData || showAddress);
     return (
       <Layout showFooter={true} showHeader={true} showCart={true}>
         <div

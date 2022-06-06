@@ -12,7 +12,7 @@
 }
 strong {
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 1.6rem;
 }
 .product-card .product-div {
   padding: 1rem;
@@ -35,42 +35,27 @@ strong {
 .product-card .product-details-div .productHead {
   text-transform: uppercase;
   font-family: Unna-Regular;
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 3.5vw, 3rem);
   font-weight: 500;
   margin-bottom: 1rem;
 }
-.product-card .product-details-div .productDesc {
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-}
 .product-card .product-details-div .productPrice {
-  font-size: 1.5rem;
+  font-size: clamp(1.4rem, 3.5vw, 2.8rem);
   margin-bottom: 1rem;
 }
-/*.product-card .product-details-div .productBtn {
-  font-size: 1.1rem;
-  letter-spacing: 1px;
-  font-family: "Lato-Semibold";
-  border-radius: 1rem;
-  padding: 0.3rem 1.3rem;
-  cursor: pointer;
-  color: #fff;
-  background-color: var(--main-color);
-  border: 0;
-}*/
 .product-card .product-details-div .productBtn,
 .hv_a_que,
 #simpAskQuestion .button {
   float: none;
   font-family: "Lato-Semibold";
-  font-size: 15px;
+  font-size: clamp(1.4rem, 3vw, 1.6rem);
   text-transform: uppercase;
   letter-spacing: 1px;
   margin: 0;
   outline: 0;
   border-radius: 20px;
   display: inline-block;
-  line-height: 40px;
+  line-height: clamp(3rem, 3vw, 4rem);
   padding: 0 30px;
   color: #fff;
   border: 0;
@@ -79,7 +64,7 @@ strong {
   text-decoration: none;
 }
 .tax_info {
-  font-size: 12px;
+  font-size: clamp(1rem, 3vw, 1.2rem);
   margin: 0;
   display: block;
   line-height: 15px;
@@ -96,13 +81,13 @@ strong {
   border-radius: 4px;
   margin-bottom: 20px;
   padding-left: 30px;
-  font-size: 14px;
+  font-size: clamp(1rem, 3vw, 1.4rem);
   letter-spacing: 1px;
   column-gap: 0.8rem;
 }
 .product-discount-wrapper span.cc {
   color: #205b4b;
-  font-size: 16px;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
   line-height: 20px;
   margin-right: 0;
   border: 1px dashed #205b4b;
@@ -124,7 +109,7 @@ strong {
 }
 .product_desc_title {
   border-bottom: 1px solid #dcdcdd;
-  font-size: 16px;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
   margin-bottom: 20px;
   padding: 0 0 10px;
   text-transform: uppercase;
@@ -181,7 +166,7 @@ p.prt-value {
 .prt-btm li {
   box-sizing: border-box;
   display: inline-block;
-  font-size: 13px;
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
   padding: 0;
   text-align: center;
   text-transform: uppercase;
@@ -263,14 +248,14 @@ ul.tabs li.current:after {
   letter-spacing: 1px;
   line-height: 1.5rem;
   padding: 45px 15px 15px;
-  font-size: 16px;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
   line-height: 150%;
 }
 .product-disclaimer {
   letter-spacing: 1px;
   line-height: 1.5rem;
   padding: 20px 10px;
-  font-size: 14px;
+  font-size: clamp(1rem, 3vw, 1.4rem);
   display: block;
   border-top: solid 1px #eae8e8;
   border-bottom: solid 1px #eae8e8;
@@ -294,6 +279,7 @@ ul.tabs li.current:after {
   background-color: #fafafa;
   padding: 20px;
   position: relative;
+  font-size: clamp(1rem, 3.5vw, 1.5rem) !important;
 }
 .simpAskQuestion-Qcontent {
   width: 275px;
@@ -323,7 +309,7 @@ ul.tabs li.current:after {
 #simpAskQuestion.simpAsk-container h2 {
   text-transform: uppercase;
   color: #282829;
-  font-size: 16px;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
   letter-spacing: 2px;
 }
 .product-card .product-details-div .productBtn:hover,
@@ -332,7 +318,7 @@ ul.tabs li.current:after {
   background-color: var(--secondary-color);
   color: var(--black);
 }
-@media (max-width: 992px) {
+@media (max-width: 760px) {
   .product-discount-wrapper {
     flex-wrap: wrap;
     align-items: center;
@@ -340,7 +326,7 @@ ul.tabs li.current:after {
     padding: 7px 10px 20px;
     text-align: center;
     height: auto;
-    font-size: 14px;
+    font-size: clamp(1.2rem, 3vw, 1.4rem);
   }
   .product-discount-wrapper span:not(.cc) {
     flex: 0 0 100%;
@@ -350,5 +336,29 @@ ul.tabs li.current:after {
     justify-content: center;
     margin: 0;
     font-size: 1rem;
+  }
+  .product-card .product-div {
+    flex-direction: column;
+  }
+  .product-card .block {
+    width: 100%;
+  }
+  p.prt-value {
+    padding-top: 0px;
+  }
+  .prt-btm ul {
+    gap: 1rem;
+  }
+  ul.tabs li {
+    font-size: 10px;
+    padding: 10px;
+  }
+  ul.tabs li {
+    line-height: 3.6em;
+  }
+  .simp-ask-question-header {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
 }

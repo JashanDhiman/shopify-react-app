@@ -41,12 +41,11 @@ textarea {
   margin: 0;
 }
 .icons {
-  font-size: 1.5rem;
+  font-size: clamp(2rem, 3.5vw, 3rem);
   cursor: pointer;
 }
 .profile-page {
-  /*position: relative;*/
-  font-size: 1rem;
+  font-size: clamp(0.8rem, 3.5vw, 1.6rem);
   font-weight: 400;
   line-height: 1.5;
   margin: 0;
@@ -54,7 +53,6 @@ textarea {
   text-align: left;
   color: var(--main-color);
   background-color: #fff;
-  /*height: 50vh;*/
   width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
@@ -62,10 +60,10 @@ textarea {
 .profile-page .display-2 {
   font-weight: 900;
   line-height: 1.5;
-  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  font-size: clamp(2rem, 3.5vw, 3rem);
 }
 .profile-page .form-control {
-  font-size: clamp(0.5rem, 3.5vw, 1rem);
+  font-size: clamp(1rem, 3.5vw, 1.6rem);
   line-height: 1.5;
   display: block;
   width: 100%;
@@ -113,16 +111,10 @@ textarea {
   background-color: #fff;
 }
 .profile-page .form-control-label {
-  font-size: 0.875rem;
   font-weight: 600;
 }
-
-.profile-page .form-control {
-  font-size: 0.875rem;
-}
-
 .profile-page .btn {
-  font-size: 1rem;
+  font-size: clamp(1rem, 3.5vw, 1.6rem);
   font-weight: 600;
   line-height: 1.5;
   padding: 0.625rem 1.25rem;
@@ -164,9 +156,6 @@ input:disabled {
   background-color: seashell;
 }
 .profile-page .user-data {
-  /*display: grid;
-  grid-template-columns: 53% 44%;
-  grid-gap: 2rem;*/
   position: relative;
   display: flex;
   gap: 2rem;
@@ -319,7 +308,8 @@ input:disabled {
     padding: 0 0.8rem 0.8rem;
   }
   .profile-page .say-hello {
-    height: 40vh;
+    height: min-content;
+    margin: 5rem 0;
   }
   .profile-page .edit-profile,
   .profile-page .edit-profile .my-account,
