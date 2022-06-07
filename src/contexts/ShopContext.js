@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useWindowSize } from "../Hooks/CustomHooks";
+//import { useWindowSize } from "../Hooks/CustomHooks";
 
 const ShopContext = React.createContext();
 
@@ -137,7 +137,7 @@ const ShopProvider = ({ children }) => {
         setAccessToken(false);
         setCart(false);
         setCartId(false);
-        navigate("/homepage");
+        navigate("/register");
         localStorage.removeItem("ATG_AccessToken");
         localStorage.removeItem("ATG_CartId");
       })

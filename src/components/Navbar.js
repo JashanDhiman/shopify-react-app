@@ -268,7 +268,7 @@ const Navbar = () => {
                 </>
               ) : (
                 <li>
-                  <Link to="/">
+                  <Link to="/register">
                     <FiLogIn />
                   </Link>
                 </li>

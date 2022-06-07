@@ -23,33 +23,29 @@
   display: flex;
   flex-wrap: wrap;
   height: 100vh;
+  /*max-width: 1280px;*/
 }
-
 .col {
   width: 50%;
 }
-
 .align-items-center {
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
 }
-
 .form-wrapper {
   width: 100%;
-  max-width: 28rem;
+  max-width: 41.6rem;
 }
-
 .form {
-  padding: 1.5rem;
+  padding: 2.1rem;
   background-color: #fff;
-  border-radius: 0.6rem;
+  border-radius: 1.2rem;
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   transition: 0.7s ease-in-out;
   transform: scale(0);
-  /*transition-delay: 0.5s;*/
 }
 .container.sign-in .form.sign-in,
 .container.sign-up .form.sign-up {
@@ -58,76 +54,66 @@
 .input-group {
   position: relative;
   width: 100%;
-  margin: 1rem 0;
+  margin: 1.6rem 0;
 }
-
 .input-group i {
   position: absolute;
   top: 50%;
-  left: 1rem;
+  left: 1.6rem;
   transform: translateY(-50%);
-  font-size: 1.4rem;
+  font-size: 2rem;
   color: var(--main-color);
 }
-
 .input-group input {
   width: 100%;
-  padding: 1rem 3rem;
-  font-size: 1rem;
-  border-radius: 0.5rem;
-  border: 0.125rem solid var(--gray);
+  padding: 1.6rem 3.6rem;
+  font-size: 1.6rem;
+  border-radius: 1.1rem;
+  border: 0.5rem solid var(--gray);
   outline: none;
 }
-
 .input-group input:focus {
-  border: 0.125rem solid var(--main-color);
+  border: 0.5rem solid var(--main-color);
 }
-
 .form button {
   cursor: pointer;
   width: 100%;
-  padding: 1rem 0;
-  border-radius: 0.5rem;
+  padding: 1.6rem 0;
+  border-radius: 1.1rem;
   border: none;
   background-color: var(--main-color);
   color: var(--white);
-  font-size: 1.2rem;
+  font-size: 1.8rem;
   outline: none;
 }
-
 .form p {
-  margin: 1rem 0;
-  font-size: 0.7rem;
+  margin: 1.6rem 0;
+  font-size: 1.3rem;
 }
-
 .flex-col {
   flex-direction: column;
 }
 .pointer {
   cursor: pointer;
 }
-
 .content-row {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 6;
   width: 100%;
 }
-
 .text {
-  margin: 4rem;
   color: var(--white);
+  display: flex;
 }
-
 .text h2 {
-  font-size: 3.5rem;
+  font-size: 4.1rem;
   font-weight: 800;
-  margin: 2rem 0;
   transition: 0.7s ease-in-out;
 }
-
 .text p {
   font-weight: 600;
   transition: 0.7s ease-in-out;
@@ -151,9 +137,7 @@
 .container.sign-up .img.sign-up img {
   transform: translateX(0);
 }
-
 /* BACKGROUND */
-
 .container::before {
   content: "";
   position: absolute;
@@ -173,18 +157,15 @@
   border-bottom-right-radius: max(50vw, 50vh);
   border-top-left-radius: max(50vw, 50vh);
 }
-
 .container.sign-in::before {
   transform: translate(0, 0);
   right: 50%;
 }
-
 .container.sign-up::before {
   transform: translate(100%, 0);
   right: 50%;
 }
 /* RESPONSIVE */
-
 @media only screen and (max-width: 924px) {
   .container::before,
   .container.sign-in::before,
@@ -196,61 +177,54 @@
     transform: none;
     right: 0;
   }
+  .form {
+    background-color: transparent;
+  }
   .container::before {
     width: 200vw;
   }
-
   .container.sign-in .col.sign-up {
     transform: translateY(100%);
   }
-
   .container.sign-in .col.sign-in,
   .container.sign-up .col.sign-up {
     transform: translateY(0);
   }
-
   .content-row {
     align-items: flex-start !important;
   }
-
   .content-row .col {
     transform: translateY(0);
     background-color: unset;
   }
-
   .col {
     width: 100%;
     position: absolute;
-    padding: 2rem;
+    padding: 2.6rem;
     background-color: var(--background-color);
-    border-top-left-radius: 2rem;
-    border-top-right-radius: 2rem;
+    border-top-left-radius: 2.6rem;
+    border-top-right-radius: 2.6rem;
     transform: translateY(100%);
     transition: 0.7s ease-in-out;
   }
-
   .row {
     align-items: flex-end;
     justify-content: flex-end;
   }
-
   .form,
   .social-list {
     box-shadow: none;
     margin: 0;
     padding: 0;
   }
-
   .text {
     margin: 0;
   }
-
   .text p {
     display: none;
   }
-
   .text h2 {
-    margin: 0.5rem;
-    font-size: 2rem;
+    margin: 1.1rem;
+    font-size: 2.6rem;
   }
 }

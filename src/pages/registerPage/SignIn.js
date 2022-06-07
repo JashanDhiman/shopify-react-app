@@ -43,7 +43,7 @@ const SignIn = (props) => {
             </div>
             <button type="submit">Sign in</button>
             <p>
-              <Link to="reset-pass">
+              <Link to="/reset-pass">
                 <b>Forgot password?</b>
               </Link>
             </p>
