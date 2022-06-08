@@ -306,13 +306,15 @@ const ShopProvider = ({ children }) => {
             method: "post",
             url: `${domain}:4000/updateUserCartId`,
             data: {
-              cartId: cartId,
-              metaFieldId: cartMetaID,
+              cartId: response.data.id,
+              metaFieldId: cartMetaID.current,
+              customerId: customerId.current,
             },
           };
           axios(config)
             .then((response) => {
               console.log(response.data);
+              localStorage.setItem("ATG_CartId", JSON.stringify(response.data));
             })
             .catch((error) => {
               console.log(error.response);
@@ -453,11 +455,11 @@ const ShopProvider = ({ children }) => {
         console.log(error.response);
       });
   };
-  //---------------------------------------- Save_for_later functions-------------------
+  //---------------------------------------- Cart_Save_for_later functions-------------------
   const fetchSaveForLater = async () => {
     var config = {
       method: "post",
-      url: `${domain}:4000/fetchSaveForLater`,
+      url: `${domain}:4000/fetchCartSaveForLater`,
       data: {
         accessToken: JSON.parse(localStorage.getItem("ATG_AccessToken")),
       },
@@ -484,7 +486,7 @@ const ShopProvider = ({ children }) => {
         : saveForLaterIDs.filter((value) => value !== productId).join(",");
     var config = {
       method: "post",
-      url: `${domain}:4000/updateSaveForLater`,
+      url: `${domain}:4000/updateCartSaveForLater`,
       data: {
         accessToken: JSON.parse(localStorage.getItem("ATG_AccessToken")),
         customerId: customerId.current,
@@ -502,6 +504,55 @@ const ShopProvider = ({ children }) => {
         console.log(error.response);
       });
   };
+  ////---------------------------------------- Save_for_later functions-------------------
+  //const fetchSaveForLater = async () => {
+  //  var config = {
+  //    method: "post",
+  //    url: `${domain}:4000/fetchSaveForLater`,
+  //    data: {
+  //      accessToken: JSON.parse(localStorage.getItem("ATG_AccessToken")),
+  //    },
+  //  };
+  //  await axios(config)
+  //    .then((response) => {
+  //      setSaveForLaterIDs(response.data.productsIDs);
+  //      setSaveForLater(response.data.productsList);
+  //    })
+  //    .catch((error) => {
+  //      console.log(error.response);
+  //    });
+  //};
+  ////both add and remove item from save for later functionality is happening in below function(updateSaveForLater).
+  //const updateSaveForLater = async (productId, merchandiseId, moveToCart) => {
+  //  setIsLoading(true);
+  //  merchandiseId && moveToCart
+  //    ? addItemToCart(merchandiseId, 1)
+  //    : removeItemFromCart(merchandiseId);
+  //  saveForLaterIDs[0] === "Default_Parameter" && saveForLaterIDs.shift();
+  //  const updatedList =
+  //    merchandiseId && !moveToCart
+  //      ? [...saveForLaterIDs, productId].join(",")
+  //      : saveForLaterIDs.filter((value) => value !== productId).join(",");
+  //  var config = {
+  //    method: "post",
+  //    url: `${domain}:4000/updateSaveForLater`,
+  //    data: {
+  //      accessToken: JSON.parse(localStorage.getItem("ATG_AccessToken")),
+  //      customerId: customerId.current,
+  //      metafieldId: saveForLaterMetaID.current,
+  //      updatedList: updatedList ? updatedList : "Default_Parameter",
+  //    },
+  //  };
+  //  await axios(config)
+  //    .then((response) => {
+  //      setIsLoading(false);
+  //      setSaveForLaterIDs(response.data.productsIDs);
+  //      setSaveForLater(response.data.productsList);
+  //    })
+  //    .catch((error) => {
+  //      console.log(error.response);
+  //    });
+  //};
 
   return (
     <ShopContext.Provider

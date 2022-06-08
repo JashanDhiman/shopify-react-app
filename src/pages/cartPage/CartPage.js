@@ -209,7 +209,7 @@ const CartPage = () => {
             )}
           </div>
         )}
-        <SaveForLater />
+        {/*<SaveForLater />*/}
       </div>
     </Layout>
   );

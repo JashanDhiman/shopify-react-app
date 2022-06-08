@@ -71,6 +71,12 @@ app.post("/signup", (req, res) => {
             value: "Default_Parameter",
             type: "single_line_text_field",
           },
+          {
+            namespace: "custom",
+            key: "cart_save",
+            value: "Default_Parameter",
+            type: "single_line_text_field",
+          },
         ],
       },
     },
@@ -325,7 +331,6 @@ app.post("/getCustomerData", (req, res) => {
 });
 
 //-----------------------------product functions-----------
-
 app.get("/products", (req, res) => {
   var data = JSON.stringify({
     query: ` {
@@ -411,35 +416,28 @@ app.post("/collectionbyhandle", (req, res) => {
 });
 
 //-----------------------------cart functions-----------
-
 app.post("/updateUserCartId", (req, res) => {
   var data = JSON.stringify({
-    query: `mutation metafieldsSet($metafields: [MetafieldsSetInput!]!) {
-          metafieldsSet(metafields: $metafields) {
-            metafield(key: "cartId", namespace: "instructions") {
-              id
+    query: `mutation {customerUpdate(input: {id: "${req.body.customerId}", metafields: [{id: "${req.body.metaFieldId}", value: "${req.body.cartId}"}]}) {
+      userErrors {message}
+      customer {id
+        metafields(namespace: "custom", first: 20) {edges {node {id
+              key
               value
-            }
-            userErrors {
-              field
-              message
-            }
-          }
-        }`,
-    variables: {
-      metafields: {
-        ownerId: req.body.metaFieldId,
-        namespace: "instructions",
-        value: req.body.cartId,
-        key: "cartId",
-        type: "single_line_text_field",
-      },
-    },
+              namespace}}}}}}`,
   });
   var config = { ...adminConfig, data: data };
-  axios(config).then(function (response) {
-    res.send(response.data.data.customer.metafield);
-  });
+  axios(config).then(
+    function (response) {
+      //console.log(response.data);
+      //res.send(response.data.data.customer.metafield);
+      response.data.data.customer.metafields.edges.map(({ node }) => {
+        node.key == "cart_id" && res.send(node.value);
+      });
+    }.catch(function (error) {
+      //console.log(error.response);
+    })
+  );
 });
 app.post("/createcart", (req, res) => {
   if (req.body.accessToken) {
@@ -776,7 +774,8 @@ app.post("/updateWishList", (req, res) => {
       });
   }
 });
-//----------------------------- Save_for_Later functions-----------
+
+//----------------------------- Product_Save_for_Later functions-----------
 app.post("/fetchSaveForLater", (req, res) => {
   var data = JSON.stringify({
     query: `{customer(customerAccessToken:"${req.body.accessToken.accessToken}") {metafields(namespace: "custom",first: 50) {
@@ -876,8 +875,107 @@ app.post("/updateSaveForLater", (req, res) => {
   }
 });
 
-//-------------------user profile, address and orders-------------
+//----------------------------- Cart_Save_for_Later functions-----------
+app.post("/fetchCartSaveForLater", (req, res) => {
+  var data = JSON.stringify({
+    query: `{customer(customerAccessToken:"${req.body.accessToken.accessToken}") {metafields(namespace: "custom",first: 50) {
+      edges {node {id
+            key
+            value}}}}}`,
+  });
+  var config = { ...storeFrontConfig, data: data };
+  axios(config)
+    .then(function (response) {
+      var productsList;
+      response.data.data.customer.metafields.edges.map(({ node }) => {
+        node.key == "cart_save" &&
+          (node.value == "Default_Parameter"
+            ? res.send({ productsIDs: [], productsList: [] })
+            : (productsList = node.value.split(",").filter(Boolean)));
+      });
+      if (productsList) {
+        var data = JSON.stringify({
+          query: `query test($ids: [ID!]!) {
+          nodes(ids: $ids) {
+            ... on Product {id
+              title
+              featuredImage {url}
+              variants(first: 1) {edges {node {id
+                    priceV2 {amount}}}}}}}`,
+          variables: {
+            ids: productsList,
+          },
+        });
+        var config = { ...storeFrontConfig, data: data };
+        axios(config)
+          .then(function (response) {
+            res.send({
+              productsIDs: productsList,
+              productsList: response.data.data.nodes,
+            });
+          })
+          .catch(function (error) {
+            console.log(error.response.data, "\nerror in fetchWishList 1");
+          });
+      }
+    })
+    .catch(function (error) {
+      console.log(error.response.data, "\nerror in fetchWishList 2");
+    });
+});
+app.post("/updateCartSaveForLater", (req, res) => {
+  //updatedList should be in comma sperated string format i.e gid://shopify/Product/6762631790677,gid://shopify/Product/6762631561301
+  var data = JSON.stringify({
+    query: `mutation {customerUpdate(input: {id: "${req.body.customerId}", metafields: [{id: "${req.body.metafieldId}", value: "${req.body.updatedList}"}]}) {
+        userErrors {message}
+        customer {id
+          metafields(namespace: "custom", first: 20) {edges {node {id
+                key
+                value
+                namespace}}}}}}`,
+  });
+  var config = { ...adminConfig, data: data };
+  axios(config)
+    .then(function (response) {
+      //console.log(response.data.data.customerUpdate.customer);
+    })
+    .catch(function (error) {
+      //console.log(error.response);
+    });
+  if (req.body.updatedList === "Default_Parameter") {
+    res.send({
+      productsIDs: [],
+      productsList: [],
+    });
+  } else {
+    let productsList = req.body.updatedList.split(",").filter(Boolean);
+    var data = JSON.stringify({
+      query: `query test($ids: [ID!]!) {
+          nodes(ids: $ids) {
+            ... on Product {id
+              title
+              featuredImage {url}
+              variants(first: 1) {edges {node {id
+                    priceV2 {amount}}}}}}}`,
+      variables: {
+        ids: productsList,
+      },
+    });
+    var config = { ...storeFrontConfig, data: data };
+    axios(config)
+      .then(function (response) {
+        res.send({
+          productsIDs: productsList,
+          productsList: response.data.data.nodes,
+        });
+      })
+      .catch(function (error) {
+        console.log(error.response, "\nerror in add to wishlist");
+      });
+  }
+});
 
+//-------------------user profile, address and orders-------------
 app.post("/profile", (req, res) => {
   var data = JSON.stringify({
     query: `{customer(customerAccessToken: "${req.body.accessToken}") {
