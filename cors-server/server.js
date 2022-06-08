@@ -876,7 +876,7 @@ app.post("/updateSaveForLater", (req, res) => {
 });
 
 //----------------------------- Cart_Save_for_Later functions-----------
-app.post("/fetchCartSaveForLater", (req, res) => {
+app.post("/fetchSavedCart", (req, res) => {
   var data = JSON.stringify({
     query: `{customer(customerAccessToken:"${req.body.accessToken.accessToken}") {metafields(namespace: "custom",first: 50) {
       edges {node {id
@@ -923,7 +923,7 @@ app.post("/fetchCartSaveForLater", (req, res) => {
       console.log(error.response.data, "\nerror in fetchWishList 2");
     });
 });
-app.post("/updateCartSaveForLater", (req, res) => {
+app.post("/updateSavedCart", (req, res) => {
   //updatedList should be in comma sperated string format i.e gid://shopify/Product/6762631790677,gid://shopify/Product/6762631561301
   var data = JSON.stringify({
     query: `mutation {customerUpdate(input: {id: "${req.body.customerId}", metafields: [{id: "${req.body.metafieldId}", value: "${req.body.updatedList}"}]}) {

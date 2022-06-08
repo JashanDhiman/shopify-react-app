@@ -6,10 +6,16 @@ import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 
 import "./cartPage.css";
 import SaveForLater from "../../components/SaveForLater";
+import CartSave from "../../components/CartSave";
 
 const CartPage = () => {
-  const { cart, removeItemFromCart, updateItemToCart, updateSaveForLater } =
-    useContext(ShopContext);
+  const {
+    cart,
+    removeItemFromCart,
+    updateItemToCart,
+    updateSaveForLater,
+    addSavedCart,
+  } = useContext(ShopContext);
   return (
     <Layout showFooter={true} showHeader={true} showCart={true}>
       <div className="innerPadding">
@@ -22,7 +28,6 @@ const CartPage = () => {
                 </a>
               </li>
               <li>
-                {" "}
                 <i className="icons">
                   <FaAngleRight />
                 </i>
@@ -185,13 +190,21 @@ const CartPage = () => {
                       ₹ {cart.estimatedCost.totalAmount.amount}
                     </span>
                   </h2>
-
-                  <div className="form-actions">
-                    <span className="cart_button">
-                      <a href={cart.checkoutUrl}>
-                        <button>CHECK-OUT</button>
-                      </a>
-                    </span>
+                  <div className="cartBtns">
+                    <div className="form-actions">
+                      <span className="save_button">
+                        <div onClick={() => addSavedCart()}>
+                          <button>Save My Cart</button>
+                        </div>
+                      </span>
+                    </div>
+                    <div className="form-actions">
+                      <span className="cart_button">
+                        <a href={cart.checkoutUrl}>
+                          <button>CHECK-OUT</button>
+                        </a>
+                      </span>
+                    </div>
                   </div>
                 </div>
               </>
@@ -210,6 +223,7 @@ const CartPage = () => {
           </div>
         )}
         {/*<SaveForLater />*/}
+        <CartSave />
       </div>
     </Layout>
   );
