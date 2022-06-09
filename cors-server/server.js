@@ -27,9 +27,32 @@ var storeFrontConfig = {
     "Content-Type": "application/json",
   },
 };
+//----------------------------common query functions--------------------
+async function getProductsList(idsList) {
+  var data = JSON.stringify({
+    query: `query test($ids: [ID!]!) {
+          nodes(ids: $ids) {
+            ... on Product {id
+              title
+              featuredImage {url}
+              variants(first: 1) {edges {node {id
+                    priceV2 {amount}}}}}}}`,
+    variables: {
+      ids: idsList,
+    },
+  });
+  var config = { ...storeFrontConfig, data: data };
+  var responseData = await axios(config)
+    .then(function (response) {
+      return response.data.data.nodes;
+    })
+    .catch(function (error) {
+      console.log(error.response, "\nerror in getProductsList function");
+    });
+  return responseData;
+}
 // routes
 //------------------------authentication, login-logout functions-----------
-
 app.post("/signup", (req, res) => {
   let customer_Id, activationToken;
   let password = req.body.password;
@@ -171,17 +194,17 @@ app.post("/signup", (req, res) => {
                   }
                 })
                 .catch((error) => {
-                  console.log(error.response.data, "\nerror in ");
+                  console.log(error?.response?.data, "\nerror in ");
                 });
             }
           })
           .catch((error) => {
-            console.log(error.response.data, "\nerror in ");
+            console.log(error?.response?.data, "\nerror in ");
           });
       }
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in ");
+      console.log(error?.response?.data, "\nerror in ");
     });
 });
 app.post("/signin", (req, res) => {
@@ -216,7 +239,7 @@ app.post("/signin", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in ");
+      console.log(error?.response?.data, "\nerror in ");
     });
 });
 app.post("/tokenrenew", (req, res) => {
@@ -249,7 +272,7 @@ app.post("/tokenrenew", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in ");
+      console.log(error?.response?.data, "\nerror in ");
     });
 });
 app.post("/signout", (req, res) => {
@@ -279,7 +302,7 @@ app.post("/signout", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in ");
+      console.log(error?.response?.data, "\nerror in ");
     });
 });
 app.post("/resetpass", (req, res) => {
@@ -310,7 +333,7 @@ app.post("/resetpass", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in ");
+      console.log(error?.response?.data, "\nerror in ");
     });
 });
 app.post("/getCustomerData", (req, res) => {
@@ -326,7 +349,7 @@ app.post("/getCustomerData", (req, res) => {
       res.send(response.data.data.customer);
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in ");
+      console.log(error?.response?.data, "\nerror in ");
     });
 });
 
@@ -355,7 +378,7 @@ app.get("/products", (req, res) => {
       res.send(response.data.data.products.edges);
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in ");
+      console.log(error?.response?.data, "\nerror in ");
     });
 });
 app.post("/product", (req, res) => {
@@ -383,7 +406,7 @@ app.post("/product", (req, res) => {
       res.send(response.data.data.product);
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in ");
+      console.log(error?.response?.data, "\nerror in ");
     });
 });
 app.post("/collectionbyhandle", (req, res) => {
@@ -411,7 +434,7 @@ app.post("/collectionbyhandle", (req, res) => {
       res.send(response.data.data.collection.products.edges);
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in ");
+      console.log(error?.response?.data, "\nerror in ");
     });
 });
 
@@ -479,7 +502,7 @@ app.post("/createcart", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in ");
+      console.log(error?.response?.data, "\nerror in ");
     });
 });
 app.post("/fetchcart", (req, res) => {
@@ -519,7 +542,7 @@ app.post("/fetchcart", (req, res) => {
       res.send(response.data.data.cart);
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in ");
+      console.log(error?.response?.data, "\nerror in ");
     });
 });
 app.post("/addtocart", (req, res) => {
@@ -606,7 +629,7 @@ app.post("/removefromcart", (req, res) => {
                       url}}}}}}}}}`,
     variables: {
       cartId: req.body.cartId,
-      lineIds: [req.body.merchandiseId],
+      lineIds: req.body.merchandiseId,
     },
   });
   var config = { ...storeFrontConfig, data: data };
@@ -619,7 +642,7 @@ app.post("/removefromcart", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in ");
+      console.log(error?.response?.data, "\nerror in ");
     });
 });
 app.post("/updatecart", (req, res) => {
@@ -670,7 +693,7 @@ app.post("/updatecart", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in ");
+      console.log(error?.response?.data, "\nerror in ");
     });
 });
 
@@ -693,33 +716,16 @@ app.post("/fetchWishList", (req, res) => {
             : (wishlist = node.value.split(",").filter(Boolean)));
       });
       if (wishlist) {
-        var data = JSON.stringify({
-          query: `query test($ids: [ID!]!) {
-          nodes(ids: $ids) {
-            ... on Product {id
-              title
-              featuredImage {url}
-              variants(first: 1) {edges {node {id
-                    priceV2 {amount}}}}}}}`,
-          variables: {
-            ids: wishlist,
-          },
-        });
-        var config = { ...storeFrontConfig, data: data };
-        axios(config)
-          .then(function (response) {
-            res.send({
-              wishListIDs: wishlist,
-              wishList: response.data.data.nodes,
-            });
-          })
-          .catch(function (error) {
-            console.log(error.response.data, "\nerror in fetchWishList 1");
+        getProductsList(wishlist).then((val) => {
+          res.send({
+            wishListIDs: wishlist,
+            wishList: val,
           });
+        });
       }
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in fetchWishList 2");
+      console.log(error?.response?.data, "\nerror in fetchWishList 2");
     });
 });
 app.post("/updateWishList", (req, res) => {
@@ -749,29 +755,12 @@ app.post("/updateWishList", (req, res) => {
     });
   } else {
     let wishlist = req.body.updatedList.split(",").filter(Boolean);
-    var data = JSON.stringify({
-      query: `query test($ids: [ID!]!) {
-          nodes(ids: $ids) {
-            ... on Product {id
-              title
-              featuredImage {url}
-              variants(first: 1) {edges {node {id
-                    priceV2 {amount}}}}}}}`,
-      variables: {
-        ids: wishlist,
-      },
-    });
-    var config = { ...storeFrontConfig, data: data };
-    axios(config)
-      .then(function (response) {
-        res.send({
-          wishListIDs: wishlist,
-          wishList: response.data.data.nodes,
-        });
-      })
-      .catch(function (error) {
-        console.log(error.response, "\nerror in add to wishlist");
+    getProductsList(wishlist).then((val) => {
+      res.send({
+        wishListIDs: wishlist,
+        wishList: val,
       });
+    });
   }
 });
 
@@ -794,33 +783,16 @@ app.post("/fetchSaveForLater", (req, res) => {
             : (productsList = node.value.split(",").filter(Boolean)));
       });
       if (productsList) {
-        var data = JSON.stringify({
-          query: `query test($ids: [ID!]!) {
-          nodes(ids: $ids) {
-            ... on Product {id
-              title
-              featuredImage {url}
-              variants(first: 1) {edges {node {id
-                    priceV2 {amount}}}}}}}`,
-          variables: {
-            ids: productsList,
-          },
-        });
-        var config = { ...storeFrontConfig, data: data };
-        axios(config)
-          .then(function (response) {
-            res.send({
-              productsIDs: productsList,
-              productsList: response.data.data.nodes,
-            });
-          })
-          .catch(function (error) {
-            console.log(error.response.data, "\nerror in fetchWishList 1");
+        getProductsList(productsList).then((val) => {
+          res.send({
+            productsIDs: productsList,
+            productsList: val,
           });
+        });
       }
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in fetchWishList 2");
+      console.log(error?.response?.data, "\nerror in fetchWishList 2");
     });
 });
 app.post("/updateSaveForLater", (req, res) => {
@@ -862,16 +834,18 @@ app.post("/updateSaveForLater", (req, res) => {
       },
     });
     var config = { ...storeFrontConfig, data: data };
-    axios(config)
-      .then(function (response) {
-        res.send({
-          productsIDs: productsList,
-          productsList: response.data.data.nodes,
-        });
-      })
-      .catch(function (error) {
-        console.log(error.response, "\nerror in add to wishlist");
+    axios(config).then(function (response) {
+      res.send({
+        productsIDs: productsList,
+        productsList: response.data.data.nodes,
       });
+    });
+    getProductsList(productsList).then((val) => {
+      res.send({
+        productsIDs: productsList,
+        productsList: val,
+      });
+    });
   }
 });
 
@@ -891,42 +865,24 @@ app.post("/fetchSavedCart", (req, res) => {
         node.key == "cart_save" &&
           (node.value == "Default_Parameter"
             ? res.send({ productsIDs: [], productsList: [] })
-            : (productsList = node.value.split(",").filter(Boolean)));
+            : (productsList = node.value.split("??--split--??")[0].split(",")));
       });
       if (productsList) {
-        var data = JSON.stringify({
-          query: `query test($ids: [ID!]!) {
-          nodes(ids: $ids) {
-            ... on Product {id
-              title
-              featuredImage {url}
-              variants(first: 1) {edges {node {id
-                    priceV2 {amount}}}}}}}`,
-          variables: {
-            ids: productsList,
-          },
-        });
-        var config = { ...storeFrontConfig, data: data };
-        axios(config)
-          .then(function (response) {
-            res.send({
-              productsIDs: productsList,
-              productsList: response.data.data.nodes,
-            });
-          })
-          .catch(function (error) {
-            console.log(error.response.data, "\nerror in fetchWishList 1");
+        getProductsList(productsList).then((val) => {
+          res.send({
+            productsIDs: productsList,
+            productsList: val,
           });
+        });
       }
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in fetchWishList 2");
+      console.log(error?.response?.data, "\nerror in fetchSavedCart");
     });
 });
-app.post("/updateSavedCart", (req, res) => {
-  //updatedList should be in comma sperated string format i.e gid://shopify/Product/6762631790677,gid://shopify/Product/6762631561301
+app.post("/addSavedCart", (req, res) => {
   var data = JSON.stringify({
-    query: `mutation {customerUpdate(input: {id: "${req.body.customerId}", metafields: [{id: "${req.body.metafieldId}", value: "${req.body.updatedList}"}]}) {
+    query: `mutation {customerUpdate(input: {id: "${req.body.customerId}", metafields: [{id: "${req.body.metafieldId}", value: "${req.body.metafieldVal}"}]}) {
         userErrors {message}
         customer {id
           metafields(namespace: "custom", first: 20) {edges {node {id
@@ -935,44 +891,16 @@ app.post("/updateSavedCart", (req, res) => {
                 namespace}}}}}}`,
   });
   var config = { ...adminConfig, data: data };
-  axios(config)
-    .then(function (response) {
-      //console.log(response.data.data.customerUpdate.customer);
-    })
-    .catch(function (error) {
-      //console.log(error.response);
-    });
-  if (req.body.updatedList === "Default_Parameter") {
-    res.send({
-      productsIDs: [],
-      productsList: [],
-    });
-  } else {
-    let productsList = req.body.updatedList.split(",").filter(Boolean);
-    var data = JSON.stringify({
-      query: `query test($ids: [ID!]!) {
-          nodes(ids: $ids) {
-            ... on Product {id
-              title
-              featuredImage {url}
-              variants(first: 1) {edges {node {id
-                    priceV2 {amount}}}}}}}`,
-      variables: {
-        ids: productsList,
-      },
-    });
-    var config = { ...storeFrontConfig, data: data };
-    axios(config)
-      .then(function (response) {
-        res.send({
-          productsIDs: productsList,
-          productsList: response.data.data.nodes,
-        });
-      })
-      .catch(function (error) {
-        console.log(error.response, "\nerror in add to wishlist");
-      });
-  }
+  axios(config);
+  //.then(function (response) {
+  //  //console.log(response.data.data.customerUpdate.customer);
+  //})
+  //.catch(function (error) {
+  //  //console.log(error.response);
+  //});
+  getProductsList(
+    req.body.metafieldVal.split("??--split--??")[0].split(",")
+  ).then((val) => res.send(val));
 });
 
 //-------------------user profile, address and orders-------------
@@ -1025,7 +953,7 @@ app.post("/profile", (req, res) => {
       res.send(response.data.data.customer);
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in ");
+      console.log(error?.response?.data, "\nerror in ");
     });
 });
 app.post("/update-profile", (req, res) => {
@@ -1092,7 +1020,7 @@ app.post("/update-profile", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in ");
+      console.log(error?.response?.data, "\nerror in ");
     });
 });
 app.post("/add-address", (req, res) => {
@@ -1138,7 +1066,7 @@ app.post("/add-address", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in ");
+      console.log(error?.response?.data, "\nerror in ");
     });
 });
 app.post("/edit-address", (req, res) => {
@@ -1185,7 +1113,7 @@ app.post("/edit-address", (req, res) => {
       }
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in ");
+      console.log(error?.response?.data, "\nerror in ");
     });
 });
 app.post("/delete-address", (req, res) => {
@@ -1208,7 +1136,7 @@ app.post("/delete-address", (req, res) => {
       res.send(response.data.data);
     })
     .catch(function (error) {
-      console.log(error.response.data, "\nerror in ");
+      console.log(error?.response?.data, "\nerror in ");
     });
 });
 app.listen(4000, (err) => {
