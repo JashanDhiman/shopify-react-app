@@ -87,7 +87,7 @@ const CartPage = () => {
                               href={`/product/${productId.substring(
                                 id.lastIndexOf("/")
                               )}`}
-                              title="Radish White Microgreen Seeds"
+                              title={title}
                             >
                               {title}
                             </a>

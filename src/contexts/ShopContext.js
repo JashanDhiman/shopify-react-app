@@ -32,6 +32,7 @@ const ShopProvider = ({ children }) => {
   const customerMetafields = useRef(false);
   const wishlistMetaID = useRef(false);
   const saveForLaterMetaID = useRef(false);
+  const savedCartMetaID = useRef(false);
   const cartMetaID = useRef(false);
   const isMobile = useRef(false);
   const domain = process.env.REACT_APP_DEPLOY_DOMAIN;
@@ -253,6 +254,10 @@ const ShopProvider = ({ children }) => {
             cartMetaID.current = node.id;
             fetchCart();
           }
+          if (node.key === "cart_save") {
+            setSavedCartIDs(node.value.split(",").filter(Boolean));
+            savedCartMetaID.current = node.id;
+          }
           return null;
         });
       })
@@ -375,7 +380,8 @@ const ShopProvider = ({ children }) => {
     setIsLoading(true);
     const data = {
       cartId,
-      merchandiseId,
+      merchandiseId:
+        typeof merchandiseId === "string" ? [merchandiseId] : merchandiseId,
     };
     var config = {
       method: "post",
@@ -477,66 +483,39 @@ const ShopProvider = ({ children }) => {
       });
   };
   const addSavedCart = async () => {
-    //setIsLoading(true);
-    //saveForLaterIDs[0] === "Default_Parameter" && saveForLaterIDs.shift();
-    let variantIdsList = [];
-    let merchandiseIdsList = [];
-    console.log(cart);
+    setIsLoading(true);
+    let removeIdsList = [];
+    let saveProductIdsList = [];
+    let saveVariantIdsList = [];
     cart.lines.edges.map(({ node }) => {
-      console.log(node);
-      //variantIdsList.push();
-      //merchandiseIdsList.push();
+      removeIdsList.push(node.id);
+      saveProductIdsList.push(node.merchandise.product.id);
+      saveVariantIdsList.push(node.merchandise.id);
+      return null;
     });
+    removeItemFromCart(removeIdsList);
     var config = {
       method: "post",
-      url: `${domain}:4000/updateCartSaveForLater`,
+      url: `${domain}:4000/addSavedCart`,
       data: {
-        accessToken: JSON.parse(localStorage.getItem("ATG_AccessToken")),
         customerId: customerId.current,
-        metafieldId: saveForLaterMetaID.current,
-        //updatedList: updatedList ? updatedList : "Default_Parameter",
+        metafieldId: savedCartMetaID.current,
+        metafieldVal: `${saveProductIdsList.join(
+          ","
+        )}??--split--??${saveVariantIdsList.join(",")}`,
       },
     };
-    //await axios(config)
-    //  .then((response) => {
-    //    setIsLoading(false);
-    //    setSaveForLaterIDs(response.data.productsIDs);
-    //    setSaveForLater(response.data.productsList);
-    //  })
-    //  .catch((error) => {
-    //    console.log(error.response);
-    //  });
+    await axios(config)
+      .then((response) => {
+        setSavedCartIDs(saveProductIdsList);
+        setSavedCart(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
   };
-  //const updateSaveForLater = async (productId, merchandiseId, moveToCart) => {
-  //  setIsLoading(true);
-  //  merchandiseId && moveToCart
-  //    ? addItemToCart(merchandiseId, 1)
-  //    : removeItemFromCart(merchandiseId);
-  //  saveForLaterIDs[0] === "Default_Parameter" && saveForLaterIDs.shift();
-  //  const updatedList =
-  //    merchandiseId && !moveToCart
-  //      ? [...saveForLaterIDs, productId].join(",")
-  //      : saveForLaterIDs.filter((value) => value !== productId).join(",");
-  //  var config = {
-  //    method: "post",
-  //    url: `${domain}:4000/updateCartSaveForLater`,
-  //    data: {
-  //      accessToken: JSON.parse(localStorage.getItem("ATG_AccessToken")),
-  //      customerId: customerId.current,
-  //      metafieldId: saveForLaterMetaID.current,
-  //      updatedList: updatedList ? updatedList : "Default_Parameter",
-  //    },
-  //  };
-  //  await axios(config)
-  //    .then((response) => {
-  //      setIsLoading(false);
-  //      setSaveForLaterIDs(response.data.productsIDs);
-  //      setSaveForLater(response.data.productsList);
-  //    })
-  //    .catch((error) => {
-  //      console.log(error.response);
-  //    });
-  //};
+
   ////---------------------------------------- Save_for_later functions-------------------
   //const fetchSaveForLater = async () => {
   //  var config = {
