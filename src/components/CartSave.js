@@ -5,7 +5,7 @@ import { ShopContext } from "../contexts/ShopContext";
 import HeartLoading from "./HeartLoading";
 import Loading from "./Loading";
 const CartSave = () => {
-  const { savedCart, updateSavedCart } = useContext(ShopContext);
+  const { savedCart, moveSavedCart } = useContext(ShopContext);
   return (
     <>
       <h2>Saved Cart</h2>
@@ -42,7 +42,7 @@ const CartSave = () => {
           <Loading />
         )}
       </div>
-      <button>Move to cart</button>
+      <button onClick={() => moveSavedCart()}>Move to cart</button>
     </>
   );
 };

@@ -10,8 +10,8 @@ const ShopProvider = ({ children }) => {
   const [productsList, setProductsList] = useState(false);
   const [wishList, setWishList] = useState(false);
   const [wishListIDs, setWishListIDs] = useState([]);
-  const [saveForLater, setSaveForLater] = useState(false);
-  const [saveForLaterIDs, setSaveForLaterIDs] = useState([]);
+  //const [saveForLater, setSaveForLater] = useState(false);
+  //const [saveForLaterIDs, setSaveForLaterIDs] = useState([]);
   const [savedCart, setSavedCart] = useState(false);
   const [savedCartIDs, setSavedCartIDs] = useState([]);
   const [editShow, setEditShow] = useState(false);
@@ -31,7 +31,7 @@ const ShopProvider = ({ children }) => {
   const customerId = useRef(false);
   const customerMetafields = useRef(false);
   const wishlistMetaID = useRef(false);
-  const saveForLaterMetaID = useRef(false);
+  //const saveForLaterMetaID = useRef(false);
   const savedCartMetaID = useRef(false);
   const cartMetaID = useRef(false);
   const isMobile = useRef(false);
@@ -244,10 +244,10 @@ const ShopProvider = ({ children }) => {
             setWishListIDs(node.value.split(",").filter(Boolean));
             wishlistMetaID.current = node.id;
           }
-          if (node.key === "save_for_later") {
-            setSaveForLaterIDs(node.value.split(",").filter(Boolean));
-            saveForLaterMetaID.current = node.id;
-          }
+          //if (node.key === "save_for_later") {
+          //  setSaveForLaterIDs(node.value.split(",").filter(Boolean));
+          //  saveForLaterMetaID.current = node.id;
+          //}
           if (node.key === "cart_id") {
             localStorage.setItem("ATG_CartId", JSON.stringify(node.value));
             setCartId(node.value);
@@ -353,13 +353,12 @@ const ShopProvider = ({ children }) => {
         console.log(error.response);
       });
   };
-  const addItemToCart = async (variantId, quantity) => {
-    setIsAdding(variantId);
+  const addItemToCart = async (itemsList) => {
+    setIsAdding(itemsList[0].merchandiseId);
     setIsLoading(true);
     const data = {
       cartId,
-      variantId,
-      quantity: parseInt(quantity, 10),
+      itemsList,
     };
     var config = {
       method: "post",
@@ -515,6 +514,41 @@ const ShopProvider = ({ children }) => {
         console.log(error.response);
       });
   };
+  const moveSavedCart = async () => {
+    setIsLoading(true);
+    let itemsList = [];
+    customerMetafields.current.map(({ node }) => {
+      if (node.key === "cart_save") {
+        node.value
+          .split("??--split--??")[1]
+          .split(",")
+          .map((id) => {
+            itemsList.push({ merchandiseId: id, quantity: 1 });
+            return null;
+          });
+      }
+      return null;
+    });
+    addItemToCart(itemsList);
+    var config = {
+      method: "post",
+      url: `${domain}:4000/moveSavedCart`,
+      data: {
+        customerId: customerId.current,
+        metafieldId: savedCartMetaID.current,
+        metafieldVal: "Default_Parameter",
+      },
+    };
+    await axios(config)
+      .then((response) => {
+        setSavedCartIDs([]);
+        setSavedCart([]);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
 
   ////---------------------------------------- Save_for_later functions-------------------
   //const fetchSaveForLater = async () => {
@@ -583,7 +617,6 @@ const ShopProvider = ({ children }) => {
         wishList,
         wishListIDs,
         heartLoading,
-        saveForLater,
         isMobile,
         savedCart,
         savedCartIDs,
@@ -610,6 +643,7 @@ const ShopProvider = ({ children }) => {
         updateWishList,
         fetchSavedCart,
         addSavedCart,
+        moveSavedCart,
       }}
     >
       {children}

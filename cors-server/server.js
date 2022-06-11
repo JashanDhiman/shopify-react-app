@@ -578,10 +578,7 @@ app.post("/addtocart", (req, res) => {
           message}}}`,
     variables: {
       cartId: req.body.cartId,
-      lines: {
-        quantity: req.body.quantity,
-        merchandiseId: req.body.variantId,
-      },
+      lines: req.body.itemsList,
     },
   });
   var config = { ...storeFrontConfig, data: data };
@@ -901,6 +898,21 @@ app.post("/addSavedCart", (req, res) => {
   getProductsList(
     req.body.metafieldVal.split("??--split--??")[0].split(",")
   ).then((val) => res.send(val));
+});
+app.post("/moveSavedCart", (req, res) => {
+  var data = JSON.stringify({
+    query: `mutation {customerUpdate(input: {id: "${req.body.customerId}", metafields: [{id: "${req.body.metafieldId}", value: "${req.body.metafieldVal}"}]}) {
+        userErrors {message}
+        customer {id
+          metafields(namespace: "custom", first: 20) {edges {node {id
+                key
+                value
+                namespace}}}}}}`,
+  });
+  var config = { ...adminConfig, data: data };
+  axios(config).then(function (response) {
+    res.send("success");
+  });
 });
 
 //-------------------user profile, address and orders-------------

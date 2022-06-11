@@ -5,7 +5,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 
 import "./cartPage.css";
-import SaveForLater from "../../components/SaveForLater";
+//import SaveForLater from "../../components/SaveForLater";
 import CartSave from "../../components/CartSave";
 
 const CartPage = () => {

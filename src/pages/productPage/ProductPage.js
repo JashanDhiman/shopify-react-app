@@ -94,7 +94,11 @@ const ProductPage = () => {
                 ) : (
                   <button
                     className="productBtn"
-                    onClick={() => addItemToCart(variantId, productQuantity)}
+                    onClick={() =>
+                      addItemToCart([
+                        { merchandiseId: variantId, quantity: productQuantity },
+                      ])
+                    }
                   >
                     ADD
                   </button>

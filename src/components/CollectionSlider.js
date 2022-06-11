@@ -35,7 +35,13 @@ const CollectionSlider = ({ data, settings }) => {
                     {isAdding === variantId ? (
                       <button>ADDING</button>
                     ) : (
-                      <button onClick={() => addItemToCart(variantId, 1)}>
+                      <button
+                        onClick={() =>
+                          addItemToCart([
+                            { merchandiseId: variantId, quantity: 1 },
+                          ])
+                        }
+                      >
                         ADD
                       </button>
                     )}

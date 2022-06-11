@@ -21,7 +21,13 @@ const ProductCard = ({ id, title, url, variantId, price }) => {
           {isAdding === variantId ? (
             <button>ADDING</button>
           ) : (
-            <button onClick={() => addItemToCart(variantId, 1)}>ADD</button>
+            <button
+              onClick={() =>
+                addItemToCart([{ merchandiseId: variantId, quantity: 1 }])
+              }
+            >
+              ADD
+            </button>
           )}
         </div>
       </div>
