@@ -1,6 +1,7 @@
 //import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import Rough from "./components/Rough";
 //import { ShopContext } from "./contexts/ShopContext";
 import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/productPage/ProductPage";
@@ -30,6 +31,8 @@ function App() {
           path={`/${accessToken.accessToken}/productpage/*`}
           element={<ProductPage />}
         />*/}
+
+        <Route path="/rough" element={<Rough />} />
         <Route path="*" element={<h1>Page Not Found</h1>} />
       </Routes>
     </ErrorBoundary>

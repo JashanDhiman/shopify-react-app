@@ -1,11 +1,11 @@
 import axios from "axios";
 import React from "react";
+import { HiOutlineMail } from "react-icons/hi";
 
 const ResetPassPage = () => {
   const domain = process.env.REACT_APP_DEPLOY_DOMAIN;
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target.email.value);
     var config = {
       method: "post",
       url: `${domain}:4000/resetpass`,
@@ -21,13 +21,40 @@ const ResetPassPage = () => {
       });
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Reset Password</h2>
-      <label htmlFor="email">Registered Email</label>
-      <input id="email" type="text" />
-      <br></br>
-      <input type="submit" />
-    </form>
+    <div className="reset-pass">
+      <div id="container" className="container">
+        <div className="row">
+          <form
+            className="col align-items-center flex-col"
+            onSubmit={handleSubmit}
+            style={{ width: "100%" }}
+          >
+            <div className="form-wrapper align-items-center">
+              <div
+                className="form"
+                style={{ transform: "scale(1)", width: "100%" }}
+              >
+                <h2 style={{ color: "var(--main-color)" }}>Reset Password</h2>
+                <br></br>
+                <div className="input-group">
+                  <i className="icons">
+                    <HiOutlineMail />
+                  </i>
+                  <input
+                    required
+                    name="email"
+                    type="email"
+                    placeholder="Email"
+                  />
+                </div>
+                <button type="submit">Send email</button>
+              </div>
+            </div>
+            <div className="form-wrapper"></div>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -288,7 +288,6 @@ app.post("/signout", (req, res) => {
     });
 });
 app.post("/resetpass", (req, res) => {
-  console.log(req.body.email);
   var data = JSON.stringify({
     query: `mutation customerRecover($email: String!) {
       customerRecover(email: $email) {
@@ -310,7 +309,6 @@ app.post("/resetpass", (req, res) => {
   };
   axios(config)
     .then(function (response) {
-      console.log(response.data.data.customerRecover.customerUserErrors.length);
       if (response.data.data.customerRecover == null) {
         res.send("Limit exceeded! Please wait for 5 mins then try again");
       } else if (

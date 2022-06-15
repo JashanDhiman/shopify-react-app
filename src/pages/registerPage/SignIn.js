@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { ShopContext } from "../../contexts/ShopContext";
 import { HiOutlineMail } from "react-icons/hi";
 import { RiLockPasswordFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 const SignIn = (props) => {
   const { signIn } = useContext(ShopContext);
@@ -42,7 +43,9 @@ const SignIn = (props) => {
             </div>
             <button type="submit">Sign in</button>
             <p>
-              <b>Forgot password?</b>
+              <Link to="reset-pass">
+                <b>Forgot password?</b>
+              </Link>
             </p>
             <p>
               <span>Don't have an account?</span>
