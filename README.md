@@ -1,6 +1,6 @@
 
 ## Live Demo : 
-https://jd-notes.firebaseapp.com/
+https://helpful-taiyaki-6673f7.netlify.app/
 
 
 # Getting Started with Create React App
