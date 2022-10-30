@@ -2,6 +2,7 @@
 # Live Demo : 
 https://helpful-taiyaki-6673f7.netlify.app/
 
+![Your Repository's Stats](https://github-readme-stats.vercel.app/api?username=JashanDhiman&show_icons=true)
 
 ## Getting Started with Create React App
 
@@ -74,4 +75,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-![Your Repository's Stats](https://github-readme-stats.vercel.app/api?username=JashanDhiman&show_icons=true)
+
