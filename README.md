@@ -3,6 +3,7 @@
 https://helpful-taiyaki-6673f7.netlify.app/
 
 ![Your Repository's Stats](https://github-readme-stats.vercel.app/api?username=JashanDhiman&show_icons=true)
+![Your Repository's Stats](https://github-readme-stats.vercel.app/api/top-langs/?username=Your_GitHub_Username&theme=blue-green)
 
 ## Getting Started with Create React App
 
