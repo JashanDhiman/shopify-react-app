@@ -4,6 +4,7 @@ https://helpful-taiyaki-6673f7.netlify.app/
 
 ![Your Repository's Stats](https://github-readme-stats.vercel.app/api?username=JashanDhiman&show_icons=true)
 ![Your Repository's Stats](https://github-readme-stats.vercel.app/api/top-langs/?username=JashanDhiman&theme=blue-green)
+![Jokes Card](https://readme-jokes.vercel.app/api)
 
 ## Getting Started with Create React App
 
